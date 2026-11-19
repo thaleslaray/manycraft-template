@@ -1,0 +1,30 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api.md",
+    "secao": "Sample Request: Sending a single image",
+    "linha_do_bloco": 194,
+    "pagina_atualizada": "2026-09-28",
+    "metodo": "POST",
+    "rota": "/<IG_ID>/messages",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<IMAGE_URL>"
+    ],
+    "nota": "CF-03: o exemplo do guia usa a chave `attachments` com um objeto; o texto fala em `attachment`. A réplica manda `attachments` como lista de um item.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "message": {
+    "attachments": {
+      "type": "image",
+      "payload": {
+        "url": "<IMAGE_URL>"
+      }
+    }
+  }
+}

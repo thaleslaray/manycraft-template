@@ -1,0 +1,25 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/messages/text-messages.md",
+    "secao": "Example request",
+    "linha_do_bloco": 52,
+    "pagina_atualizada": "2026-07-02",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "nota": "texto; preview_url=true",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WA_USER_PHONE>",
+  "type": "text",
+  "text": {
+    "preview_url": true,
+    "body": "As requested, here's the link to our latest product: https://www.meta.com/quest/quest-3/"
+  }
+}

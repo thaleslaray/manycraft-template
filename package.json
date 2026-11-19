@@ -1,0 +1,13 @@
+{
+  "name": "manycraft",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "prontidao": "node scripts/prontidao.mjs",
+    "logs": "node scripts/logs.mjs",
+    "db": "node scripts/db.mjs",
+    "test:lock": "node scripts/with-test-lock.mjs",
+    "test:scripts": "node --test scripts/*.test.mjs"
+  }
+}

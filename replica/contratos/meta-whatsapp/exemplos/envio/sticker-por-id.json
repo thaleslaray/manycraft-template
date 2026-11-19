@@ -1,0 +1,24 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/messages/sticker-messages.md",
+    "secao": "Example request",
+    "linha_do_bloco": 55,
+    "pagina_atualizada": "2026-06-24",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "placeholders_aplicados": [
+      "<MEDIA_ID>",
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WA_USER_PHONE>",
+  "type": "sticker",
+  "sticker": {
+    "id": "<MEDIA_ID>"
+  }
+}

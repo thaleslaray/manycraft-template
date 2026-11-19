@@ -1,0 +1,45 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/webhooks.md",
+    "secao": "Messaging referral {#igme}",
+    "linha_do_bloco": 220,
+    "pagina_atualizada": "2026-09-16",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "messaging_referral",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<IG_ID>",
+      "<REF>",
+      "<SOURCE>"
+    ],
+    "nota": "Só para conversa que já existia. O original não tem vírgula entre ref, source e type.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<IG_ID>",
+      "time": 1502905976963,
+      "messaging": [
+        {
+          "sender": {
+            "id": "<IGSID>"
+          },
+          "recipient": {
+            "id": "<IG_ID>"
+          },
+          "timestamp": 1502905976377,
+          "referral": {
+            "ref": "<REF>",
+            "source": "<SOURCE>",
+            "type": "OPEN_THREAD"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,641 @@
+{
+ "clipboard": {
+  "$flowChart": "nodes",
+  "data": {
+   "nodeIds": [
+    "n01",
+    "n02",
+    "n03",
+    "n04",
+    "n05",
+    "n06",
+    "n07",
+    "n08",
+    "n09",
+    "n10",
+    "n11",
+    "n12",
+    "n13"
+   ],
+   "nodesData": [
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 1",
+      "color": "default",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "fontSize": "small",
+      "id": "n01",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeSize": "medium",
+      "nodeType": "comment",
+      "noteId": "n14",
+      "privateReply": null,
+      "reasonId": null,
+      "text": "Texto 2",
+      "timestamp": 1698609475250
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 3",
+      "color": "default",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "fontSize": "small",
+      "id": "n02",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeSize": "medium",
+      "nodeType": "comment",
+      "noteId": "n15",
+      "privateReply": null,
+      "reasonId": null,
+      "text": "Texto 4",
+      "timestamp": 1698609475250
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 5",
+      "color": "default",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "fontSize": "small",
+      "id": "n03",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeSize": "medium",
+      "nodeType": "comment",
+      "noteId": "n16",
+      "privateReply": null,
+      "reasonId": null,
+      "text": "Texto 6",
+      "timestamp": 1698609475250
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 7",
+      "color": "default",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "fontSize": "large",
+      "id": "n04",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeSize": "medium",
+      "nodeType": "comment",
+      "noteId": "n17",
+      "privateReply": null,
+      "reasonId": null,
+      "text": "Texto 8",
+      "timestamp": 1698609475250
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 9",
+      "color": "default",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "fontSize": "large",
+      "id": "n05",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeSize": "medium",
+      "nodeType": "comment",
+      "noteId": "n18",
+      "privateReply": null,
+      "reasonId": null,
+      "text": "Texto 10",
+      "timestamp": 1698609475250
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 11",
+      "color": "default",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "fontSize": "small",
+      "id": "n06",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeSize": "medium",
+      "nodeType": "comment",
+      "noteId": "n19",
+      "privateReply": null,
+      "reasonId": null,
+      "text": "Texto 12",
+      "timestamp": 1698609475250
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [
+       "n20",
+       "n21"
+      ],
+      "caption": "Texto 13",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "id": "n07",
+      "isMultiCondition": true,
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "condition",
+      "onboardingElementId": "condition_node",
+      "privateReply": null,
+      "reasonId": null
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "filter": {
+         "groups": [
+          {
+           "items": [
+            {
+             "_oid": "1647505083667",
+             "field": "tag",
+             "operator": "IS",
+             "type": "tag",
+             "value": 39414390
+            }
+           ],
+           "operator": "AND"
+          }
+         ],
+         "operator": "AND"
+        },
+        "id": "n20",
+        "targetId": "n13",
+        "type": "case"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n21",
+        "targetId": "n12",
+        "type": "default"
+       }
+      ],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "$fbMessagingType": "INSIDE_24_HOURS",
+      "blocks": [
+       "n22",
+       "n23",
+       "n24"
+      ],
+      "caption": "Texto 14",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "id": "n08",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "instagram",
+      "onboardingElementId": "content_node",
+      "privateReply": null,
+      "reasonId": null,
+      "targetId": null,
+      "type": "default"
+     },
+     "related": {
+      "blocks": [
+       {
+        "attachment": {
+         "caid": 272278195,
+         "img_big": "https://exemplo.test/img_big/2",
+         "img_original": "https://exemplo.test/img_original/3",
+         "img_small": "https://exemplo.test/img_small/4",
+         "sign": "d2bce457",
+         "title": "Texto 15",
+         "type": "image"
+        },
+        "attachmentType": "image",
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n22",
+        "type": "attachment"
+       },
+       {
+        "blocks": [],
+        "buttons": [
+         "n25"
+        ],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n23",
+        "text": "Texto 16",
+        "type": "text"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n24",
+        "settings": {
+         "answerRetries": null,
+         "skipButtonCaption": null,
+         "timeout": null,
+         "validationMessage": null
+        },
+        "targetId": null,
+        "type": "quick_reply"
+       }
+      ],
+      "buttons": [
+       {
+        "caption": "Texto 17",
+        "entity": "button",
+        "id": "n25",
+        "isClickTrackingDisabled": false,
+        "isSmartLink": false,
+        "targetId": null,
+        "type": "url",
+        "url": "https://exemplo.test/url/5",
+        "webviewSize": ""
+       }
+      ]
+     }
+    },
+    {
+     "node": {
+      "$fbMessagingType": "INSIDE_24_HOURS",
+      "blocks": [
+       "n26",
+       "n27"
+      ],
+      "caption": "Texto 18",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "id": "n09",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "instagram",
+      "onboardingElementId": "content_node",
+      "privateReply": null,
+      "reasonId": null,
+      "targetId": null,
+      "type": "default"
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n26",
+        "text": "Texto 19 {{instagram_account_name}}",
+        "type": "text"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n27",
+        "settings": {
+         "answerRetries": null,
+         "skipButtonCaption": null,
+         "timeout": null,
+         "validationMessage": null
+        },
+        "targetId": null,
+        "type": "quick_reply"
+       }
+      ],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [
+       "n28",
+       "n29"
+      ],
+      "caption": "Texto 20",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "id": "n10",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "split",
+      "privateReply": null,
+      "randomized": false,
+      "reasonId": null,
+      "targetId": null
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "color": "0175E1",
+        "entity": "block",
+        "id": "n28",
+        "percent": 5,
+        "targetId": "n08",
+        "title": "Texto 21",
+        "type": "variant"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "color": "00D7AA",
+        "entity": "block",
+        "id": "n29",
+        "percent": 95,
+        "targetId": "n09",
+        "title": "Texto 22",
+        "type": "variant"
+       }
+      ],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 23",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "id": "n11",
+      "isStartingStep": false,
+      "items": [
+       {
+        "_oid": "n30",
+        "tag_id": 39414390,
+        "type": "add_tag"
+       }
+      ],
+      "nodeType": "actionGroup",
+      "onboardingElementId": "action_node",
+      "orderedActionItemIds": [],
+      "targetId": "n10"
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "$fbMessagingType": "COMMENT_REPLY",
+      "blocks": [
+       "n31",
+       "n32"
+      ],
+      "caption": "Texto 24",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "id": "n12",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "instagram",
+      "onboardingElementId": "content_node",
+      "privateReply": "private_reply",
+      "reasonId": null,
+      "targetId": null,
+      "type": "default"
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [
+         "n33"
+        ],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n31",
+        "text": "Texto 25",
+        "type": "text"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n32",
+        "settings": {
+         "answerRetries": null,
+         "skipButtonCaption": null,
+         "timeout": null,
+         "validationMessage": null
+        },
+        "targetId": null,
+        "type": "quick_reply"
+       }
+      ],
+      "buttons": [
+       {
+        "caption": "Texto 26",
+        "emoji": null,
+        "entity": "button",
+        "id": "n33",
+        "image": null,
+        "isFallback": false,
+        "isNotificationRequest": null,
+        "isSmartLink": false,
+        "targetId": "n11",
+        "type": "content"
+       }
+      ]
+     }
+    },
+    {
+     "node": {
+      "$fbMessagingType": "COMMENT_REPLY",
+      "blocks": [
+       "n34",
+       "n35"
+      ],
+      "caption": "Texto 27",
+      "contentId": null,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_split_cards",
+      "id": "n13",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "instagram",
+      "onboardingElementId": "content_node",
+      "privateReply": "private_reply",
+      "reasonId": null,
+      "targetId": null,
+      "type": "default"
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n34",
+        "text": "Texto 28",
+        "type": "text"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n35",
+        "settings": {
+         "answerRetries": null,
+         "skipButtonCaption": null,
+         "timeout": null,
+         "validationMessage": null
+        },
+        "targetId": null,
+        "type": "quick_reply"
+       }
+      ],
+      "buttons": []
+     }
+    }
+   ],
+   "offsets": {
+    "$group": {
+     "x": -1307,
+     "y": -528
+    },
+    "n01": {
+     "x": 2074,
+     "y": 351
+    },
+    "n02": {
+     "x": 0,
+     "y": 491
+    },
+    "n03": {
+     "x": 566,
+     "y": 919
+    },
+    "n04": {
+     "x": 613,
+     "y": 296
+    },
+    "n12": {
+     "x": 2043,
+     "y": 955
+    },
+    "n05": {
+     "x": 0,
+     "y": 296
+    },
+    "n07": {
+     "x": 1307,
+     "y": 528
+    },
+    "n09": {
+     "x": 4279,
+     "y": 1647
+    },
+    "n13": {
+     "x": 2074,
+     "y": 0
+    },
+    "n06": {
+     "x": 566,
+     "y": 1044
+    },
+    "n08": {
+     "x": 4302,
+     "y": 642
+    },
+    "n11": {
+     "x": 2879,
+     "y": 955
+    },
+    "n10": {
+     "x": 3579,
+     "y": 955
+    }
+   }
+  },
+  "pageId": "conta_exemplo"
+ },
+ "original": {
+  "flow": {
+   "ns": "content_fixture_split_cards",
+   "name": "Texto 29",
+   "root_content_id": null,
+   "contents": []
+  }
+ }
+}

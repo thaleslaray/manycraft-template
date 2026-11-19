@@ -1,0 +1,51 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/self-messaging.md",
+    "secao": "Example Comment Webhook",
+    "linha_do_bloco": 132,
+    "pagina_atualizada": "2026-03-15",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "comments",
+    "placeholders_aplicados": [
+      "<COMMENT_ID>",
+      "<COMMENT_TEXT>",
+      "<INSTAGRAM_USER_USERNAME>",
+      "<MEDIA_ID>",
+      "<MEDIA_PRODUCT_TYPE>",
+      "<TIME_META_SENT_THIS_NOTIFICATION>",
+      "<YOUR_APP_USERS_INSTAGRAM_ACCOUNT_ID>",
+      "<YOUR_APP_USERS_INSTAGRAM_SCOPED_ID>"
+    ],
+    "nota": "from.self_ig_scoped_id é o IGSID da própria conta.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<YOUR_APP_USERS_INSTAGRAM_ACCOUNT_ID>",
+      "time": "<TIME_META_SENT_THIS_NOTIFICATION>",
+      "changes": [
+        {
+          "field": "comments",
+          "value": {
+            "from": {
+              "id": "<YOUR_APP_USERS_INSTAGRAM_ACCOUNT_ID>",
+              "username": "<INSTAGRAM_USER_USERNAME>",
+              "self_ig_scoped_id": "<YOUR_APP_USERS_INSTAGRAM_SCOPED_ID>"
+            },
+            "id": "<COMMENT_ID>",
+            "text": "<COMMENT_TEXT>",
+            "media": {
+              "id": "<MEDIA_ID>",
+              "media_product_type": "<MEDIA_PRODUCT_TYPE>"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api/ig-me.md",
+    "secao": "New conversation with an Icebreaker",
+    "linha_do_bloco": 82,
+    "pagina_atualizada": "2026-06-30",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "messaging_postbacks",
+    "placeholders_aplicados": [
+      "<ICEBREAKER_OPTION_SELECTED_INFORMATION>",
+      "<IGSID>",
+      "<IG_ID>",
+      "<MESSAGE_ID>",
+      "<REFERRAL_PARAMETER_CONTENT>",
+      "<SELECTED_ICEBREAKER_OPTION>"
+    ],
+    "nota": "Nova conversa com ice breaker. O original deixa a string de payload sem aspas de fechamento e sem vírgulas entre ref, source e type. CF-12.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<IG_ID>",
+      "time": 1502905976963,
+      "messaging": [
+        {
+          "sender": {
+            "id": "<IGSID>"
+          },
+          "recipient": {
+            "id": "<IG_ID>"
+          },
+          "timestamp": 1502905976377,
+          "postback": {
+            "mid": "<MESSAGE_ID>",
+            "title": "<SELECTED_ICEBREAKER_OPTION>",
+            "payload": "<ICEBREAKER_OPTION_SELECTED_INFORMATION>",
+            "referral": {
+              "ref": "<REFERRAL_PARAMETER_CONTENT>",
+              "source": "SHORTLINKS",
+              "type": "OPEN_THREAD"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

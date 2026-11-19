@@ -1,0 +1,61 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/messages/status.md",
+    "secao": "Examples",
+    "linha_do_bloco": 125,
+    "pagina_atualizada": "2026-09-14",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "messages",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<CONVERSATION_ID>",
+      "<PHONE_NUMBER_ID>",
+      "<WABA_ID>",
+      "<WAMID>",
+      "<WA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "statuses": [
+              {
+                "id": "<WAMID>",
+                "status": "sent",
+                "timestamp": "1750030073",
+                "recipient_id": "<WA_ID>",
+                "conversation": {
+                  "id": "<CONVERSATION_ID>",
+                  "expiration_timestamp": "1750116480",
+                  "origin": {
+                    "type": "marketing"
+                  }
+                },
+                "pricing": {
+                  "billable": true,
+                  "pricing_model": "PMP",
+                  "type": "regular",
+                  "category": "marketing"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

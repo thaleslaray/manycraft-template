@@ -1,0 +1,54 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/business-scoped-user-ids.md",
+    "secao": "Business-initiated calls status webhooks",
+    "linha_do_bloco": 2219,
+    "pagina_atualizada": "2026-09-15",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "calls",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "entry": [
+    {
+      "changes": [
+        {
+          "field": "calls",
+          "value": {
+            "statuses": [
+              {
+                "biz_opaque_callback_data": "<BUSINESS_OPAQUE_DATA>",
+                "id": "<WHATSAPP_CALL_ID>",
+                "type": "call",
+                "status": "<STATUS>",
+                "timestamp": "<WEBHOOK_TRIGGER_TIMESTAMP>",
+                "recipient_id": "<USER_PHONE_NUMBER>",
+                "recipient_user_id": "<BSUID>",
+                "recipient_parent_user_id": "<PARENT_BSUID>"
+              }
+            ],
+            "metadata": {
+              "phone_number_id": "<BUSINESS_PHONE_NUMBER_ID>",
+              "display_phone_number": "<BUSINESS_PHONE_NUMBER>"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "username": "<USERNAME>"
+                },
+                "wa_id": "<USER_PHONE_NUMBER>",
+                "user_id": "<BSUID>",
+                "parent_user_id": "<PARENT_BSUID>"
+              }
+            ],
+            "messaging_product": "whatsapp"
+          }
+        }
+      ],
+      "id": "<WHATSAPP_BUSINESS_ACCOUNT_ID>"
+    }
+  ],
+  "object": "whatsapp_business_account"
+}

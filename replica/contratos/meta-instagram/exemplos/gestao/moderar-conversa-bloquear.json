@@ -1,0 +1,25 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/features/moderate-conversations.md",
+    "secao": "Sample request",
+    "linha_do_bloco": 54,
+    "pagina_atualizada": "2026-07-02",
+    "metodo": "POST",
+    "rota": "/<PAGE_ID>/moderate_conversations",
+    "login": "FL",
+    "placeholders_aplicados": [
+      "<IGSID>"
+    ],
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "user_ids": [
+    {
+      "id": "<IGSID>"
+    }
+  ],
+  "actions": [
+    "block_user"
+  ]
+}

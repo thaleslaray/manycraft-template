@@ -1,0 +1,27 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/messages/document-messages.md",
+    "secao": "Example request",
+    "linha_do_bloco": 66,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "placeholders_aplicados": [
+      "<MEDIA_ID>",
+      "<WA_USER_PHONE>"
+    ],
+    "nota": "filename ausente do MediaObject do OpenAPI: CONFLITO",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WA_USER_PHONE>",
+  "type": "document",
+  "document": {
+    "id": "<MEDIA_ID>",
+    "filename": "order_abc123.pdf",
+    "caption": "Your order confirmation (PDF)"
+  }
+}

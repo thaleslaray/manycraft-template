@@ -1,0 +1,48 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/features/ice-breakers.md",
+    "secao": "Setting ice breakers",
+    "linha_do_bloco": 16,
+    "pagina_atualizada": "2026-07-02",
+    "metodo": "POST",
+    "rota": "/me/messenger_profile",
+    "login": "FL",
+    "placeholders_aplicados": [
+      "<PAYLOAD>",
+      "<QUESTION>"
+    ],
+    "nota": "Versão do IM (v11.0): locale \"default\" é obrigatório. CF-24: o exemplo equivalente do IL repete a chave call_to_actions no mesmo objeto.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "platform": "instagram",
+  "ice_breakers": [
+    {
+      "call_to_actions": [
+        {
+          "question": "<QUESTION>",
+          "payload": "<PAYLOAD>"
+        },
+        {
+          "question": "<QUESTION>",
+          "payload": "<PAYLOAD>"
+        }
+      ],
+      "locale": "default"
+    },
+    {
+      "call_to_actions": [
+        {
+          "question": "<QUESTION>",
+          "payload": "<PAYLOAD>"
+        },
+        {
+          "question": "<QUESTION>",
+          "payload": "<PAYLOAD>"
+        }
+      ],
+      "locale": "en_GB"
+    }
+  ]
+}

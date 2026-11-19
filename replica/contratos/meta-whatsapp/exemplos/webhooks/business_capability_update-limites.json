@@ -1,0 +1,33 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/business_capability_update.md",
+    "secao": "Payload example",
+    "linha_do_bloco": 55,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "business_capability_update",
+    "placeholders_aplicados": [
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1739321024,
+      "changes": [
+        {
+          "value": {
+            "max_daily_conversations_per_business": 2000,
+            "max_phone_numbers_per_waba": 25
+          },
+          "field": "business_capability_update"
+        }
+      ]
+    }
+  ],
+  "object": "whatsapp_business_account"
+}

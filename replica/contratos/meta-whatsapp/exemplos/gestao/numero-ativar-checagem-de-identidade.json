@@ -1,0 +1,17 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/business-phone-numbers/phone-numbers.md",
+    "secao": "Example enable request",
+    "linha_do_bloco": 267,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/settings",
+    "nota": "user_identity_change.enable_identity_key_check",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "user_identity_change": {
+    "enable_identity_key_check": true
+  }
+}

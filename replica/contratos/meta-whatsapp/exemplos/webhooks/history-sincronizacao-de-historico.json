@@ -1,0 +1,106 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/history.md",
+    "secao": "Examples",
+    "linha_do_bloco": 126,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "history",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<PHONE_NUMBER_ID>",
+      "<WABA_ID>",
+      "<WAMID>",
+      "<WA_ID>",
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "history": [
+              {
+                "metadata": {
+                  "phase": 0,
+                  "chunk_order": 1,
+                  "progress": 55
+                },
+                "threads": [
+                  {
+                    "id": "<WA_ID>",
+                    "messages": [
+                      {
+                        "from": "<WA_USER_PHONE>",
+                        "id": "<WAMID>",
+                        "timestamp": "1739230955",
+                        "type": "text",
+                        "text": {
+                          "body": "Here's the info you requested! https://www.meta.com/quest/quest-3/"
+                        },
+                        "history_context": {
+                          "status": "READ"
+                        }
+                      },
+                      {
+                        "from": "<WA_USER_PHONE>",
+                        "id": "<WAMID>",
+                        "timestamp": "1739230970",
+                        "type": "media_placeholder",
+                        "history_context": {
+                          "status": "PLAYED"
+                        }
+                      },
+                      {
+                        "from": "<WA_USER_PHONE>",
+                        "id": "<WAMID>",
+                        "timestamp": "1739230970",
+                        "type": "text",
+                        "text": {
+                          "body": "Thanks!"
+                        },
+                        "history_context": {
+                          "status": "READ"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "<WA_ID>",
+                    "messages": [
+                      {
+                        "from": "<WA_USER_PHONE>",
+                        "id": "<WAMID>",
+                        "timestamp": "1739230970",
+                        "type": "text",
+                        "text": {
+                          "body": "Thanks for your order! As a thank you, use code THANKS30 to get 30% of your next order."
+                        },
+                        "history_context": {
+                          "status": "DELIVERED"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "field": "history"
+        }
+      ]
+    }
+  ]
+}

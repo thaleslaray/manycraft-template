@@ -1,0 +1,18 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/templates/template-archival.md",
+    "secao": "Request syntax",
+    "linha_do_bloco": 71,
+    "pagina_atualizada": "2026-06-02",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}/message_templates/unarchive",
+    "nota": "até 100 IDs; janela de 28 dias",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "hsm_ids": [
+    "<TEMPLATE_ID_1>",
+    "<TEMPLATE_ID_2>"
+  ]
+}

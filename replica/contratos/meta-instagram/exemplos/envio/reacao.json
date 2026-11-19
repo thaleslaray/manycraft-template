@@ -1,0 +1,27 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api.md",
+    "secao": "Sample Request",
+    "linha_do_bloco": 352,
+    "pagina_atualizada": "2026-09-28",
+    "metodo": "POST",
+    "rota": "/<IG_ID>/messages",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<MESSAGE_ID>"
+    ],
+    "nota": "Troque sender_action por unreact para remover (sem `reaction`). O valor original de `reaction` era \"love /😊/ 🎉/ 👋\", uma lista de exemplos; trocado por \"love\". CF-05.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "sender_action": "react",
+  "payload": {
+    "message_id": "<MESSAGE_ID>",
+    "reaction": "love"
+  }
+}

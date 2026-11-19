@@ -1,0 +1,39 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/account_update.md",
+    "secao": "Pricing tiering update",
+    "linha_do_bloco": 572,
+    "pagina_atualizada": "2026-10-02",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "account_update",
+    "placeholders_aplicados": [
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1743451903,
+      "changes": [
+        {
+          "value": {
+            "volume_tier_info": {
+              "tier_update_time": 1743451903,
+              "pricing_category": "UTILITY",
+              "tier": "25000001:50000000",
+              "effective_month": "2025-11",
+              "region": "India"
+            },
+            "event": "VOLUME_BASED_PRICING_TIER_UPDATE"
+          },
+          "field": "account_update"
+        }
+      ]
+    }
+  ]
+}

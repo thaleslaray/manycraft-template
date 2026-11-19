@@ -1,0 +1,30 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api.md",
+    "secao": "Sample Request",
+    "linha_do_bloco": 380,
+    "pagina_atualizada": "2026-09-28",
+    "metodo": "POST",
+    "rota": "/<IG_ID>/messages",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<POST_ID>"
+    ],
+    "nota": "A mídia tem de ser do usuário do app.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "message": {
+    "attachment": {
+      "type": "MEDIA_SHARE",
+      "payload": {
+        "id": "<POST_ID>"
+      }
+    }
+  }
+}

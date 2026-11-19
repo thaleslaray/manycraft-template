@@ -1,0 +1,399 @@
+{
+ "clipboard": {
+  "$flowChart": "nodes",
+  "data": {
+   "nodeIds": [
+    "n01",
+    "n02",
+    "n03",
+    "n04"
+   ],
+   "nodesData": [
+    {
+     "node": {
+      "blocks": [
+       "n05",
+       "n06"
+      ],
+      "caption": "Texto 1",
+      "contentId": 992019579,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_cond_goto_template",
+      "id": "n01",
+      "isMultiCondition": true,
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "condition",
+      "onboardingElementId": "condition_node",
+      "privateReply": null,
+      "reasonId": null
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "filter": {
+         "groups": [
+          {
+           "items": [
+            {
+             "_oid": "n07",
+             "field": "tag",
+             "operator": "IS",
+             "type": "tag",
+             "value": 56888641
+            },
+            {
+             "_oid": "n08",
+             "field": "tag",
+             "operator": "IS",
+             "type": "tag",
+             "value": 56889035
+            }
+           ],
+           "operator": "AND"
+          }
+         ],
+         "operator": "AND"
+        },
+        "id": "n05",
+        "targetId": "n02",
+        "type": "case"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n06",
+        "targetId": null,
+        "type": "default"
+       }
+      ],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [
+       "n09",
+       "n10"
+      ],
+      "caption": "Texto 2",
+      "contentId": 992019582,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_cond_goto_template",
+      "id": "n02",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "whatsApp",
+      "privateReply": null,
+      "reasonId": null,
+      "targetId": null,
+      "type": "default",
+      "whatsAppNodeType": "template"
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [
+         "n11",
+         "n12"
+        ],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n09",
+        "language": "pt_BR",
+        "name": "Texto 3",
+        "type": "template"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n10",
+        "settings": {},
+        "targetId": null,
+        "type": "quick_reply"
+       }
+      ],
+      "buttons": [
+       {
+        "caption": "Texto 4",
+        "emoji": null,
+        "entity": "button",
+        "id": "n11",
+        "image": null,
+        "isFallback": false,
+        "isNotificationRequest": null,
+        "isSmartLink": false,
+        "targetId": "n04",
+        "type": "content"
+       },
+       {
+        "caption": "Texto 5",
+        "emoji": null,
+        "entity": "button",
+        "id": "n12",
+        "image": null,
+        "isFallback": false,
+        "isNotificationRequest": null,
+        "isSmartLink": false,
+        "targetId": "n03",
+        "type": "content"
+       }
+      ]
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 6",
+      "contentId": 992019581,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_cond_goto_template",
+      "flowId": "content20240518145130_993693",
+      "id": "n03",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "goto",
+      "privateReply": null,
+      "reasonId": null,
+      "targetId": null
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [
+       "n13",
+       "n14",
+       "n15",
+       "n16"
+      ],
+      "caption": "Texto 7",
+      "contentId": 992019580,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_cond_goto_template",
+      "id": "n04",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "whatsApp",
+      "privateReply": null,
+      "reasonId": null,
+      "targetId": null,
+      "type": "default",
+      "whatsAppNodeType": "content"
+     },
+     "related": {
+      "blocks": [
+       {
+        "attachment": {
+         "caid": 365155627,
+         "file": "https://exemplo.test/file/2",
+         "mime": "video/mp4",
+         "sign": "fa947e76",
+         "title": "Texto 8",
+         "type": "file"
+        },
+        "attachmentType": "video",
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n13",
+        "type": "attachment"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n14",
+        "showTyping": false,
+        "time": 10,
+        "type": "delay"
+       },
+       {
+        "blocks": [],
+        "buttons": [
+         "n17"
+        ],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n15",
+        "text": "Texto 9",
+        "type": "text"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n16",
+        "settings": {},
+        "targetId": null,
+        "type": "quick_reply"
+       }
+      ],
+      "buttons": [
+       {
+        "caption": "Texto 10",
+        "entity": "button",
+        "id": "n17",
+        "isClickTrackingDisabled": false,
+        "isSmartLink": false,
+        "targetId": null,
+        "type": "cta_url",
+        "url": "https://exemplo.test/url/3",
+        "webviewSize": ""
+       }
+      ]
+     }
+    }
+   ],
+   "offsets": {
+    "$group": {
+     "x": 906,
+     "y": 0
+    },
+    "n02": {
+     "x": 736,
+     "y": 0
+    },
+    "n01": {
+     "x": 0,
+     "y": 0
+    },
+    "n04": {
+     "x": 1572,
+     "y": 0
+    },
+    "n03": {
+     "x": 1572,
+     "y": 1142
+    }
+   }
+  },
+  "pageId": "conta_exemplo"
+ },
+ "original": {
+  "flow": {
+   "ns": "content_fixture_cond_goto_template",
+   "name": "Texto 11",
+   "root_content_id": 992019579,
+   "contents": [
+    {
+     "content_id": 992019582,
+     "type": "whatsapp",
+     "data": {
+      "messages": [
+       {
+        "_oid": "n09",
+        "content": {
+         "body": "Texto 12",
+         "buttons": [
+          {
+           "text": "Texto 13",
+           "type": "QUICK_REPLY"
+          },
+          {
+           "text": "Texto 14",
+           "type": "QUICK_REPLY"
+          }
+         ],
+         "category": "UTILITY",
+         "footer": "",
+         "header": [],
+         "language": "pt_BR",
+         "name": "Texto 15",
+         "name_human": "Texto 16",
+         "status": 4,
+         "type": 1
+        },
+        "keyboard": [
+         {
+          "_content_oid": "n04",
+          "_oid": "n11",
+          "actions": [],
+          "caption": "Texto 17",
+          "content_id": 992019580,
+          "type": "content"
+         },
+         {
+          "_content_oid": "n03",
+          "_oid": "n12",
+          "actions": [],
+          "caption": "Texto 18",
+          "content_id": 992019581,
+          "type": "content"
+         }
+        ],
+        "type": "template"
+       }
+      ]
+     }
+    },
+    {
+     "content_id": 992019580,
+     "type": "whatsapp",
+     "data": {
+      "messages": [
+       {
+        "_oid": "n13",
+        "content": {
+         "data": {
+          "caid": 365155627,
+          "file": "https://exemplo.test/file/2",
+          "mime": "video/mp4",
+          "sign": "fa947e76",
+          "title": "Texto 19",
+          "type": "file"
+         },
+         "type": "file"
+        },
+        "keyboard": [],
+        "type": "attachment"
+       },
+       {
+        "_oid": "n14",
+        "show_typing": false,
+        "time": 10,
+        "type": "delay"
+       },
+       {
+        "_oid": "n15",
+        "content": {
+         "text": "Texto 20"
+        },
+        "keyboard": [
+         {
+          "_oid": "n17",
+          "actions": [],
+          "caption": "Texto 21",
+          "type": "cta_url",
+          "url": "https://exemplo.test/url/3",
+          "webview_size": null
+         }
+        ],
+        "type": "text"
+       }
+      ]
+     }
+    }
+   ]
+  }
+ }
+}

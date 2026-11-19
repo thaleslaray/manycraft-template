@@ -1,0 +1,34 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/messages/address-messages.md",
+    "secao": "Send an address message to a user",
+    "linha_do_bloco": 118,
+    "pagina_atualizada": "2026-07-02",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "nota": "type=address_message; só negócios da Índia",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "+91xxxxxxxxxx",
+  "type": "interactive",
+  "interactive": {
+    "type": "address_message",
+    "body": {
+      "text": "Thanks for your order! Tell us what address you'd like this order delivered to."
+    },
+    "action": {
+      "name": "address_message",
+      "parameters": {
+        "country": "IN",
+        "values": {
+          "name": "<CUSTOMER_NAME>",
+          "phone_number": "+91xxxxxxxxxx"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/messages/interactive-media-carousel-messages.md",
+    "secao": "Quick-reply buttons example",
+    "linha_do_bloco": 254,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "nota": "type=carousel; quick_reply",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WA_USER_PHONE>",
+  "type": "interactive",
+  "interactive": {
+    "type": "carousel",
+    "body": {
+      "text": "Of course! Here are three of our latest arrivals, each under $25:"
+    },
+    "action": {
+      "cards": [
+        {
+          "card_index": 0,
+          "type": "cta_url",
+          "header": {
+            "type": "image",
+            "image": {
+              "link": "https://www.luckyshrub.com/assets/blue-echeveria.jpeg"
+            }
+          },
+          "body": {
+            "text": "*Blue Echeveria*\n\nA rosette-shaped succulent with powdery blue leaves, perfect for brightening up any space."
+          },
+          "action": {
+            "buttons": [
+              {
+                "type": "quick_reply",
+                "quick_reply": {
+                  "id": "learn-blue-echeveria",
+                  "title": "Learn more"
+                }
+              },
+              {
+                "type": "quick_reply",
+                "quick_reply": {
+                  "id": "fav-blue-echeveria",
+                  "title": "Add to favorites"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "card_index": 1,
+          "type": "cta_url",
+          "header": {
+            "type": "image",
+            "image": {
+              "link": "https://www.luckyshrub.com/assets/zebra-haworthia.jpeg"
+            }
+          },
+          "body": {
+            "text": "*Zebra Haworthia*\n\nStriking white stripes on deep green leaves give this compact succulent a bold, modern look."
+          },
+          "action": {
+            "buttons": [
+              {
+                "type": "quick_reply",
+                "quick_reply": {
+                  "id": "learn-zebra-haworthia",
+                  "title": "Learn more"
+                }
+              },
+              {
+                "type": "quick_reply",
+                "quick_reply": {
+                  "id": "fav-zebra-haworthia",
+                  "title": "Add to favorites"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "card_index": 2,
+          "type": "cta_url",
+          "header": {
+            "type": "image",
+            "image": {
+              "link": "https://www.luckyshrub.com/assets/panda-plant.jpeg"
+            }
+          },
+          "body": {
+            "text": "*Panda Plant*\n\nSoft, fuzzy leaves with chocolate-brown edges—adorable and easy to care for."
+          },
+          "action": {
+            "buttons": [
+              {
+                "type": "quick_reply",
+                "quick_reply": {
+                  "id": "learn-panda-plant",
+                  "title": "Learn more"
+                }
+              },
+              {
+                "type": "quick_reply",
+                "quick_reply": {
+                  "id": "fav-panda-plant",
+                  "title": "Add to favorites"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

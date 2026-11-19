@@ -1,0 +1,45 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/webhooks.md",
+    "secao": "Message reactions",
+    "linha_do_bloco": 163,
+    "pagina_atualizada": "2026-09-16",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "message_reactions",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<IG_ID>",
+      "<MESSAGE_ID>"
+    ],
+    "nota": "O original escreve emoji como \\u{2764}\\u{FE0F} (escape inválido em JSON), aqui \\u2764\\ufe0f. action unreact não leva reaction nem emoji. CF-05.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<IG_ID>",
+      "time": 1569262486134,
+      "messaging": [
+        {
+          "sender": {
+            "id": "<IGSID>"
+          },
+          "recipient": {
+            "id": "<IG_ID>"
+          },
+          "timestamp": 1569262485349,
+          "reaction": {
+            "mid": "<MESSAGE_ID>",
+            "action": "react",
+            "reaction": "love",
+            "emoji": "❤️"
+          }
+        }
+      ]
+    }
+  ]
+}

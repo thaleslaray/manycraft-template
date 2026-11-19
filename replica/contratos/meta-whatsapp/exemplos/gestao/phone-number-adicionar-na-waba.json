@@ -1,0 +1,18 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-account_phone-number-management-api.v25.yaml",
+    "exemplo_openapi": "basic_phone_number",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}/phone_numbers",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO.",
+    "placeholders_aplicados": [
+      "<BUSINESS_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "phone_number": "<BUSINESS_PHONE>",
+  "verified_name": "My Business Name",
+  "cc": "1"
+}

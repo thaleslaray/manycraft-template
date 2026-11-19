@@ -1,0 +1,22 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-phone-number_message-api.v25.yaml",
+    "exemplo_openapi": "Send Image Message by URL",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO.",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "image": {
+    "link": "http(s)://image-url"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WA_USER_PHONE>",
+  "type": "image"
+}

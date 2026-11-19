@@ -1,0 +1,22 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/features/sender-actions.md",
+    "secao": "Mark messages as seen",
+    "linha_do_bloco": 33,
+    "pagina_atualizada": "2026-06-26",
+    "metodo": "POST",
+    "rota": "/<PAGE_ID>/messages",
+    "login": "FL",
+    "placeholders_aplicados": [
+      "<IGSID>"
+    ],
+    "nota": "CF-04: o exemplo do IL para mark_seen manda \"typing_on\"; este é o do IM, que manda mark_seen.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "sender_action": "mark_seen"
+}

@@ -1,0 +1,42 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/features/quick-replies.md",
+    "secao": "Sending quick replies",
+    "linha_do_bloco": 18,
+    "pagina_atualizada": "2026-10-05",
+    "metodo": "POST",
+    "rota": "/me/messages",
+    "login": "FL",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<POSTBACK_PAYLOAD_1>",
+      "<POSTBACK_PAYLOAD_2>",
+      "<SOME_TEXT>",
+      "<TITLE_1>",
+      "<TITLE_2>"
+    ],
+    "nota": "Versão do Messenger Platform: acrescenta messaging_type=RESPONSE.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "messaging_type": "RESPONSE",
+  "message": {
+    "text": "<SOME_TEXT>",
+    "quick_replies": [
+      {
+        "content_type": "text",
+        "title": "<TITLE_1>",
+        "payload": "<POSTBACK_PAYLOAD_1>"
+      },
+      {
+        "content_type": "text",
+        "title": "<TITLE_2>",
+        "payload": "<POSTBACK_PAYLOAD_2>"
+      }
+    ]
+  }
+}

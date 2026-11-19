@@ -1,0 +1,54 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/webhooks/new.md",
+    "secao": "Previous payload",
+    "linha_do_bloco": 16,
+    "pagina_atualizada": "2026-09-16",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "messages",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<IG_ID>",
+      "<IG_POST_MEDIA_ID>",
+      "<MESSAGE_ID>",
+      "<SIGNATURE>"
+    ],
+    "nota": "Tipo `share`, descontinuado em 01/02/2026.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "time": 1761287298065,
+      "id": "<IG_ID>",
+      "messaging": [
+        {
+          "sender": {
+            "id": "<IGSID>"
+          },
+          "recipient": {
+            "id": "<IG_ID>"
+          },
+          "timestamp": 1761287294014,
+          "message": {
+            "mid": "<MESSAGE_ID>",
+            "attachments": [
+              {
+                "type": "share",
+                "payload": {
+                  "ig_post_media_id": "<IG_POST_MEDIA_ID>",
+                  "title": "Build a workspace that attracts talent and supports your team with solutions made for growing businesses.",
+                  "url": "https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=<IG_POST_MEDIA_ID>=<SIGNATURE>"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

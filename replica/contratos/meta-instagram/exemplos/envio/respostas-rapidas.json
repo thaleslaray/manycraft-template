@@ -1,0 +1,41 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api/quick-replies.md",
+    "secao": "Sample Request",
+    "linha_do_bloco": 52,
+    "pagina_atualizada": "2026-10-05",
+    "metodo": "POST",
+    "rota": "/me/messages",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<BUTTON_OPTION_TEXT_1>",
+      "<BUTTON_OPTION_TEXT_2>",
+      "<IGSID>",
+      "<POSTBACK_PAYLOAD_1>",
+      "<POSTBACK_PAYLOAD_2>",
+      "<THE_PROMPT_OR_QUESTION>"
+    ],
+    "nota": "Até 13 respostas de 20 caracteres. content_type só `text` (telefone e e-mail desativados em 05/10/2026).",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "message": {
+    "text": "<THE_PROMPT_OR_QUESTION>",
+    "quick_replies": [
+      {
+        "content_type": "text",
+        "title": "<BUTTON_OPTION_TEXT_1>",
+        "payload": "<POSTBACK_PAYLOAD_1>"
+      },
+      {
+        "content_type": "text",
+        "title": "<BUTTON_OPTION_TEXT_2>",
+        "payload": "<POSTBACK_PAYLOAD_2>"
+      }
+    ]
+  }
+}

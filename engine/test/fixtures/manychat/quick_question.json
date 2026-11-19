@@ -1,0 +1,195 @@
+{
+ "clipboard": {
+  "$flowChart": "nodes",
+  "data": {
+   "nodeIds": [
+    "n01",
+    "n02"
+   ],
+   "nodesData": [
+    {
+     "node": {
+      "$fbMessagingType": "INSIDE_24_HOURS",
+      "blocks": [
+       "n03",
+       "n04",
+       "n05",
+       "n06"
+      ],
+      "caption": "Texto 1",
+      "contentId": 717716788,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_quick_question",
+      "id": "n01",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "instagram",
+      "onboardingElementId": "content_node",
+      "privateReply": null,
+      "reasonId": null,
+      "targetId": null,
+      "type": "default"
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n03",
+        "text": "Texto 2",
+        "type": "text"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n04",
+        "showTyping": false,
+        "time": 3,
+        "type": "delay"
+       },
+       {
+        "blocks": [],
+        "buttons": [
+         "n07"
+        ],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n05",
+        "text": "Texto 3",
+        "type": "text"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n06",
+        "settings": {},
+        "targetId": null,
+        "type": "quick_reply"
+       }
+      ],
+      "buttons": [
+       {
+        "caption": "Texto 4",
+        "emoji": null,
+        "entity": "button",
+        "id": "n07",
+        "image": null,
+        "isFallback": false,
+        "isNotificationRequest": null,
+        "isSmartLink": false,
+        "targetId": "n02",
+        "type": "content"
+       }
+      ]
+     }
+    },
+    {
+     "node": {
+      "$fbMessagingType": "INSIDE_24_HOURS",
+      "blocks": [
+       "n08",
+       "n09"
+      ],
+      "caption": "Texto 5",
+      "contentId": 717717997,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_quick_question",
+      "id": "n02",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "instagram",
+      "onboardingElementId": "content_node",
+      "privateReply": null,
+      "reasonId": null,
+      "targetId": null,
+      "type": "default"
+     },
+     "related": {
+      "blocks": [
+       {
+        "allowFreeInput": false,
+        "answerRetries": 4,
+        "blocks": [
+         "n10"
+        ],
+        "buttonCaption": "",
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "customFieldId": null,
+        "entity": "block",
+        "id": "n08",
+        "questionAnswerTimeout": {
+         "unit": "hours",
+         "value": "23"
+        },
+        "replyType": "free_text",
+        "saveEmailToSystemField": false,
+        "savePhoneToSystemField": false,
+        "savePhoneToWhatsAppIdSystemField": false,
+        "setEmailOptIn": false,
+        "setSmsOptIn": false,
+        "skipButtonCaption": "",
+        "targetId": null,
+        "telegramSharePhoneButtonCaption": "",
+        "text": "Texto 6",
+        "type": "question",
+        "validationErrorMessage": ""
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n09",
+        "settings": {},
+        "targetId": null,
+        "type": "quick_reply"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n10",
+        "targetId": null,
+        "type": "question_timeout"
+       }
+      ],
+      "buttons": []
+     }
+    }
+   ],
+   "offsets": {
+    "$group": {
+     "x": -124,
+     "y": -148
+    },
+    "n01": {
+     "x": 0,
+     "y": 80
+    },
+    "n02": {
+     "x": 607,
+     "y": 0
+    }
+   }
+  },
+  "pageId": "conta_exemplo"
+ },
+ "original": {
+  "flow": {
+   "ns": "content_fixture_quick_question",
+   "name": "Texto 7",
+   "root_content_id": 717716788,
+   "contents": []
+  }
+ }
+}

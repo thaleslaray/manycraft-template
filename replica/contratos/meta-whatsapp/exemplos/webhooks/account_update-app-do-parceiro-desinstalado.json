@@ -1,0 +1,39 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/account_update.md",
+    "secao": "Partner app uninstalled",
+    "linha_do_bloco": 435,
+    "pagina_atualizada": "2026-10-02",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "account_update",
+    "placeholders_aplicados": [
+      "<APP_ID>",
+      "<BUSINESS_PORTFOLIO_ID>",
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1748477359,
+      "changes": [
+        {
+          "value": {
+            "event": "PARTNER_APP_UNINSTALLED",
+            "waba_info": {
+              "waba_id": "<WABA_ID>",
+              "owner_business_id": "<BUSINESS_PORTFOLIO_ID>",
+              "partner_app_id": "<APP_ID>"
+            }
+          },
+          "field": "account_update"
+        }
+      ]
+    }
+  ]
+}

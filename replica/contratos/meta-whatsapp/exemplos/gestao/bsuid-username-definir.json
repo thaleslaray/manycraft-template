@@ -1,0 +1,16 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/business-scoped-user-ids.md",
+    "secao": "Adopt or change a business username",
+    "linha_do_bloco": 391,
+    "pagina_atualizada": "2026-09-15",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/username",
+    "nota": "username 3 a 35 caracteres",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "username": "<DESIRED_USERNAME>",
+  "transfer_action": "<TRANSFER_ACTION>"
+}

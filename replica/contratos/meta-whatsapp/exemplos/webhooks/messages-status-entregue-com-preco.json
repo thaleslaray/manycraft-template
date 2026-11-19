@@ -1,0 +1,59 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/messages.md",
+    "secao": "Outgoing messages",
+    "linha_do_bloco": 64,
+    "pagina_atualizada": "2026-06-17",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "messages",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<CONVERSATION_ID>",
+      "<PHONE_NUMBER_ID>",
+      "<WABA_ID>",
+      "<WAMID>",
+      "<WA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "statuses": [
+              {
+                "id": "<WAMID>",
+                "status": "delivered",
+                "timestamp": "1750263773",
+                "recipient_id": "<WA_ID>",
+                "conversation": {
+                  "id": "<CONVERSATION_ID>",
+                  "origin": {
+                    "type": "service"
+                  }
+                },
+                "pricing": {
+                  "billable": true,
+                  "pricing_model": "CBP",
+                  "category": "service"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

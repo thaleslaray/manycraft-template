@@ -1,0 +1,38 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/direct-send/supported-message-types.md",
+    "secao": "Copy code example",
+    "linha_do_bloco": 100,
+    "pagina_atualizada": "2026-10-14",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "nota": "Direct Send beta; BSUID não aceito (erro 131062)",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WHATSAPP_USER_PHONE_NUMBER>",
+  "type": "interactive",
+  "category": "authentication",
+  "interactive": {
+    "type": "button",
+    "body": {
+      "text": "Your verification code is 123456."
+    },
+    "action": {
+      "buttons": [
+        {
+          "type": "otp",
+          "otp": {
+            "code": "123456",
+            "otp_type": "copy_code",
+            "text": "Copy Code",
+            "code_expiration_minutes": 10
+          }
+        }
+      ]
+    }
+  }
+}

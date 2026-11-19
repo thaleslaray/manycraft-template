@@ -1,0 +1,51 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/features/story-mention.md",
+    "secao": "Example webhook",
+    "linha_do_bloco": 30,
+    "pagina_atualizada": "2026-06-26",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "messages",
+    "placeholders_aplicados": [
+      "<CDN_URL>",
+      "<IGID>",
+      "<IGSID>",
+      "<MESSAGE_ID>"
+    ],
+    "nota": "A URL do CDN não pode ser guardada em disco e expira com o story.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<IGID>",
+      "time": 1569262486134,
+      "messaging": [
+        {
+          "sender": {
+            "id": "<IGSID>"
+          },
+          "recipient": {
+            "id": "<IGID>"
+          },
+          "timestamp": 1569262485349,
+          "message": {
+            "mid": "<MESSAGE_ID>",
+            "attachments": [
+              {
+                "type": "story_mention",
+                "payload": {
+                  "url": "<CDN_URL>"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

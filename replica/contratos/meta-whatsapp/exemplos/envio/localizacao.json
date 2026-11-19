@@ -1,0 +1,27 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/messages/location-messages.md",
+    "secao": "Example request",
+    "linha_do_bloco": 50,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "nota": "latitude/longitude como string na página e no schema; number no exemplo do OpenAPI",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WA_USER_PHONE>",
+  "type": "location",
+  "location": {
+    "latitude": "37.44216251868683",
+    "longitude": "-122.16153582049394",
+    "name": "Philz Coffee",
+    "address": "101 Forest Ave, Palo Alto, CA 94301"
+  }
+}

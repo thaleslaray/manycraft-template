@@ -1,0 +1,469 @@
+{
+ "clipboard": {
+  "$flowChart": "nodes",
+  "data": {
+   "nodeIds": [
+    "n01",
+    "n02",
+    "n03",
+    "n04",
+    "n05",
+    "n06",
+    "n07",
+    "n08"
+   ],
+   "nodesData": [
+    {
+     "node": {
+      "$fbMessagingType": "INSIDE_24_HOURS",
+      "blocks": [
+       "n09",
+       "n10",
+       "n11",
+       "n12",
+       "n13",
+       "n14"
+      ],
+      "caption": "Texto 1",
+      "contentId": 805786795,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_actions_delay",
+      "id": "n01",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "instagram",
+      "onboardingElementId": "content_node",
+      "privateReply": null,
+      "reasonId": null,
+      "targetId": "n08",
+      "type": "default"
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n09",
+        "text": "Texto 2",
+        "type": "text"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n10",
+        "showTyping": false,
+        "time": 3,
+        "type": "delay"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n11",
+        "text": "Texto 3",
+        "type": "text"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n12",
+        "showTyping": false,
+        "time": 3,
+        "type": "delay"
+       },
+       {
+        "blocks": [],
+        "buttons": [
+         "n15"
+        ],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n13",
+        "text": "Texto 4",
+        "type": "text"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n14",
+        "settings": {},
+        "targetId": null,
+        "type": "quick_reply"
+       }
+      ],
+      "buttons": [
+       {
+        "caption": "Texto 5",
+        "entity": "button",
+        "id": "n15",
+        "isClickTrackingDisabled": false,
+        "isSmartLink": false,
+        "targetId": "n04",
+        "type": "url",
+        "url": "https://exemplo.test/url/2",
+        "webviewSize": ""
+       }
+      ]
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 6",
+      "color": "default",
+      "contentId": 805786800,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_actions_delay",
+      "fontSize": "small",
+      "id": "n02",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeSize": "medium",
+      "nodeType": "comment",
+      "noteId": "n16",
+      "privateReply": null,
+      "reasonId": null,
+      "text": "Texto 7",
+      "timestamp": 1688750496988
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "$fbMessagingType": "INSIDE_24_HOURS",
+      "blocks": [
+       "n17",
+       "n18"
+      ],
+      "caption": "Texto 8",
+      "contentId": 805786798,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_actions_delay",
+      "id": "n03",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "instagram",
+      "onboardingElementId": "content_node",
+      "privateReply": null,
+      "reasonId": null,
+      "targetId": "n07",
+      "type": "default"
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [
+         "n19"
+        ],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n17",
+        "text": "Texto 9",
+        "type": "text"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n18",
+        "settings": {},
+        "targetId": null,
+        "type": "quick_reply"
+       }
+      ],
+      "buttons": [
+       {
+        "caption": "Texto 10",
+        "emoji": null,
+        "entity": "button",
+        "id": "n19",
+        "image": null,
+        "isFallback": false,
+        "isNotificationRequest": null,
+        "isSmartLink": false,
+        "targetId": "n06",
+        "type": "content"
+       }
+      ]
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 11",
+      "contentId": 805786794,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_actions_delay",
+      "id": "n04",
+      "isStartingStep": false,
+      "items": [
+       {
+        "_oid": "n20",
+        "tag_id": 37406576,
+        "type": "add_tag"
+       },
+       {
+        "_oid": "n21",
+        "field_id": 8598251,
+        "operation": "=",
+        "type": "set_custom_field_value",
+        "value": "3"
+       },
+       {
+        "_oid": "n22",
+        "action": "update_row",
+        "data": {
+         "binding": [
+          {
+           "field_name": "3",
+           "value": {
+            "field_id": 8598251,
+            "type": "cuf"
+           }
+          }
+         ],
+         "identity": [],
+         "lookup_column": "1",
+         "lookup_field": {
+          "field_name": "user_id",
+          "type": "suf"
+         },
+         "mapping": [],
+         "sheet": "Página1",
+         "spreadsheet": "1PPHjJqsvHns1W3OY8ShPs_V2BGvRMjVjskB4RzqYjzA"
+        },
+        "integration": "google_sheets",
+        "type": "integration_request"
+       }
+      ],
+      "nodeType": "actionGroup",
+      "onboardingElementId": "action_node",
+      "orderedActionItemIds": [],
+      "targetId": "n07"
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [
+       "n23",
+       "n24"
+      ],
+      "caption": "Texto 12",
+      "contentId": 805786785,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_actions_delay",
+      "id": "n05",
+      "isMultiCondition": true,
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "condition",
+      "onboardingElementId": "condition_node",
+      "privateReply": null,
+      "reasonId": null
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "filter": {
+         "groups": [
+          {
+           "items": [
+            {
+             "_oid": "n25",
+             "field": "tag",
+             "operator": "IS",
+             "type": "tag",
+             "value": 37406576
+            }
+           ],
+           "operator": "AND"
+          }
+         ],
+         "operator": "AND"
+        },
+        "id": "n23",
+        "targetId": "n07",
+        "type": "case"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n24",
+        "targetId": "n03",
+        "type": "default"
+       }
+      ],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 13",
+      "contentId": 805805106,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_actions_delay",
+      "id": "n06",
+      "isStartingStep": false,
+      "items": [
+       {
+        "_oid": "n26",
+        "tag_id": 37406576,
+        "type": "add_tag"
+       }
+      ],
+      "nodeType": "actionGroup",
+      "onboardingElementId": "action_node",
+      "orderedActionItemIds": [],
+      "targetId": null
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 14",
+      "contentId": 805789824,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_actions_delay",
+      "flowId": "content20230810140510_249160",
+      "id": "n07",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "goto",
+      "privateReply": null,
+      "reasonId": null,
+      "targetId": null
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 15",
+      "contentId": 805786796,
+      "delayType": "duration",
+      "delayUnits": "minutes",
+      "delayValue": "3",
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_actions_delay",
+      "id": "n08",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "smartDelay",
+      "privateReply": null,
+      "reasonId": null,
+      "sendingInterval": [
+       8,
+       22
+      ],
+      "targetId": "n05",
+      "useTimeWindow": false,
+      "waitUntil": {
+       "is_formula": false,
+       "value": ""
+      },
+      "weekdays": [
+       "monday",
+       "tuesday",
+       "wednesday",
+       "thursday",
+       "friday",
+       "saturday",
+       "sunday"
+      ]
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    }
+   ],
+   "offsets": {
+    "$group": {
+     "x": 787,
+     "y": -60
+    },
+    "n07": {
+     "x": 3249,
+     "y": 1176
+    },
+    "n04": {
+     "x": 788,
+     "y": 799
+    },
+    "n08": {
+     "x": 815,
+     "y": 1589
+    },
+    "n01": {
+     "x": 0,
+     "y": 60
+    },
+    "n02": {
+     "x": 4360,
+     "y": 0
+    },
+    "n06": {
+     "x": 2821,
+     "y": 2102
+    },
+    "n05": {
+     "x": 1532,
+     "y": 1895
+    },
+    "n03": {
+     "x": 2180,
+     "y": 2361
+    }
+   }
+  },
+  "pageId": "conta_exemplo"
+ },
+ "original": {
+  "flow": {
+   "ns": "content_fixture_actions_delay",
+   "name": "Texto 16",
+   "root_content_id": 805786795,
+   "contents": []
+  }
+ }
+}

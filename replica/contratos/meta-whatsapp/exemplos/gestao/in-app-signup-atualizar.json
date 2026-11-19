@@ -1,0 +1,16 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/in-app-signup.md",
+    "secao": "Example request: update message and promo code",
+    "linha_do_bloco": 307,
+    "pagina_atualizada": "2026-07-03",
+    "metodo": "POST",
+    "rota": "/{version}/{signup_id}",
+    "nota": "atualiza mensagem e promo_code",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "confirmation_message": "Welcome! Use code {{promo_code}} for 20% off your first order.",
+  "promo_code": "SAVE20"
+}

@@ -1,0 +1,55 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/history.md",
+    "secao": "Examples",
+    "linha_do_bloco": 217,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "history",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<MEDIA_ID>",
+      "<PHONE_NUMBER_ID>",
+      "<SHA256>",
+      "<WABA_ID>",
+      "<WAMID>",
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "messages": [
+              {
+                "from": "<WA_USER_PHONE>",
+                "id": "<WAMID>",
+                "timestamp": "1738796547",
+                "type": "image",
+                "image": {
+                  "caption": "Black Prince echeveria",
+                  "mime_type": "image/jpeg",
+                  "sha256": "<SHA256>",
+                  "id": "<MEDIA_ID>"
+                }
+              }
+            ]
+          },
+          "field": "history"
+        }
+      ]
+    }
+  ]
+}

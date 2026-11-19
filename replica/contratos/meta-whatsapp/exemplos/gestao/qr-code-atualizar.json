@@ -1,0 +1,16 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/qr-codes.md",
+    "secao": "Example request",
+    "linha_do_bloco": 113,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/message_qrdls",
+    "nota": "atualiza prefilled_message de um code existente",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "code": "4O4YGZEG3RIVE1",
+  "prefilled_message": "Cyber Tuesday"
+}

@@ -1,0 +1,30 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/features/conversation-routing/apis.md",
+    "secao": "Sample request",
+    "linha_do_bloco": 32,
+    "pagina_atualizada": "2026-09-28",
+    "metodo": "POST",
+    "rota": "/me/messages",
+    "login": "FL",
+    "placeholders_aplicados": [
+      "<APPLICATION_ID>",
+      "<IGSID>"
+    ],
+    "nota": "Exemplo em v12.0. Sem app_id passa ao app padrão.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "messaging_type": "RESPONSE",
+  "thread_control": {
+    "app_id": "<APPLICATION_ID>",
+    "control_type": "pass"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "message": {
+    "text": "Let me transfer you to our live agent"
+  }
+}

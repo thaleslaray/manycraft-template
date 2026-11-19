@@ -1,0 +1,74 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/messages/edit.md",
+    "secao": "Sample webhooks",
+    "linha_do_bloco": 97,
+    "pagina_atualizada": "2026-07-20",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "messages",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<MEDIA_ID>",
+      "<PHONE_NUMBER_ID>",
+      "<SHA256>",
+      "<WABA_ID>",
+      "<WAMID>",
+      "<WA_ID>",
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "Sheena Nelson"
+                },
+                "wa_id": "<WA_ID>"
+              }
+            ],
+            "messages": [
+              {
+                "from": "<WA_USER_PHONE>",
+                "id": "<WAMID>",
+                "timestamp": "1749854575",
+                "type": "edit",
+                "edit": {
+                  "original_message_id": "<WAMID>",
+                  "message": {
+                    "context": {
+                      "id": "<WAMID>"
+                    },
+                    "type": "image",
+                    "image": {
+                      "caption": "Updated image caption",
+                      "mime_type": "image/jpeg",
+                      "sha256": "<SHA256>",
+                      "id": "<MEDIA_ID>",
+                      "url": "https://media.example.com/updated-image.jpg"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/messages/system.md",
+    "secao": "Example",
+    "linha_do_bloco": 131,
+    "pagina_atualizada": "2026-08-11",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "messages",
+    "placeholders_aplicados": [
+      "<BSUID>",
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<PARENT_BSUID>",
+      "<PHONE_NUMBER_ID>",
+      "<WABA_ID>",
+      "<WAMID>",
+      "<WA_ID>/<BSUID> no texto do corpo"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "messages": [
+              {
+                "id": "<WAMID>",
+                "timestamp": "1750269342",
+                "system": {
+                  "body": "User changed from <BSUID> to <BSUID>",
+                  "type": "user_changed_user_id",
+                  "user_id": "<BSUID>",
+                  "parent_user_id": "<PARENT_BSUID>",
+                  "previous_user_id": "<BSUID>",
+                  "previous_parent_user_id": "<PARENT_BSUID>"
+                },
+                "type": "system"
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

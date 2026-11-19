@@ -1,0 +1,40 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/account_alerts.md",
+    "secao": "Example",
+    "linha_do_bloco": 62,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "account_alerts",
+    "placeholders_aplicados": [
+      "<ENTITY_ID>",
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1745612159,
+      "changes": [
+        {
+          "field": "account_alerts",
+          "value": {
+            "entity_type": "BUSINESS",
+            "entity_id": "<ENTITY_ID>",
+            "alert_info": {
+              "alert_severity": "WARNING",
+              "alert_status": "ACTIVE",
+              "alert_type": "INCREASED_CAPABILITIES_ELIGIBILITY_DEFERRED",
+              "alert_description": "Limits cannot be increased for your business <BUSINESS_PORTFOLIO_NAME>. Use WhatsApp Business platform actively for several days and follow our messaging policies."
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

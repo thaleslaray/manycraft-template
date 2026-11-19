@@ -1,0 +1,23 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/typing-indicators.md",
+    "secao": "Example request",
+    "linha_do_bloco": 51,
+    "pagina_atualizada": "2026-06-17",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "placeholders_aplicados": [
+      "<WAMID>"
+    ],
+    "nota": "typing_indicator.type=text; não existe no OpenAPI (MarkMessageRequestPayload só tem message_id/messaging_product/status)",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "status": "read",
+  "message_id": "<WAMID>",
+  "typing_indicator": {
+    "type": "text"
+  }
+}

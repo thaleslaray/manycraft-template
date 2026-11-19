@@ -1,0 +1,15 @@
+# Arquivos com hash no nome nunca mudam de conteúdo: cache longo e imutável. O index.html (e o resto) segue com o padrão do Workers (max-age=0, must-revalidate).
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Vale para tudo que sai dos arquivos estáticos: o HTML da SPA, o estúdio de e-mail e os /assets/* (o Worker devolve a resposta do binding ASSETS, que recebe estas regras). /api/* sai do motor com os cabeçalhos dele.
+# SAMEORIGIN e frame-ancestors 'self': o painel enquadra o próprio estúdio de e-mail. Referrer com a origem: o Google One Tap confere por ela.
+# Fora do 'self' na CSP: beacon do Web Analytics (a zona injeta no HTML; o caminho tem versão, por isso o host) e o envio das medições dele (connect-src cloudflareinsights.com), Google One Tap (/gsi/), Google Fonts que o MJML põe no HTML do e-mail (estúdio e prévia srcdoc, que herda esta política) e imagem/mídia https digitada no editor.
+# 'unsafe-inline' só em estilo: o HTML do e-mail traz <style> e style=. Sem 'unsafe-eval' em lugar nenhum: o Zod dos esquemas do motor roda sem JIT (engine/src/schemas/zod-sem-eval.ts, primeiro import do main.tsx) e o "Código-fonte > Json source" do estúdio lê o bloco com JSON.parse em vez de eval (src/email-studio/build.mjs).
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com https://accounts.google.com/gsi/client; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com/gsi/style; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://cloudflareinsights.com https://accounts.google.com/gsi/; media-src 'self' blob: https:; frame-src 'self' https://accounts.google.com/gsi/; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
+

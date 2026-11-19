@@ -1,0 +1,37 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/payment_configuration_update.md",
+    "secao": "Example payload",
+    "linha_do_bloco": 60,
+    "pagina_atualizada": "2026-06-17",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "payment_configuration_update",
+    "placeholders_aplicados": [
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1739321024,
+      "changes": [
+        {
+          "field": "payment_configuration_update",
+          "value": {
+            "configuration_name": "razorpay-prod",
+            "provider_name": "razorpay",
+            "provider_mid": "acc_GP4lfNA0iIMn5B",
+            "status": "Needs Testing",
+            "created_timestamp": 1748827100,
+            "updated_timestamp": 1749320300
+          }
+        }
+      ]
+    }
+  ],
+  "object": "whatsapp_business_account"
+}

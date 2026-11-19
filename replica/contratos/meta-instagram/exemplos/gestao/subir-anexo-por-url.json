@@ -1,0 +1,29 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/features/attachment-upload.md",
+    "secao": "Sample request",
+    "linha_do_bloco": 54,
+    "pagina_atualizada": "2026-06-30",
+    "metodo": "POST",
+    "rota": "/<PAGE_ID>/message_attachments",
+    "login": "FL",
+    "placeholders_aplicados": [
+      "<MEDIA_TYPE>",
+      "<MEDIA_URL>"
+    ],
+    "nota": "Resposta: {\"attachment_id\": ...}.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "platform": "instagram",
+  "message": {
+    "attachment": {
+      "type": "<MEDIA_TYPE>",
+      "payload": {
+        "url": "<MEDIA_URL>",
+        "is_reusable": "true"
+      }
+    }
+  }
+}

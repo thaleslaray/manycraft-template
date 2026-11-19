@@ -1,0 +1,50 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/messaging-handovers.md",
+    "secao": "Example payload",
+    "linha_do_bloco": 93,
+    "pagina_atualizada": "2026-09-22",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "messaging_handovers",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WHATSAPP_BUSINESS_ACCOUNT_ID>",
+      "changes": [
+        {
+          "field": "messaging_handovers",
+          "value": {
+            "messaging_product": "whatsapp",
+            "sender": {
+              "phone_number": "<WHATSAPP_USER_PHONE_NUMBER>"
+            },
+            "recipient": {
+              "phone_number_id": "<PHONE_NUMBER_ID>",
+              "display_phone_number": "<PHONE_NUMBER>"
+            },
+            "type": "control_passed",
+            "timestamp": "<TIMESTAMP>",
+            "control_passed": {
+              "previous_owner_app_id": "<APP_ID>",
+              "previous_owner_app_role": "meta_business_agent",
+              "previous_owner_role": "ai_agent",
+              "new_owner_role": "escalation",
+              "metadata": "WhatsApp user requested human agent",
+              "conversation_context": {
+                "type": "summary",
+                "summary": {
+                  "text": "AI-generated summary string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

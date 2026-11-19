@@ -1,0 +1,62 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/business-scoped-user-ids.md",
+    "secao": "Contacts webhook",
+    "linha_do_bloco": 203,
+    "pagina_atualizada": "2026-09-15",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "messages",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WHATSAPP_BUSINESS_ACCOUNT_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE_NUMBER>",
+              "phone_number_id": "<BUSINESS_PHONE_NUMBER_ID>"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "<USER_DISPLAY_NAME>",
+                  "username": "<USERNAME>"
+                },
+                "user_id": "<BSUID>"
+              }
+            ],
+            "messages": [
+              {
+                "id": "<WHATSAPP_MESSAGE_ID>",
+                "timestamp": "<WEBHOOK_TRIGGER_TIMESTAMP>",
+                "type": "contacts",
+                "from_user_id": "<BSUID>",
+                "contacts": [
+                  {
+                    "vcard": "<VCARD>",
+                    "origin": "<ORIGIN>",
+                    "phones": [
+                      {
+                        "phone": "<USER_PHONE_NUMBER>",
+                        "wa_id": "<USER_WA_ID>",
+                        "type": "<USER_PHONE_NUMBER_TYPE>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

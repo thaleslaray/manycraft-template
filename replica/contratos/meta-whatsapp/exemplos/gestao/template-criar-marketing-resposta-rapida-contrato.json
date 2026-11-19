@@ -1,0 +1,56 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-account_message-template-api.v25.yaml",
+    "exemplo_openapi": "marketing_with_quick_reply",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}/message_templates",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO.",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "name": "seasonal_promotion",
+  "language": "en",
+  "category": "MARKETING",
+  "components": [
+    {
+      "type": "HEADER",
+      "format": "TEXT",
+      "text": "Our {{1}} is on!",
+      "example": {
+        "header_text": [
+          "Summer Sale"
+        ]
+      }
+    },
+    {
+      "type": "BODY",
+      "text": "Shop now through {{1}} and use code {{2}} to get {{3}} off.",
+      "example": {
+        "body_text": [
+          [
+            "25OFF",
+            "25%"
+          ]
+        ]
+      }
+    },
+    {
+      "type": "FOOTER",
+      "text": "Use the buttons below to manage your subscriptions\n"
+    },
+    {
+      "type": "BUTTONS",
+      "buttons": [
+        {
+          "type": "QUICK_REPLY",
+          "text": "Unsubscribe from Promos"
+        },
+        {
+          "type": "QUICK_REPLY",
+          "text": "Unsubscribe from All"
+        }
+      ]
+    }
+  ]
+}

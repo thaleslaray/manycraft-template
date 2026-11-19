@@ -1,0 +1,30 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/features/moderate-conversations.md",
+    "secao": "Sample request",
+    "linha_do_bloco": 131,
+    "pagina_atualizada": "2026-07-02",
+    "metodo": "POST",
+    "rota": "/<PAGE_ID>/moderate_conversations",
+    "login": "FL",
+    "placeholders_aplicados": [
+      "<IGSID>"
+    ],
+    "nota": "Bloquear dois usuários e mover a conversa para spam. Até 10 IDs e 2 ações por requisição.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "user_ids": [
+    {
+      "id": "<IGSID>"
+    },
+    {
+      "id": "<IGSID>"
+    }
+  ],
+  "actions": [
+    "block_user",
+    "move_to_spam"
+  ]
+}

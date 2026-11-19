@@ -1,0 +1,37 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/message_template_quality_update.md",
+    "secao": "Example",
+    "linha_do_bloco": 56,
+    "pagina_atualizada": "2026-06-17",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "message_template_quality_update",
+    "placeholders_aplicados": [
+      "<TEMPLATE_ID>",
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1674864290,
+      "changes": [
+        {
+          "value": {
+            "previous_quality_score": "GREEN",
+            "new_quality_score": "YELLOW",
+            "message_template_id": "<TEMPLATE_ID>",
+            "message_template_name": "welcome_template",
+            "message_template_language": "en-US"
+          },
+          "field": "message_template_quality_update"
+        }
+      ]
+    }
+  ],
+  "object": "whatsapp_business_account"
+}

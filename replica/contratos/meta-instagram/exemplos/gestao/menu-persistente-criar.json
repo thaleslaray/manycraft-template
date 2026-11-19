@@ -1,0 +1,38 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api/persistent-menu.md",
+    "secao": "Sample Request",
+    "linha_do_bloco": 63,
+    "pagina_atualizada": "2026-06-30",
+    "metodo": "POST",
+    "rota": "/me/messenger_profile",
+    "login": "IL",
+    "placeholders_aplicados": [],
+    "nota": "O original abre com um acento grave antes de `curl` e o corpo não leva `platform`; as páginas do IM mandam platform=instagram na URL.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "persistent_menu": [
+    {
+      "locale": "default",
+      "call_to_actions": [
+        {
+          "type": "postback",
+          "title": "Talk to an agent",
+          "payload": "CARE_HELP"
+        },
+        {
+          "type": "postback",
+          "title": "Outfit suggestions",
+          "payload": "CURATION"
+        },
+        {
+          "type": "web_url",
+          "title": "Shop now",
+          "url": "https://www.originalcoastclothing.com/"
+        }
+      ]
+    }
+  ]
+}

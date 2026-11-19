@@ -1,0 +1,32 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/account_review_update.md",
+    "secao": "Example payload",
+    "linha_do_bloco": 54,
+    "pagina_atualizada": "2026-06-17",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "account_review_update",
+    "placeholders_aplicados": [
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1739321024,
+      "changes": [
+        {
+          "value": {
+            "decision": "APPROVED"
+          },
+          "field": "account_review_update"
+        }
+      ]
+    }
+  ],
+  "object": "whatsapp_business_account"
+}

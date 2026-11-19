@@ -1,0 +1,27 @@
+node_modules
+.next
+.env*
+.DS_Store
+.claude/worktrees/
+*.bak
+*.bak2
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+.wrangler/
+.dev-logs/
+
+# prints do ManyChat da conta do dono: têm dados de terceiros, ficam só local
+replica/screens-v2/
+.firecrawl/
+
+# locais: config do Claude, cache da Meta, rascunhos e saídas de rodadas
+.claude/launch.json
+.meta-whatsapp-cache/
+replica/whatsapp-webhook-anterior.txt
+.scratch/stageshow-poc/
+.scratch/**/rodada-*.txt
+# só o da raiz; engine/ e app-vite/ têm os seus, rastreados
+/package-lock.json
+.scratch/cenarios/criados.json
+.scratch/cenarios/criados.json.tmp

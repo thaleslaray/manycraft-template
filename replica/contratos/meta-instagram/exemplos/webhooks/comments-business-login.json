@@ -1,0 +1,46 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/webhooks/examples.md",
+    "secao": "Comments payload",
+    "linha_do_bloco": 66,
+    "pagina_atualizada": "2026-09-16",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "comments",
+    "placeholders_aplicados": [
+      "<COMMENT_ID>",
+      "<COMMENT_TEXT>",
+      "<INSTAGRAM_SCOPED_USER_ID>",
+      "<MEDIA_ID>",
+      "<MEDIA_PRODUCT_TYPE>",
+      "<TIME_META_SENT_THIS_NOTIFICATION>",
+      "<USERNAME>",
+      "<YOUR_APP_USERS_INSTAGRAM_ACCOUNT_ID>"
+    ],
+    "nota": "CF-09: neste bloco `field` e `value` ficam direto em entry[], sem `changes`. O original esquece a vírgula após `time`. A doc embrulha o exemplo numa lista de um item; o corpo enviado pela Meta é o objeto.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<YOUR_APP_USERS_INSTAGRAM_ACCOUNT_ID>",
+      "time": "<TIME_META_SENT_THIS_NOTIFICATION>",
+      "field": "comments",
+      "value": {
+        "id": "<COMMENT_ID>",
+        "from": {
+          "id": "<INSTAGRAM_SCOPED_USER_ID>",
+          "username": "<USERNAME>"
+        },
+        "text": "<COMMENT_TEXT>",
+        "media": {
+          "id": "<MEDIA_ID>",
+          "media_product_type": "<MEDIA_PRODUCT_TYPE>"
+        }
+      }
+    }
+  ]
+}

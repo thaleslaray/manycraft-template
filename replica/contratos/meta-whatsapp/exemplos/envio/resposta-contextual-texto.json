@@ -1,0 +1,28 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/messages/contextual-replies.md",
+    "secao": "Example request",
+    "linha_do_bloco": 54,
+    "pagina_atualizada": "2026-07-02",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "placeholders_aplicados": [
+      "<WAMID>",
+      "<WA_USER_PHONE>"
+    ],
+    "nota": "context.message_id",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WA_USER_PHONE>",
+  "context": {
+    "message_id": "<WAMID>"
+  },
+  "type": "text",
+  "text": {
+    "body": "You're welcome, Pablo!"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/business-phone-numbers/two-step-verification.md",
+    "secao": "Example",
+    "linha_do_bloco": 26,
+    "pagina_atualizada": "2026-06-28",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}",
+    "nota": "definir PIN de duas etapas via POST /{phone_number_id}",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "pin": "6_DIGIT_PIN"
+}

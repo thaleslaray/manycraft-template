@@ -1,0 +1,46 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/self-messaging.md",
+    "secao": "Example Postback Webhook",
+    "linha_do_bloco": 103,
+    "pagina_atualizada": "2026-03-15",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "messaging_postbacks",
+    "placeholders_aplicados": [
+      "<IG_ID>",
+      "<INSTAGRAM_SCOPED_ID>",
+      "<MESSAGE_ID>",
+      "<YOUR_APP_USERS_IG_USER_ID>"
+    ],
+    "nota": "is_self fica em messaging[], fora de postback.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<IG_ID>",
+      "time": 1743480368963,
+      "messaging": [
+        {
+          "sender": {
+            "id": "<YOUR_APP_USERS_IG_USER_ID>"
+          },
+          "recipient": {
+            "id": "<INSTAGRAM_SCOPED_ID>"
+          },
+          "timestamp": 1743480368714,
+          "is_self": true,
+          "postback": {
+            "title": "Start Chatting",
+            "payload": "DEVELOPER_DEFINED_PAYLOAD",
+            "mid": "<MESSAGE_ID>"
+          }
+        }
+      ]
+    }
+  ]
+}

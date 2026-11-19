@@ -1,0 +1,37 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api.md",
+    "secao": "Sample Request: Sending a collection of images with attachment IDs",
+    "linha_do_bloco": 249,
+    "pagina_atualizada": "2026-09-28",
+    "metodo": "POST",
+    "rota": "/<IG_ID>/messages",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<IGSID>"
+    ],
+    "nota": "attachment_id e url podem se misturar. O terceiro item `{ ... }` do original foi retirado.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "message": {
+    "attachments": [
+      {
+        "type": "image",
+        "payload": {
+          "attachment_id": "<attachment_ID>"
+        }
+      },
+      {
+        "type": "image",
+        "payload": {
+          "attachment_id": "<attachment_ID>"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/override.md",
+    "secao": "Example request",
+    "linha_do_bloco": 75,
+    "pagina_atualizada": "2026-09-28",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}/subscribed_apps",
+    "nota": "override_callback_uri + verify_token",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "override_callback_uri": "https://my-waba-alternate-callback.com/webhook",
+  "verify_token": "myvoiceismypassport?"
+}

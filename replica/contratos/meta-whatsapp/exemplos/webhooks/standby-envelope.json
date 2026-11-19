@@ -1,0 +1,33 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/standby.md",
+    "secao": "Common envelope",
+    "linha_do_bloco": 72,
+    "pagina_atualizada": "2026-09-22",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "standby",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WHATSAPP_BUSINESS_ACCOUNT_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_PHONE_NUMBER>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "standby": {}
+          },
+          "field": "standby"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/marketing-messages/send-marketing-messages.md",
+    "secao": "Re-enable marketing messages on Cloud API",
+    "linha_do_bloco": 578,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}",
+    "nota": "disable_marketing_messages_on_cloud_api=false",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "disable_marketing_messages_on_cloud_api": false
+}

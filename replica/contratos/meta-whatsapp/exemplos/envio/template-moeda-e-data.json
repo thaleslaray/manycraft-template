@@ -1,0 +1,58 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-phone-number_message-api.v25.yaml",
+    "exemplo_openapi": "Send Sample Shipping Confirmation Template",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO. parâmetros currency e date_time",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "template": {
+    "components": [
+      {
+        "parameters": [
+          {
+            "text": "text-string",
+            "type": "text"
+          },
+          {
+            "currency": {
+              "amount_1000": 100990,
+              "code": "USD",
+              "fallback_value": "$100.99"
+            },
+            "type": "currency"
+          },
+          {
+            "date_time": {
+              "calendar": "GREGORIAN",
+              "day_of_month": 25,
+              "day_of_week": 5,
+              "fallback_value": "February 25, 1977",
+              "hour": 15,
+              "minute": 33,
+              "month": 2,
+              "year": 1977
+            },
+            "type": "date_time"
+          }
+        ],
+        "type": "body"
+      }
+    ],
+    "language": {
+      "code": "language-and-locale-code",
+      "policy": "deterministic"
+    },
+    "name": "template-name"
+  },
+  "to": "<WA_USER_PHONE>",
+  "type": "template"
+}

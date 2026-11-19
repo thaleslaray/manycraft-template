@@ -1,0 +1,52 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-phone-number_message-api.v25.yaml",
+    "exemplo_openapi": "Send Template Message with Image Header",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO.",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "template": {
+    "components": [
+      {
+        "parameters": [
+          {
+            "image": {
+              "link": "http(s)://example.com/order-shipped.png"
+            },
+            "type": "image"
+          }
+        ],
+        "type": "header"
+      },
+      {
+        "parameters": [
+          {
+            "text": "Sofia",
+            "type": "text"
+          },
+          {
+            "text": "order",
+            "type": "text"
+          }
+        ],
+        "type": "body"
+      }
+    ],
+    "language": {
+      "code": "en_US",
+      "policy": "deterministic"
+    },
+    "name": "shipping_update_header"
+  },
+  "to": "<WA_USER_PHONE>",
+  "type": "template"
+}

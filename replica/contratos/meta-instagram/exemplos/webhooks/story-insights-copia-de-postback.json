@@ -1,0 +1,46 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/webhooks/examples.md",
+    "secao": "`story_insights`",
+    "linha_do_bloco": 579,
+    "pagina_atualizada": "2026-09-16",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "story_insights",
+    "placeholders_aplicados": [
+      "<INSTAGRAM_SCOPED_ID>",
+      "<MESSAGE_ID>",
+      "<OPTION_OR_BUTTON_PAYLOAD>",
+      "<USER_SELECTED_ICEBREAKER_OPTION_OR_CTA_BUTTON>",
+      "<YOUR_APP_USERS_INSTAGRAM_USER_ID>"
+    ],
+    "nota": "CF-10: o exemplo do espelho para story_insights é um payload de postback.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<INSTAGRAM_SCOPED_ID>",
+      "time": 1502905976963,
+      "messaging": [
+        {
+          "sender": {
+            "id": "<INSTAGRAM_SCOPED_ID>"
+          },
+          "recipient": {
+            "id": "<YOUR_APP_USERS_INSTAGRAM_USER_ID>"
+          },
+          "timestamp": 1502905976377,
+          "postback": {
+            "mid": "<MESSAGE_ID>",
+            "title": "<USER_SELECTED_ICEBREAKER_OPTION_OR_CTA_BUTTON>",
+            "payload": "<OPTION_OR_BUTTON_PAYLOAD>"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/block-users.md",
+    "secao": "Example request",
+    "linha_do_bloco": 101,
+    "pagina_atualizada": "2026-06-26",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/block_users",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "nota": "até 1.000 usuários por requisição; lista de 64.000",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "block_users": [
+    {
+      "user": "<WA_USER_PHONE>"
+    },
+    {
+      "user": "<WA_USER_PHONE>"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/user_preferences.md",
+    "secao": "Example",
+    "linha_do_bloco": 86,
+    "pagina_atualizada": "2026-08-13",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "user_preferences",
+    "placeholders_aplicados": [
+      "<BSUID>",
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<PARENT_BSUID>",
+      "<PHONE_NUMBER_ID>",
+      "<WABA_ID>",
+      "<WA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "contacts": [
+              {
+                "wa_id": "<WA_ID>",
+                "user_id": "<BSUID>",
+                "parent_user_id": "<PARENT_BSUID>"
+              }
+            ],
+            "user_preferences": [
+              {
+                "wa_id": "<WA_ID>",
+                "user_id": "<BSUID>",
+                "parent_user_id": "<PARENT_BSUID>",
+                "detail": "User requested to resume marketing messages",
+                "category": "marketing_messages",
+                "value": "resume",
+                "timestamp": 1731705721
+              }
+            ]
+          },
+          "field": "user_preferences"
+        }
+      ]
+    }
+  ]
+}

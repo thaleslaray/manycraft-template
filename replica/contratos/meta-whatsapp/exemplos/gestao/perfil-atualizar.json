@@ -1,0 +1,26 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-phone-number_whatsapp-business-profile-api.v23.yaml",
+    "exemplo_openapi": "complete_profile_update",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/whatsapp_business_profile",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO. description 256 no contrato v23 vs 512 na prosa: CONFLITO",
+    "placeholders_aplicados": [
+      "<HANDLE_UPLOAD_RETOMAVEL>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "about": "Welcome to our business! We provide excellent service.\n",
+  "address": "123 Business Street, City, State 12345",
+  "description": "We are a leading provider of quality products and services.\n",
+  "email": "contact@business.com",
+  "profile_picture_handle": "<HANDLE_UPLOAD_RETOMAVEL>",
+  "websites": [
+    "https://www.business.com",
+    "https://www.facebook.com/business"
+  ],
+  "vertical": "RESTAURANT"
+}

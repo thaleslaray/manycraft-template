@@ -1,0 +1,46 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "manycraft-engine",
+  "main": "src/flow/entry.ts",
+  "compatibility_date": "2026-10-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "vars": { "APP_ENV": "production" },
+  // O D1 `manycraft` roda em ENAM (costa leste dos EUA). O Worker roda ao lado dele (região fixa, não Smart Placement,
+  // que não chegou a mover o Worker): cada ida ao banco fica local e só a resposta final viaja até o usuário.
+  // O cabeçalho `cf-placement` mostra onde rodou. Só afeta o `fetch` (o painel chama por service binding de fetch).
+  "placement": { "region": "aws:us-east-1" },
+  // Request URLs can contain OAuth bearer codes; never capture invocation logs.
+  "observability": { "enabled": true, "logs": { "enabled": true, "invocation_logs": false } },
+  "d1_databases": [{
+    "binding": "DB", "database_name": "manycraft",
+    "migrations_dir": "migrations"
+  }],
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "manycraft-media" }, { "binding": "INBOUND_MEDIA", "bucket_name": "manycraft-inbound-media" }],
+  "send_email": [{ "name": "EMAIL" }],
+  "ratelimits": [{ "name": "RL_AUTH", "namespace_id": "1001", "simple": { "limit": 30, "period": 60 } }],
+  "queues": {
+    "producers": [{ "binding": "INBOUND", "queue": "manycraft-inbound" }],
+    "consumers": [{ "queue": "manycraft-inbound", "max_batch_size": 50, "max_batch_timeout": 1, "max_retries": 10, "dead_letter_queue": "manycraft-inbound-dlq" }]
+  },
+  "workflows": [{ "name": "manycraft-flow", "binding": "FLOW_RUN", "class_name": "FlowRun" }],
+  "durable_objects": { "bindings": [{ "name": "INBOX_HUB", "class_name": "InboxHub" }, { "name": "CHANNEL_LIMITER", "class_name": "ChannelLimiter" }] },
+  "migrations": [{ "tag": "w2-inbox", "new_sqlite_classes": ["InboxHub", "ChannelLimiter"] }],
+  "triggers": { "crons": ["0 3 * * *", "*/5 * * * *", "* * * * *"] },
+  "env": {
+    "dev": {
+      "routes": [],
+      "vars": { "APP_ENV": "development" },
+      "workflows": [{ "name": "replica-flow-dev", "binding": "FLOW_RUN", "class_name": "FlowRun" }],
+      "durable_objects": { "bindings": [{ "name": "INBOX_HUB", "class_name": "InboxHub" }, { "name": "CHANNEL_LIMITER", "class_name": "ChannelLimiter" }] },
+      "send_email": [{ "name": "EMAIL" }],
+      "d1_databases": [{ "binding": "DB", "database_name": "replica", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "migrations" }],
+      "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "replica-media" }, { "binding": "INBOUND_MEDIA", "bucket_name": "replica-inbound-media" }],
+      "ratelimits": [{ "name": "RL_AUTH", "namespace_id": "1001", "simple": { "limit": 300, "period": 60 } }],
+      "queues": {
+        "producers": [{ "binding": "INBOUND", "queue": "inbound" }],
+        "consumers": [{ "queue": "inbound", "max_batch_size": 50, "max_batch_timeout": 1, "max_retries": 10, "dead_letter_queue": "inbound-dlq" }]
+      }
+    }
+  }
+}

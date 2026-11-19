@@ -1,0 +1,53 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/welcome-message-ads.md",
+    "secao": "Sample request",
+    "linha_do_bloco": 66,
+    "pagina_atualizada": "2026-06-30",
+    "metodo": "POST",
+    "rota": "/me/welcome_message_flows",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<QUICK_REPLY_TEXT_1>",
+      "<QUICK_REPLY_TEXT_1_WEBHOOK_CONTENT>",
+      "<QUICK_REPLY_TEXT_2>",
+      "<QUICK_REPLY_TEXT_2_WEBHOOK_CONTENT>",
+      "<QUICK_REPLY_TEXT_3>",
+      "<QUICK_REPLY_TEXT_3_WEBHOOK_CONTENT>",
+      "<WELCOME_MESSAGE_FLOW_NAME>",
+      "<WELCOME_MESSAGE_TEXT>"
+    ],
+    "nota": "CF-17: o original escreve `\"name\"=\"<...>\"`; corrigido para `\"name\": \"<...>\"`.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "eligible_platforms": [
+    "instagram"
+  ],
+  "name": "<WELCOME_MESSAGE_FLOW_NAME>",
+  "welcome_message_flow": [
+    {
+      "message": {
+        "text": "<WELCOME_MESSAGE_TEXT>",
+        "quick_replies": [
+          {
+            "content_type": "text",
+            "title": "<QUICK_REPLY_TEXT_1>",
+            "payload": "<QUICK_REPLY_TEXT_1_WEBHOOK_CONTENT>"
+          },
+          {
+            "content_type": "text",
+            "title": "<QUICK_REPLY_TEXT_2>",
+            "payload": "<QUICK_REPLY_TEXT_2_WEBHOOK_CONTENT>"
+          },
+          {
+            "content_type": "text",
+            "title": "<QUICK_REPLY_TEXT_3>",
+            "payload": "<QUICK_REPLY_TEXT_3_WEBHOOK_CONTENT>"
+          }
+        ]
+      }
+    }
+  ]
+}

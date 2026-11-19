@@ -1,0 +1,91 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/messages/interactive-media-carousel-messages.md",
+    "secao": "URL buttons example",
+    "linha_do_bloco": 167,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "nota": "type=carousel (fora do enum do OpenAPI: CONFLITO)",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WA_USER_PHONE>",
+  "type": "interactive",
+  "interactive": {
+    "type": "carousel",
+    "body": {
+      "text": "Of course! Here are three of our latest arrivals, each under $25:"
+    },
+    "action": {
+      "cards": [
+        {
+          "card_index": 0,
+          "type": "cta_url",
+          "header": {
+            "type": "image",
+            "image": {
+              "link": "https://www.luckyshrub.com/assets/blue-echeveria.jpeg"
+            }
+          },
+          "body": {
+            "text": "*Blue Echeveria*\n\nA rosette-shaped succulent with powdery blue leaves, perfect for brightening up any space."
+          },
+          "action": {
+            "name": "cta_url",
+            "parameters": {
+              "display_text": "Buy now",
+              "url": "https://shop.luckyshrub.com/latest/blue-echeveria"
+            }
+          }
+        },
+        {
+          "card_index": 1,
+          "type": "cta_url",
+          "header": {
+            "type": "image",
+            "image": {
+              "link": "https://www.luckyshrub.com/assets/zebra-haworthia.jpeg"
+            }
+          },
+          "body": {
+            "text": "*Zebra Haworthia*\n\nStriking white stripes on deep green leaves give this compact succulent a bold, modern look."
+          },
+          "action": {
+            "name": "cta_url",
+            "parameters": {
+              "display_text": "Buy now",
+              "url": "https://shop.luckyshrub.com/latest/zebra-haworthia"
+            }
+          }
+        },
+        {
+          "card_index": 2,
+          "type": "cta_url",
+          "header": {
+            "type": "image",
+            "image": {
+              "link": "https://www.luckyshrub.com/assets/panda-plant.jpeg"
+            }
+          },
+          "body": {
+            "text": "*Panda Plant*\n\nSoft, fuzzy leaves with chocolate-brown edges—adorable and easy to care for."
+          },
+          "action": {
+            "name": "cta_url",
+            "parameters": {
+              "display_text": "Buy now",
+              "url": "https://shop.luckyshrub.com/latest/panda-plant"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

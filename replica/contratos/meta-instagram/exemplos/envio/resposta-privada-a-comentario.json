@@ -1,0 +1,25 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/private-replies.md",
+    "secao": "Sample request",
+    "linha_do_bloco": 54,
+    "pagina_atualizada": "2026-06-30",
+    "metodo": "POST",
+    "rota": "/<IG_ID>/messages",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<COMMENT_ID>",
+      "<COMMENT_TEXT>"
+    ],
+    "nota": "recipient.comment_id no lugar de recipient.id. Uma só mensagem por comentário, em até 7 dias.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "comment_id": "<COMMENT_ID>"
+  },
+  "message": {
+    "text": "<COMMENT_TEXT>"
+  }
+}

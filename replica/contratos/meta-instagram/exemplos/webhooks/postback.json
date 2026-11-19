@@ -1,0 +1,44 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/webhooks.md",
+    "secao": "Messaging postbacks",
+    "linha_do_bloco": 194,
+    "pagina_atualizada": "2026-09-16",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "messaging_postbacks",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<IG_ID>",
+      "<MESSAGE_ID>"
+    ],
+    "nota": "Toque em ice breaker, botão de template ou menu. O `id` da entry está escrito \"IGSID\" no original (engano: é o ID da conta); aqui <IG_ID>.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<IG_ID>",
+      "time": 1502905976963,
+      "messaging": [
+        {
+          "sender": {
+            "id": "<IGSID>"
+          },
+          "recipient": {
+            "id": "<IG_ID>"
+          },
+          "timestamp": 1502905976377,
+          "postback": {
+            "mid": "<MESSAGE_ID>",
+            "title": "SELECTED-ICEBREAKER-REPLY-OR-CTA-BUTTON",
+            "payload": "CUSTOMER-RESPONSE-PAYLOAD"
+          }
+        }
+      ]
+    }
+  ]
+}

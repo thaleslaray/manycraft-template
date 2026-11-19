@@ -1,0 +1,32 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-account_conversational-automation-api.v25.yaml",
+    "exemplo_openapi": "full_automation_setup",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/conversational_automation",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO. prompts (ice breakers) e commands",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "enable_welcome_message": true,
+  "prompts": [
+    "Welcome! How can I assist you?",
+    "Are you looking for product information?",
+    "Do you need help with an existing order?"
+  ],
+  "commands": [
+    {
+      "command_name": "catalog",
+      "command_description": "View our product catalog"
+    },
+    {
+      "command_name": "hours",
+      "command_description": "Check our business hours"
+    },
+    {
+      "command_name": "location",
+      "command_description": "Find our store locations"
+    }
+  ]
+}

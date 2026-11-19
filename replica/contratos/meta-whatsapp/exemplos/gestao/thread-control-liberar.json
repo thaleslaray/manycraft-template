@@ -1,0 +1,17 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/conversation-routing/thread-control.md",
+    "secao": "Release",
+    "linha_do_bloco": 127,
+    "pagina_atualizada": "2026-10-12",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/thread_control",
+    "nota": "action=release",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "to": "<WHATSAPP_USER_PHONE_NUMBER>",
+  "action": "release"
+}

@@ -1,0 +1,48 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/webhooks/examples.md",
+    "secao": "`message_edit`",
+    "linha_do_bloco": 382,
+    "pagina_atualizada": "2026-09-16",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "message_edit",
+    "placeholders_aplicados": [
+      "<INSTAGRAM_SCOPED_ID>",
+      "<MESSAGE_ID>",
+      "<NUMBER_OF_TIMES_MESSAGE_IS_EDITED>",
+      "<TIME_NOTIFICATION_WAS_SENT>",
+      "<TIME_WEBHOOK_WAS_TRIGGERED>",
+      "<USER_EDITED_MESSAGE>",
+      "<YOUR_APP_USERS_INSTAGRAM_USER_ID>"
+    ],
+    "nota": "CF-07: fora da tabela de campos. num_edit aparece como string no original. A doc embrulha o exemplo numa lista de um item; o corpo enviado pela Meta é o objeto.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<YOUR_APP_USERS_INSTAGRAM_USER_ID>",
+      "time": "<TIME_NOTIFICATION_WAS_SENT>",
+      "messaging": [
+        {
+          "sender": {
+            "id": "<INSTAGRAM_SCOPED_ID>"
+          },
+          "recipient": {
+            "id": "<YOUR_APP_USERS_INSTAGRAM_USER_ID>"
+          },
+          "timestamp": "<TIME_WEBHOOK_WAS_TRIGGERED>",
+          "message_edit": {
+            "mid": "<MESSAGE_ID>",
+            "text": "<USER_EDITED_MESSAGE>",
+            "num_edit": "<NUMBER_OF_TIMES_MESSAGE_IS_EDITED>"
+          }
+        }
+      ]
+    }
+  ]
+}

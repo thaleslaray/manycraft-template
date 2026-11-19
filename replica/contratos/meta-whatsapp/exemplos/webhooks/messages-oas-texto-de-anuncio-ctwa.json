@@ -1,0 +1,72 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/webhooks_whatsapp-incoming-webhook-payload.v25.yaml",
+    "exemplo_openapi": "Text Message from Click to WhatsApp Ad",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO. exemplo do contrato OpenAPI do webhook",
+    "placeholders_aplicados": [
+      "<AD_ID>",
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<CTWA_CLID>",
+      "<PHONE_NUMBER_ID>",
+      "<WABA_ID>",
+      "<WAMID>",
+      "<WA_ID>",
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "Sheena Nelson"
+                },
+                "wa_id": "<WA_ID>"
+              }
+            ],
+            "messages": [
+              {
+                "referral": {
+                  "source_url": "https://fb.me/3cr4Wqqkv",
+                  "source_id": "<AD_ID>",
+                  "source_type": "ad",
+                  "body": "Summer Succulents are here!",
+                  "headline": "Chat with us",
+                  "media_type": "image",
+                  "image_url": "https://scontent.xx.fbcdn.net/v/t45.1...",
+                  "ctwa_clid": "<CTWA_CLID>",
+                  "welcome_message": {
+                    "text": "Hi there! Let us know how we can help!"
+                  }
+                },
+                "from": "<WA_USER_PHONE>",
+                "id": "<WAMID>",
+                "timestamp": "1750275992",
+                "text": {
+                  "body": "Hello! Can I get more info on this?"
+                },
+                "type": "text"
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

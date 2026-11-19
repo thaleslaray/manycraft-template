@@ -1,0 +1,15 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/marketing-messages/send-marketing-messages.md",
+    "secao": "Example request {#disable-mm-example-request}",
+    "linha_do_bloco": 509,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}",
+    "nota": "disable_marketing_messages_on_cloud_api=true (erro 131063 em /messages)",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "disable_marketing_messages_on_cloud_api": true
+}

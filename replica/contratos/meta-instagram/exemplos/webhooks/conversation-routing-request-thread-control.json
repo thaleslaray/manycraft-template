@@ -1,0 +1,27 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/features/conversation-routing/apis.md",
+    "secao": "Webhook notification example",
+    "linha_do_bloco": 312,
+    "pagina_atualizada": "2026-09-28",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "FL",
+    "campo_webhook": "messaging_handover",
+    "placeholders_aplicados": [],
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "sender": {
+    "id": "IGSID"
+  },
+  "recipient": {
+    "id": "BusinessId"
+  },
+  "timestamp": "UNIX-TIMESTAMP",
+  "request_thread_control": {
+    "requested_owner_app_id": "APP-ASKING-FOR-THREAD-CONTROL",
+    "metadata": "Information about the conversation"
+  }
+}

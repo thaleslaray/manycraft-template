@@ -1,0 +1,40 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/account_update.md",
+    "secao": "Partner-led business verification status",
+    "linha_do_bloco": 462,
+    "pagina_atualizada": "2026-10-02",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "account_update",
+    "placeholders_aplicados": [
+      "<BUSINESS_PORTFOLIO_ID>",
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1743138982,
+      "changes": [
+        {
+          "value": {
+            "event": "PARTNER_CLIENT_CERTIFICATION_STATUS_UPDATE",
+            "partner_client_certification_info": {
+              "client_business_id": "<BUSINESS_PORTFOLIO_ID>",
+              "status": "APPROVED",
+              "rejection_reasons": [
+                "NONE"
+              ]
+            }
+          },
+          "field": "account_update"
+        }
+      ]
+    }
+  ],
+  "object": "whatsapp_business_account"
+}

@@ -1,0 +1,37 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/templates/time-to-live.md",
+    "secao": "Example request",
+    "linha_do_bloco": 40,
+    "pagina_atualizada": "2026-06-24",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}/message_templates",
+    "nota": "message_send_ttl_seconds=120 em template de marketing (a prosa manda criar em /{phone_number_id}/message_templates, o curl usa o ID da conta: CONFLITO)",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "name": "test_template",
+  "language": "en_US",
+  "category": "MARKETING",
+  "message_send_ttl_seconds": 120,
+  "components": [
+    {
+      "type": "BODY",
+      "text": "Shop now through {{1}} and use code {{2}} to get {{3}} off of all merchandise.",
+      "example": {
+        "body_text": [
+          [
+            "the end of August",
+            "25OFF",
+            "25%"
+          ]
+        ]
+      }
+    },
+    {
+      "type": "FOOTER",
+      "text": "Use the buttons below to manage your marketing subscriptions"
+    }
+  ]
+}

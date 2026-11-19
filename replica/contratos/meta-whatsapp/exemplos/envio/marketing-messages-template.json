@@ -1,0 +1,25 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-phone-number_marketing-messages-api-for-whatsapp.v25.yaml",
+    "exemplo_openapi": "Simple Template Message",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/marketing_messages",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO. Marketing Messages API; POST /marketing_messages aceita só template de marketing",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WA_USER_PHONE>",
+  "type": "template",
+  "template": {
+    "name": "hello_world",
+    "language": {
+      "code": "en"
+    }
+  }
+}

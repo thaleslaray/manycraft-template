@@ -1,0 +1,34 @@
+{
+  "name": "replica-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --env dev --local",
+    "typecheck": "tsc --noEmit",
+    "build": "wrangler deploy --dry-run --outdir dist --env=",
+    "test": "vitest run",
+    "db:migrate": "wrangler d1 migrations apply DB --local --env dev",
+    "db:auth-schema": "node scripts/generate-auth.mjs",
+    "db:seed": "wrangler d1 execute DB --local --env dev --file scripts/seed.sql",
+    "db:e2e": "node scripts/db-e2e.mjs",
+    "telegram:webhook": "node scripts/telegram-webhook.mjs",
+    "telegram:seed": "node scripts/seed-telegram.mjs",
+    "test:scripts": "node --test scripts/telegram.test.mjs scripts/migrate-env-credentials.test.mjs scripts/seed-paridade.test.mjs",
+    "check:leaks": "node scripts/check-channel-leaks.mjs"
+  },
+  "dependencies": {
+    "better-auth": "1.7.12",
+    "hono": "4.13.13",
+    "postal-mime": "^4.1.4",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "1.4.7",
+    "@cloudflare/workers-types": "5.20261023.1",
+    "@types/node": "26.6.5",
+    "typescript": "7.0.2",
+    "vitest": "5.0.5",
+    "wrangler": "4.152.0"
+  }
+}

@@ -1,0 +1,7 @@
+node_modules
+dist
+.wrangler
+.dev.vars*
+*.tsbuildinfo
+e2e/.resultados
+test-results

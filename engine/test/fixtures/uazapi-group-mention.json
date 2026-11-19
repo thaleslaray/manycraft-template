@@ -1,0 +1,25 @@
+{
+  "_aviso": "FIXTURE SINTETICA, NAO CAPTURADA. A doc UAZAPI v2.6.7 nao descreve a mencao recebida (message.content 'nao possui um formato unico'). Formato assumido: content do WhatsApp com contextInfo.mentionedJID (lista de JIDs). Substituir por payload real na jornada em grupo de teste.",
+  "EventType": "messages",
+  "owner": "5511999999999",
+  "token": "UZ-INSTANCE-TOKEN",
+  "BaseUrl": "https://loja.uazapi.com",
+  "instanceName": "Loja",
+  "message": {
+    "id": "5511999999999:GRP-MENTION-1",
+    "messageid": "GRP-MENTION-1",
+    "chatid": "120363153742561022@g.us",
+    "sender": "5511888888888@s.whatsapp.net",
+    "senderName": "Ana",
+    "fromMe": false,
+    "isGroup": true,
+    "groupName": "Clube da Loja",
+    "messageType": "ExtendedTextMessage",
+    "text": "@5511999999999 quero o guia",
+    "messageTimestamp": 1788868800000,
+    "content": {
+      "text": "@5511999999999 quero o guia",
+      "contextInfo": { "mentionedJID": ["5511999999999@s.whatsapp.net"] }
+    }
+  }
+}

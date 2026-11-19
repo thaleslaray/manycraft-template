@@ -1,0 +1,42 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/account_update.md",
+    "secao": "Account restriction",
+    "linha_do_bloco": 203,
+    "pagina_atualizada": "2026-10-02",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "account_update",
+    "placeholders_aplicados": [
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1641330498,
+      "changes": [
+        {
+          "value": {
+            "event": "ACCOUNT_RESTRICTION",
+            "restriction_info": [
+              {
+                "restriction_type": "RESTRICTED_BIZ_INITIATED_MESSAGING",
+                "expiration": 1641330498
+              },
+              {
+                "restriction_type": "RESTRICTED_ADD_PHONE_NUMBER_ACTION",
+                "expiration": 1641330498
+              }
+            ]
+          },
+          "field": "account_update"
+        }
+      ]
+    }
+  ]
+}

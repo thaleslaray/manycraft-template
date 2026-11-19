@@ -1,0 +1,24 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/in-app-signup.md",
+    "secao": "Example request",
+    "linha_do_bloco": 104,
+    "pagina_atualizada": "2026-07-03",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}/signups",
+    "nota": "deep link de opt-in; 1a criação exige policy.tos",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "signup_message": "Get exclusive offers and news delivered directly to your WhatsApp!",
+  "confirmation_message": "Thank you for signing up! Here is your welcome code: {{promo_code}}.",
+  "privacy_policy_url": "https://example-business.com/privacy-policy",
+  "promo_code": "WELCOME10",
+  "display_name": "Summer Sale Signup",
+  "website_url": "https://example-business.com",
+  "policy": {
+    "tos": "https://www.facebook.com/legal/ads-manager-marketing-messages-terms",
+    "accepted": true
+  }
+}

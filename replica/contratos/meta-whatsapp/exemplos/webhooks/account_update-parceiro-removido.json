@@ -1,0 +1,37 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/account_update.md",
+    "secao": "Partner removed",
+    "linha_do_bloco": 493,
+    "pagina_atualizada": "2026-10-02",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "account_update",
+    "placeholders_aplicados": [
+      "<BUSINESS_PORTFOLIO_ID>",
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1748477359,
+      "changes": [
+        {
+          "value": {
+            "event": "PARTNER_REMOVED",
+            "waba_info": {
+              "waba_id": "<WABA_ID>",
+              "owner_business_id": "<BUSINESS_PORTFOLIO_ID>"
+            }
+          },
+          "field": "account_update"
+        }
+      ]
+    }
+  ]
+}

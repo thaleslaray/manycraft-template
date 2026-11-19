@@ -1,0 +1,30 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/features/send-message.md",
+    "secao": "Sample request: Sending one image",
+    "linha_do_bloco": 81,
+    "pagina_atualizada": "2026-07-02",
+    "metodo": "POST",
+    "rota": "/me/messages",
+    "login": "FL",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<IMAGE_URL>"
+    ],
+    "nota": "Versão do Messenger Platform: uma imagem em `attachment` (objeto). Compare com CF-03.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "message": {
+    "attachment": {
+      "type": "image",
+      "payload": {
+        "url": "<IMAGE_URL>"
+      }
+    }
+  }
+}

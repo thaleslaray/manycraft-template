@@ -1,0 +1,32 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/direct-send/supported-message-types.md",
+    "secao": "Example request",
+    "linha_do_bloco": 160,
+    "pagina_atualizada": "2026-10-14",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "nota": "Direct Send: campo category=utility no corpo de /messages (sem template)",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WHATSAPP_USER_PHONE_NUMBER>",
+  "type": "interactive",
+  "category": "utility",
+  "interactive": {
+    "type": "voice_call",
+    "body": {
+      "text": "Call our support team for help with your order."
+    },
+    "action": {
+      "name": "voice_call",
+      "parameters": {
+        "display_text": "Call Support",
+        "ttl_minutes": 1440
+      }
+    }
+  }
+}

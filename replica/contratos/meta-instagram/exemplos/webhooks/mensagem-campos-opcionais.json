@@ -1,0 +1,89 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/webhooks/examples.md",
+    "secao": "`message`",
+    "linha_do_bloco": 163,
+    "pagina_atualizada": "2026-09-16",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "messages",
+    "placeholders_aplicados": [
+      "<AD_ID>",
+      "<AD_REF_PARAMETER_VALUE_IF_SET>",
+      "<AD_TITLE>",
+      "<ATTACHMENT_MEDIA_TYPE>",
+      "<CDN_URL_FOR_THE_STORY>",
+      "<IMAGE_URL_THAT_WAS_SELECTED>",
+      "<MESSAGE_ID>",
+      "<MESSAGE_TEXT>",
+      "<QUICK_REPLY_OPTION_SELECTED>",
+      "<RECIPIENT_ID>",
+      "<SENDER_ID>",
+      "<STORY_ID>",
+      "<THUMBNAIL_URL_FOR_THE_AD_VIDEO>",
+      "<TIME_NOTIFICATION_WAS_SENT>",
+      "<TIME_WEBHOOK_WAS_TRIGGERED>",
+      "<URL_FOR_THE_MEDIA>",
+      "<YOUR_APP_USERS_INSTAGRAM_USER_ID>"
+    ],
+    "nota": "Referência de campos, não um evento real: as chaves opcionais nunca chegam todas juntas. Montado do bloco `message`, que tem duas chaves reply_to e vírgulas faltando; o reply_to de mensagem (`mid`) está em mensagem-resposta-inline.json.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<YOUR_APP_USERS_INSTAGRAM_USER_ID>",
+      "time": "<TIME_NOTIFICATION_WAS_SENT>",
+      "messaging": [
+        {
+          "sender": {
+            "id": "<SENDER_ID>"
+          },
+          "recipient": {
+            "id": "<RECIPIENT_ID>"
+          },
+          "timestamp": "<TIME_WEBHOOK_WAS_TRIGGERED>",
+          "message": {
+            "mid": "<MESSAGE_ID>",
+            "attachments": [
+              {
+                "type": "<ATTACHMENT_MEDIA_TYPE>",
+                "payload": {
+                  "url": "<URL_FOR_THE_MEDIA>"
+                }
+              }
+            ],
+            "is_deleted": true,
+            "is_echo": true,
+            "is_self": true,
+            "is_unsupported": true,
+            "quick_reply": {
+              "payload": "<QUICK_REPLY_OPTION_SELECTED>"
+            },
+            "referral": {
+              "ref": "<AD_REF_PARAMETER_VALUE_IF_SET>",
+              "ad_id": "<AD_ID>",
+              "source": "ADS",
+              "type": "OPEN_THREAD",
+              "ads_context_data": {
+                "ad_title": "<AD_TITLE>",
+                "photo_url": "<IMAGE_URL_THAT_WAS_SELECTED>",
+                "video_url": "<THUMBNAIL_URL_FOR_THE_AD_VIDEO>"
+              }
+            },
+            "reply_to": {
+              "story": {
+                "url": "<CDN_URL_FOR_THE_STORY>",
+                "id": "<STORY_ID>"
+              }
+            },
+            "text": "<MESSAGE_TEXT>"
+          }
+        }
+      ]
+    }
+  ]
+}

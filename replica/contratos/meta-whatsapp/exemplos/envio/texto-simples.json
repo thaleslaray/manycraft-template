@@ -1,0 +1,23 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-phone-number_message-api.v25.yaml",
+    "exemplo_openapi": "Send Text Message",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO. texto sem preview",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "text": {
+    "body": "text-message-content",
+    "preview_url": false
+  },
+  "to": "<WA_USER_PHONE>",
+  "type": "text"
+}

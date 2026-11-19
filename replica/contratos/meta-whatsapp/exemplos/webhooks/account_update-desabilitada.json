@@ -1,0 +1,36 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/account_update.md",
+    "secao": "Disabled update",
+    "linha_do_bloco": 318,
+    "pagina_atualizada": "2026-10-02",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "account_update",
+    "placeholders_aplicados": [
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1743451903,
+      "changes": [
+        {
+          "value": {
+            "event": "DISABLED_UPDATE",
+            "ban_info": {
+              "waba_ban_state": "REINSTATE",
+              "waba_ban_date": "April 17, 2025"
+            }
+          },
+          "field": "account_update"
+        }
+      ]
+    }
+  ]
+}

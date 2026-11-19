@@ -1,0 +1,42 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api/button-template.md",
+    "secao": "Example Request {#example_request}",
+    "linha_do_bloco": 47,
+    "pagina_atualizada": "2026-06-30",
+    "metodo": "POST",
+    "rota": "/me/messages",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<IGSID>"
+    ],
+    "nota": "Exemplo da doc em v20.0 com ?access_token=. text até 640 caracteres, 1 a 3 botões.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "button",
+        "text": "What do you want to do next?",
+        "buttons": [
+          {
+            "type": "web_url",
+            "url": "https://www.instagram.com",
+            "title": "Visit Instagram"
+          },
+          {
+            "type": "postback",
+            "payload": "postback_payload",
+            "title": "postback button"
+          }
+        ]
+      }
+    }
+  }
+}

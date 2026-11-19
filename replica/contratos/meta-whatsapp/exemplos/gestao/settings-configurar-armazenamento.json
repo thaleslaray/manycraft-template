@@ -1,0 +1,16 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-phone-number_settings-api.v23.yaml",
+    "exemplo_openapi": "Configure data storage",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/settings",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO. storage_configuration {enabled, region} no contrato vs {status} na prosa: CONFLITO",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "storage_configuration": {
+    "enabled": true,
+    "region": "us"
+  }
+}

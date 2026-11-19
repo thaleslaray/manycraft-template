@@ -1,0 +1,41 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/templates/authentication-templates/autofill-button-authentication-templates.md",
+    "secao": "Example request",
+    "linha_do_bloco": 95,
+    "pagina_atualizada": "2026-10-06",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}/message_templates",
+    "nota": "botão OTP one_tap com supported_apps",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "name": "authentication_code_autofill_button",
+  "language": "en_US",
+  "category": "authentication",
+  "message_send_ttl_seconds": 60,
+  "components": [
+    {
+      "type": "body",
+      "add_security_recommendation": true
+    },
+    {
+      "type": "footer",
+      "code_expiration_minutes": 10
+    },
+    {
+      "type": "buttons",
+      "buttons": [
+        {
+          "type": "otp",
+          "otp_type": "one_tap",
+          "text": "Copy Code",
+          "autofill_text": "Autofill",
+          "package_name": "com.example.luckyshrub",
+          "signature_hash": "K8a/AINcGX7"
+        }
+      ]
+    }
+  ]
+}

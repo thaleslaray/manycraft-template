@@ -1,0 +1,21 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-phone-number_block-api.v25.yaml",
+    "exemplo_openapi": "Block user(s)",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/block_users",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO.",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "block_users": [
+    {
+      "user": "<WA_USER_PHONE>"
+    }
+  ],
+  "messaging_product": "whatsapp"
+}

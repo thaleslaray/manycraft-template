@@ -1,0 +1,55 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/messages/interactive-reply-buttons-messages.md",
+    "secao": "Example request",
+    "linha_do_bloco": 69,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "placeholders_aplicados": [
+      "<MEDIA_ID>",
+      "<WA_USER_PHONE>"
+    ],
+    "nota": "type=button; cabeçalho de imagem",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WA_USER_PHONE>",
+  "type": "interactive",
+  "interactive": {
+    "type": "button",
+    "header": {
+      "type": "image",
+      "image": {
+        "id": "<MEDIA_ID>"
+      }
+    },
+    "body": {
+      "text": "Hi Pablo! Your gardening workshop is scheduled for 9am tomorrow. Use the buttons if you need to reschedule. Thank you!"
+    },
+    "footer": {
+      "text": "Lucky Shrub: Your gateway to succulents!™"
+    },
+    "action": {
+      "buttons": [
+        {
+          "type": "reply",
+          "reply": {
+            "id": "change-button",
+            "title": "Change"
+          }
+        },
+        {
+          "type": "reply",
+          "reply": {
+            "id": "cancel-button",
+            "title": "Cancel"
+          }
+        }
+      ]
+    }
+  }
+}

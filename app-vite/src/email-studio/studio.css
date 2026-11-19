@@ -1,0 +1,11 @@
+html,body,#root{height:100%;margin:0;font-family:Arial,sans-serif;background:var(--color-bg);color:var(--color-text)}
+body{--color-primary:var(--color-accent);--color-bg-1:var(--color-surface);--color-bg-2:var(--color-bg);--color-text-1:var(--color-text);--color-text-2:var(--color-text-muted);--color-border-2:var(--color-border)}
+.arco-layout{background:var(--color-bg)}
+button,input,select{font-family:inherit}
+
+.arco-tabs-header-title-active,.arco-tabs-header-title:hover{color:var(--color-accent)}
+.arco-tabs-header-ink{background-color:var(--color-accent)}
+.arco-btn-primary{background-color:var(--color-accent);border-color:var(--color-accent)}
+
+/* Cores da marca no lugar do azul do Easy Email: seleção do canvas, abas, links e botões usam a escala --primary. */
+body{--primary-1:255,237,229;--primary-2:255,214,194;--primary-3:255,190,158;--primary-4:255,160,114;--primary-5:255,120,52;--primary-6:255,77,0;--primary-7:217,63,0;--primary-8:179,50,0;--primary-9:140,38,0;--primary-10:100,26,0}

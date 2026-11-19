@@ -1,0 +1,59 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-phone-number_message-api.v25.yaml",
+    "exemplo_openapi": "Send Template Message with Quick Reply Buttons",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO. sub_type=quick_reply; payload",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "template": {
+    "components": [
+      {
+        "parameters": [
+          {
+            "text": "text-string",
+            "type": "text"
+          }
+        ],
+        "type": "body"
+      },
+      {
+        "index": "0",
+        "parameters": [
+          {
+            "payload": "ORDER_DETAILS",
+            "type": "payload"
+          }
+        ],
+        "sub_type": "quick_reply",
+        "type": "button"
+      },
+      {
+        "index": "1",
+        "parameters": [
+          {
+            "payload": "CHANGE_SHIPPING_ADDRESS",
+            "type": "payload"
+          }
+        ],
+        "sub_type": "quick_reply",
+        "type": "button"
+      }
+    ],
+    "language": {
+      "code": "en_US",
+      "policy": "deterministic"
+    },
+    "name": "order_update_buttons"
+  },
+  "to": "<WA_USER_PHONE>",
+  "type": "template"
+}

@@ -1,0 +1,33 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/account_update.md",
+    "secao": "Primary business location set",
+    "linha_do_bloco": 549,
+    "pagina_atualizada": "2026-10-02",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "account_update",
+    "placeholders_aplicados": [
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1743138982,
+      "changes": [
+        {
+          "value": {
+            "country": "IN",
+            "event": "BUSINESS_PRIMARY_LOCATION_COUNTRY_UPDATE"
+          },
+          "field": "account_update"
+        }
+      ]
+    }
+  ]
+}

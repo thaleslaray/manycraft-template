@@ -1,0 +1,18 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api/ice-breakers.md",
+    "secao": "Sample request",
+    "linha_do_bloco": 184,
+    "pagina_atualizada": "2026-06-30",
+    "metodo": "DELETE",
+    "rota": "/me/messenger_profile",
+    "login": "IL",
+    "placeholders_aplicados": [],
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "fields": [
+    "ice_breakers"
+  ]
+}

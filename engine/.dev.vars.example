@@ -1,0 +1,22 @@
+# Copie para .dev.vars. Preencha localmente; nunca versione credenciais.
+# Preencha APP_ENV com development localmente. Use HTTPS para cookies Secure.
+DEV_AUTO_LOGIN=
+DEV_WORKSPACE_ID=
+APP_ENV=
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+EMAIL_FROM=
+# Domínio reservado de desenvolvimento; produção exige domínio próprio autenticado.
+EMAIL_DEFAULT_DOMAIN=mail.replica.test
+MEDIA_PUBLIC_URL=
+# Chave mestra das conexões (única credencial de canal no ambiente): 32 bytes em base64.
+# Gere com: openssl rand -base64 32   (em produção: wrangler secret put CONNECTIONS_KEK_V1)
+# Trocar de chave = criar CONNECTIONS_KEK_V2, apontar CONNECTIONS_KEK_ACTIVE=2 e manter a V1 enquanto houver linhas nela.
+CONNECTIONS_KEK_V1=
+CONNECTIONS_KEK_ACTIVE=1
+# URL pública do painel/engine para o webhook de cada conexão (opcional; padrão: origem da requisição).
+PUBLIC_BASE_URL=
+# Só desenvolvimento: aponta as conexões novas para uma API de provedor falsa (jornadas no navegador).
+DEV_PROVIDER_API_BASE=

@@ -1,0 +1,36 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api/ice-breakers.md",
+    "secao": "Sample request",
+    "linha_do_bloco": 60,
+    "pagina_atualizada": "2026-06-30",
+    "metodo": "POST",
+    "rota": "/<IG_ID>/messenger_profile",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<PAYLOAD_FOR_QUESTION_1>",
+      "<PAYLOAD_FOR_QUESTION_2>",
+      "<QUESTION_1>",
+      "<QUESTION_2>"
+    ],
+    "nota": "Até 4 perguntas.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "platform": "instagram",
+  "ice_breakers": [
+    {
+      "call_to_actions": [
+        {
+          "question": "<QUESTION_1>",
+          "payload": "<PAYLOAD_FOR_QUESTION_1>"
+        },
+        {
+          "question": "<QUESTION_2>",
+          "payload": "<PAYLOAD_FOR_QUESTION_2>"
+        }
+      ]
+    }
+  ]
+}

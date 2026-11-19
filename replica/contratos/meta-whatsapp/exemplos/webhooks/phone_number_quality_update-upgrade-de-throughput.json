@@ -1,0 +1,35 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/phone_number_quality_update.md",
+    "secao": "Example",
+    "linha_do_bloco": 56,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "phone_number_quality_update",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1748454394,
+      "changes": [
+        {
+          "value": {
+            "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+            "event": "THROUGHPUT_UPGRADE",
+            "current_limit": "TIER_UNLIMITED"
+          },
+          "field": "phone_number_quality_update"
+        }
+      ]
+    }
+  ],
+  "object": "whatsapp_business_account"
+}

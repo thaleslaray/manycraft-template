@@ -1,0 +1,39 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/account_update.md",
+    "secao": "Ad account linked",
+    "linha_do_bloco": 260,
+    "pagina_atualizada": "2026-10-02",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "account_update",
+    "placeholders_aplicados": [
+      "<AD_ACCOUNT_ID>",
+      "<BUSINESS_PORTFOLIO_ID>",
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1744823932,
+      "changes": [
+        {
+          "field": "account_update",
+          "value": {
+            "event": "AD_ACCOUNT_LINKED",
+            "waba_info": {
+              "owner_business_id": "<BUSINESS_PORTFOLIO_ID>",
+              "ad_account_linked": "<AD_ACCOUNT_ID>",
+              "waba_id": "<WABA_ID>"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/business-scoped-user-ids.md",
+    "secao": "Revoke messages webhooks",
+    "linha_do_bloco": 2759,
+    "pagina_atualizada": "2026-09-15",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "messages",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WHATSAPP_BUSINESS_ACCOUNT_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE_NUMBER>",
+              "phone_number_id": "<BUSINESS_PHONE_NUMBER_ID>"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "<WHATSAPP_USER_PROFILE_NAME>",
+                  "username": "<USERNAME>"
+                },
+                "wa_id": "<WHATSAPP_USER_ID>",
+                "user_id": "<BSUID>",
+                "parent_user_id": "<PARENT_BSUID>"
+              }
+            ],
+            "messages": [
+              {
+                "from": "<WHATSAPP_USER_PHONE_NUMBER>",
+                "from_user_id": "<BSUID>",
+                "from_parent_user_id": "<PARENT_BSUID>",
+                "id": "<WHATSAPP_MESSAGE_ID>",
+                "timestamp": "<WEBHOOK_TRIGGER_TIMESTAMP>",
+                "type": "revoke",
+                "revoke": {
+                  "original_message_id": "<ORIGINAL_WHATSAPP_MESSAGE_ID>"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

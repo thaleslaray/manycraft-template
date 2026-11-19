@@ -1,0 +1,130 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/templates/marketing-templates/media-card-carousel-templates.md",
+    "secao": "Example request",
+    "linha_do_bloco": 116,
+    "pagina_atualizada": "2026-06-24",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}/message_templates",
+    "placeholders_aplicados": [
+      "<HANDLE_UPLOAD_RETOMAVEL>"
+    ],
+    "nota": "carrossel de 2 a 10 cards",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "name": "carousel_template_media_cards_v1",
+  "language": "en_US",
+  "category": "marketing",
+  "components": [
+    {
+      "type": "body",
+      "text": "Rare succulents for sale! {{1}}, add these unique plants to your collection. Each of these rare succulents are {{2}} if you checkout using code {{3}}. Shop now and add some unique and beautiful plants to your collection!",
+      "example": {
+        "body_text": [
+          [
+            "Pablo",
+            "30%",
+            "30OFF"
+          ]
+        ]
+      }
+    },
+    {
+      "type": "carousel",
+      "cards": [
+        {
+          "components": [
+            {
+              "type": "header",
+              "format": "image",
+              "example": {
+                "header_handle": [
+                  "<HANDLE_UPLOAD_RETOMAVEL>"
+                ]
+              }
+            },
+            {
+              "type": "buttons",
+              "buttons": [
+                {
+                  "type": "quick_reply",
+                  "text": "Send me more like this!"
+                },
+                {
+                  "type": "url",
+                  "text": "Shop",
+                  "url": "https://www.luckyshrub.com/rare-succulents/{{1}}",
+                  "example": [
+                    "BLUE_ELF"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "header",
+              "format": "image",
+              "example": {
+                "header_handle": [
+                  "<HANDLE_UPLOAD_RETOMAVEL>"
+                ]
+              }
+            },
+            {
+              "type": "buttons",
+              "buttons": [
+                {
+                  "type": "quick_reply",
+                  "text": "Send me more like this!"
+                },
+                {
+                  "type": "url",
+                  "text": "Shop",
+                  "url": "https://www.luckyshrub.com/rare-succulents/{{1}}",
+                  "example": [
+                    "BUDDHA"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "header",
+              "format": "image",
+              "example": {
+                "header_handle": [
+                  "<HANDLE_UPLOAD_RETOMAVEL>"
+                ]
+              }
+            },
+            {
+              "type": "buttons",
+              "buttons": [
+                {
+                  "type": "quick_reply",
+                  "text": "Send me more like this!"
+                },
+                {
+                  "type": "url",
+                  "text": "Shop",
+                  "url": "https://www.luckyshrub.com/rare-succulents/{{1}}",
+                  "example": [
+                    "BLACK_PRINCE"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

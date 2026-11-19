@@ -1,0 +1,30 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api.md",
+    "secao": "Sample Request",
+    "linha_do_bloco": 297,
+    "pagina_atualizada": "2026-09-28",
+    "metodo": "POST",
+    "rota": "/<IG_ID>/messages",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<AUDIO_VIDEO_OR_FILE_URL>",
+      "<IGSID>"
+    ],
+    "nota": "O original comenta \"Or set to video or file\": troque `type` por video ou file. Uma só chave `attachment`.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "message": {
+    "attachment": {
+      "type": "audio",
+      "payload": {
+        "url": "<AUDIO_VIDEO_OR_FILE_URL>"
+      }
+    }
+  }
+}

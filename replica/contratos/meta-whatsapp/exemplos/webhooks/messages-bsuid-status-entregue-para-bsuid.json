@@ -1,0 +1,65 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/business-scoped-user-ids.md",
+    "secao": "Status messages webhooks",
+    "linha_do_bloco": 980,
+    "pagina_atualizada": "2026-09-15",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "messages",
+    "placeholders_aplicados": [
+      "<BSUID>",
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<PARENT_BSUID>",
+      "<PHONE_NUMBER_ID>",
+      "<WABA_ID>",
+      "<WAMID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "Pablo M.",
+                  "username": "pablomorales"
+                },
+                "user_id": "<BSUID>",
+                "parent_user_id": "<PARENT_BSUID>"
+              }
+            ],
+            "statuses": [
+              {
+                "id": "<WAMID>",
+                "status": "delivered",
+                "timestamp": "1750030073",
+                "recipient_user_id": "<BSUID>",
+                "recipient_parent_user_id": "<PARENT_BSUID>",
+                "pricing": {
+                  "billable": true,
+                  "pricing_model": "PMP",
+                  "type": "regular",
+                  "category": "marketing"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

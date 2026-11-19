@@ -1,0 +1,26 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/features/send-message.md",
+    "secao": "Sample request",
+    "linha_do_bloco": 266,
+    "pagina_atualizada": "2026-07-02",
+    "metodo": "POST",
+    "rota": "/<PAGE_ID>/messages",
+    "login": "FL",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<MESSAGE_ID>"
+    ],
+    "nota": "A doc escreve campos de formulário (`--data recipient={...}&sender_action=unreact&payload={...}`); aqui estão os mesmos campos em JSON. Resposta: {\"recipient_id\": ...}.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "sender_action": "unreact",
+  "payload": {
+    "message_id": "<MESSAGE_ID>"
+  }
+}

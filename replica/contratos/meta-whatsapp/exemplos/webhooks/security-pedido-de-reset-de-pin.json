@@ -1,0 +1,36 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/security.md",
+    "secao": "Example",
+    "linha_do_bloco": 54,
+    "pagina_atualizada": "2026-06-17",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "security",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<USER_ID>",
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1748811473,
+      "changes": [
+        {
+          "value": {
+            "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+            "event": "PIN_RESET_REQUEST",
+            "requester": "<USER_ID>"
+          },
+          "field": "security"
+        }
+      ]
+    }
+  ],
+  "object": "whatsapp_business_account"
+}

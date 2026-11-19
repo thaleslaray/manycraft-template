@@ -1,0 +1,35 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/partner_solutions.md",
+    "secao": "Example",
+    "linha_do_bloco": 57,
+    "pagina_atualizada": "2026-06-17",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "partner_solutions",
+    "placeholders_aplicados": [
+      "<SOLUTION_ID>",
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "entry": [
+    {
+      "changes": [
+        {
+          "field": "partner_solutions",
+          "value": {
+            "event": "SOLUTION_CREATED",
+            "solution_id": "<SOLUTION_ID>",
+            "solution_status": "INITIATED"
+          }
+        }
+      ],
+      "id": "<WABA_ID>",
+      "time": 1739321024
+    }
+  ],
+  "object": "whatsapp_business_account"
+}

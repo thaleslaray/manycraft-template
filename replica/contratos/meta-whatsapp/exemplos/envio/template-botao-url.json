@@ -1,0 +1,48 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-phone-number_message-api.v25.yaml",
+    "exemplo_openapi": "Send Template Message with URL Button",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO. sub_type=url; index",
+    "placeholders_aplicados": [
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "template": {
+    "components": [
+      {
+        "parameters": [
+          {
+            "text": "4512",
+            "type": "text"
+          }
+        ],
+        "type": "body"
+      },
+      {
+        "index": "0",
+        "parameters": [
+          {
+            "text": "track-order-4512",
+            "type": "text"
+          }
+        ],
+        "sub_type": "url",
+        "type": "button"
+      }
+    ],
+    "language": {
+      "code": "en_US",
+      "policy": "deterministic"
+    },
+    "name": "order_tracking_link"
+  },
+  "to": "<WA_USER_PHONE>",
+  "type": "template"
+}

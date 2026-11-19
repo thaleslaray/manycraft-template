@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "manycraft-painel",
+  "main": "./worker/index.ts",
+  "workers_dev": true,
+  "compatibility_date": "2026-10-23",
+  "assets": {
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/api/*",
+      "/assets/*"
+    ]
+  },
+  "services": [
+    {
+      "binding": "ENGINE",
+      "service": "manycraft-engine"
+    }
+  ],
+  "observability": {
+    "enabled": false
+  }
+}

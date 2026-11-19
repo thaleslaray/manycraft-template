@@ -1,0 +1,37 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/webhooks/examples.md",
+    "secao": "Unified Login and Facebook Login for Business objects",
+    "linha_do_bloco": 552,
+    "pagina_atualizada": "2026-09-16",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "mentions",
+    "placeholders_aplicados": [
+      "<COMMENT_ID>",
+      "<IG_ID>",
+      "<MEDIA_ID>"
+    ],
+    "nota": "A doc embrulha o exemplo numa lista de um item; o corpo enviado pela Meta é o objeto.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "entry": [
+    {
+      "changes": [
+        {
+          "field": "mentions",
+          "value": {
+            "comment_id": "<COMMENT_ID>",
+            "media_id": "<MEDIA_ID>"
+          }
+        }
+      ],
+      "id": "<IG_ID>",
+      "time": 1520622968
+    }
+  ],
+  "object": "instagram"
+}

@@ -1,0 +1,20 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/business-phone-numbers/registration.md",
+    "secao": "Example request with local storage",
+    "linha_do_bloco": 62,
+    "pagina_atualizada": "2026-06-26",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/register",
+    "placeholders_aplicados": [
+      "<PIN_6_DIGITOS>"
+    ],
+    "nota": "pin trocado por placeholder; data_localization_region=CH",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "pin": "<PIN_6_DIGITOS>",
+  "data_localization_region": "CH"
+}

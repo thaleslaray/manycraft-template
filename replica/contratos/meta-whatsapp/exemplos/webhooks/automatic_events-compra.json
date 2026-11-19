@@ -1,0 +1,51 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/automatic_events.md",
+    "secao": "Purchase event",
+    "linha_do_bloco": 108,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "automatic_events",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<CTWA_CLID>",
+      "<PHONE_NUMBER_ID>",
+      "<WABA_ID>",
+      "<WAMID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "automatic_events": [
+              {
+                "id": "<WAMID>",
+                "event_name": "Purchase",
+                "timestamp": 1749069131,
+                "ctwa_clid": "<CTWA_CLID>",
+                "custom_data": {
+                  "currency": "USD",
+                  "value": 25000
+                }
+              }
+            ]
+          },
+          "field": "automatic_events"
+        }
+      ]
+    }
+  ]
+}

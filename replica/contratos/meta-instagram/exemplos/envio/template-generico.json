@@ -1,0 +1,52 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api/generic-template.md",
+    "secao": "Sample request",
+    "linha_do_bloco": 41,
+    "pagina_atualizada": "2026-06-30",
+    "metodo": "POST",
+    "rota": "/me/messages",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<IGSID>"
+    ],
+    "nota": "Exemplo da doc em v20.0. Até 10 elements; title e subtitle até 80 caracteres; até 3 botões por element.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [
+          {
+            "title": "Welcome!",
+            "image_url": "https://raw.githubusercontent.com/fbsamples/original-coast-clothing/main/public/styles/male-work.jpg",
+            "subtitle": "We have the right hat for everyone.",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://www.originalcoastclothing.com/"
+            },
+            "buttons": [
+              {
+                "type": "web_url",
+                "url": "https://www.originalcoastclothing.com/",
+                "title": "View Website"
+              },
+              {
+                "type": "postback",
+                "title": "Start Chatting",
+                "payload": "DEVELOPER_DEFINED_PAYLOAD"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

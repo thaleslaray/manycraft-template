@@ -1,0 +1,48 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api/quick-replies.md",
+    "secao": "Sample Notification",
+    "linha_do_bloco": 87,
+    "pagina_atualizada": "2026-10-05",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "messages",
+    "placeholders_aplicados": [
+      "<IGID>",
+      "<IGSID>",
+      "<MESSAGE_ID>",
+      "<POSTBACK_OF_BUTTON_SELECTED>",
+      "<TEXT_OF_BUTTON_SELECTED>"
+    ],
+    "nota": "O toque chega em messages com quick_reply.payload e o título em text.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<IGID>",
+      "time": 1502905976963,
+      "messaging": [
+        {
+          "sender": {
+            "id": "<IGSID>"
+          },
+          "recipient": {
+            "id": "<IGID>"
+          },
+          "timestamp": 1502905976377,
+          "message": {
+            "quick_reply": {
+              "payload": "<POSTBACK_OF_BUTTON_SELECTED>"
+            },
+            "mid": "<MESSAGE_ID>",
+            "text": "<TEXT_OF_BUTTON_SELECTED>"
+          }
+        }
+      ]
+    }
+  ]
+}

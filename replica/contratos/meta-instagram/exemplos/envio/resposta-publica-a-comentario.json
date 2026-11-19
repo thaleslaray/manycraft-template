@@ -1,0 +1,17 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/comment-moderation.md",
+    "secao": "Sample Request",
+    "linha_do_bloco": 163,
+    "pagina_atualizada": "2026-10-20",
+    "metodo": "POST",
+    "rota": "/<IG_COMMENT_ID>/replies",
+    "login": "IL",
+    "placeholders_aplicados": [],
+    "nota": "Corpo JSON com message; a doc também mostra message na query (?message=).",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "message": "Thanks for sharing!"
+}

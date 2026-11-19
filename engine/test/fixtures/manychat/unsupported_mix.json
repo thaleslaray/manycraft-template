@@ -1,0 +1,280 @@
+{
+ "clipboard": {
+  "$flowChart": "nodes",
+  "data": {
+   "nodeIds": [
+    "n01",
+    "n02",
+    "n03"
+   ],
+   "nodesData": [
+    {
+     "node": {
+      "blocks": [
+       "n04",
+       "n05"
+      ],
+      "caption": "Texto 1",
+      "contentId": 910233563,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_unsupported_mix",
+      "id": "n01",
+      "isMultiCondition": true,
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "condition",
+      "onboardingElementId": "condition_node",
+      "privateReply": null,
+      "reasonId": null
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "filter": {
+         "groups": [
+          {
+           "items": [
+            {
+             "_oid": "n06",
+             "field": "tag",
+             "operator": "IS",
+             "type": "tag",
+             "value": 46898773
+            }
+           ],
+           "operator": "AND"
+          }
+         ],
+         "operator": "AND"
+        },
+        "id": "n04",
+        "targetId": null,
+        "type": "case"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n05",
+        "targetId": "n02",
+        "type": "default"
+       }
+      ],
+      "buttons": []
+     }
+    },
+    {
+     "node": {
+      "$isAdditionalAutomation": false,
+      "blocks": [
+       "n07",
+       "n08"
+      ],
+      "caption": "Texto 2",
+      "contentId": 910233565,
+      "data": {
+       "background_color": {
+        "type": "custom",
+        "value": "#F6F7F9"
+       },
+       "businessEmailId": 12143,
+       "preheader": "Texto 3",
+       "senderName": "",
+       "subject": "Texto 4"
+      },
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_unsupported_mix",
+      "id": "n02",
+      "isStartingStep": false,
+      "messageTag": null,
+      "nodeType": "email_new",
+      "privateReply": null,
+      "reasonId": null,
+      "targetId": "n03"
+     },
+     "related": {
+      "blocks": [
+       {
+        "blocks": [
+         "n09",
+         "n10"
+        ],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n07",
+        "settings": {
+         "background_color": {
+          "type": "custom",
+          "value": "#FFFFFF"
+         },
+         "padding_side": {
+          "type": "custom",
+          "value": 32
+         }
+        },
+        "type": "email_root"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n08",
+        "targetId": null,
+        "triggerOnOpenUse": "first",
+        "type": "email_trigger_open"
+       },
+       {
+        "blocks": [],
+        "buttons": [],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n09",
+        "settings": {
+         "alignment": {
+          "type": "preset",
+          "value": "left"
+         },
+         "block_background_color": {
+          "type": "custom",
+          "value": ""
+         },
+         "font_type": {
+          "type": "preset",
+          "value": "regular"
+         },
+         "padding_bottom": {
+          "type": "custom",
+          "value": 12
+         },
+         "padding_top": {
+          "type": "custom",
+          "value": 12
+         }
+        },
+        "text": "Texto 5 {{cuf_11267621}}",
+        "type": "email_text"
+       },
+       {
+        "blocks": [],
+        "buttons": [
+         "n11"
+        ],
+        "buttonsStyle": "solid",
+        "entity": "block",
+        "id": "n10",
+        "settings": {
+         "alignment": {
+          "type": "preset",
+          "value": "center"
+         },
+         "background_color": {
+          "type": "custom",
+          "value": "#4527A0"
+         },
+         "block_background_color": {
+          "type": "custom",
+          "value": ""
+         },
+         "border_radius": {
+          "type": "custom",
+          "value": 6
+         },
+         "padding_bottom": {
+          "type": "custom",
+          "value": 36
+         },
+         "padding_top": {
+          "type": "custom",
+          "value": 12
+         },
+         "text_color": {
+          "type": "custom",
+          "value": "#FFFFFF"
+         }
+        },
+        "text": "Texto 6",
+        "type": "email_button"
+       }
+      ],
+      "buttons": [
+       {
+        "caption": "",
+        "entity": "button",
+        "id": "n11",
+        "isClickTrackingDisabled": false,
+        "isSmartLink": true,
+        "targetId": null,
+        "type": "url",
+        "url": "https://exemplo.test/url/2",
+        "webviewSize": ""
+       }
+      ]
+     }
+    },
+    {
+     "node": {
+      "blocks": [],
+      "caption": "Texto 7",
+      "contentId": 910233564,
+      "deleted": false,
+      "entity": "node",
+      "flow": "content_fixture_unsupported_mix",
+      "id": "n03",
+      "isStartingStep": false,
+      "items": [
+       {
+        "_oid": "n12",
+        "tag_id": 46898787,
+        "type": "add_tag"
+       }
+      ],
+      "nodeType": "actionGroup",
+      "onboardingElementId": "action_node",
+      "orderedActionItemIds": [],
+      "targetId": null
+     },
+     "related": {
+      "blocks": [],
+      "buttons": []
+     }
+    }
+   ],
+   "offsets": {
+    "$group": {
+     "x": 0,
+     "y": 0
+    },
+    "n03": {
+     "x": 1442,
+     "y": 440
+    },
+    "n02": {
+     "x": 703,
+     "y": 0
+    },
+    "n01": {
+     "x": 0,
+     "y": 0
+    }
+   }
+  },
+  "pageId": "conta_exemplo"
+ },
+ "original": {
+  "flow": {
+   "ns": "content_fixture_unsupported_mix",
+   "name": "Texto 8",
+   "root_content_id": 910233563,
+   "contents": []
+  }
+ }
+}

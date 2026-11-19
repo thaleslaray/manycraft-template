@@ -1,0 +1,26 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/messages/image-messages.md",
+    "secao": "Example request",
+    "linha_do_bloco": 57,
+    "pagina_atualizada": "2026-06-24",
+    "metodo": "POST",
+    "rota": "/{version}/{phone_number_id}/messages",
+    "placeholders_aplicados": [
+      "<MEDIA_ID>",
+      "<WA_USER_PHONE>"
+    ],
+    "nota": "mídia por id",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "<WA_USER_PHONE>",
+  "type": "image",
+  "image": {
+    "id": "<MEDIA_ID>",
+    "caption": "The best succulent ever?"
+  }
+}

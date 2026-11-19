@@ -1,0 +1,58 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/webhooks/examples.md",
+    "secao": "Unified Login and Facebook Login for Business objects",
+    "linha_do_bloco": 479,
+    "pagina_atualizada": "2026-09-16",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "live_comments",
+    "placeholders_aplicados": [
+      "<AD_ID>",
+      "<AD_TITLE_ID>",
+      "<COMMENT_ID>",
+      "<INSTAGRAM_USER_SCOPED_ID>",
+      "<INSTAGRAM_USER_USERNAME>",
+      "<MEDIA_ID>",
+      "<MEDIA_PRODUCT_ID>",
+      "<ORIGINAL_MEDIA_ID>",
+      "<PARENT_COMMENT_ID>",
+      "<TEXT_ID>",
+      "<TIME_META_SENT_THIS_NOTIFICATION>",
+      "<YOUR_APP_USERS_INSTAGRAM_ACCOUNT_ID>"
+    ],
+    "nota": "Mesma forma de comments. A doc embrulha o exemplo numa lista de um item; o corpo enviado pela Meta é o objeto.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<YOUR_APP_USERS_INSTAGRAM_ACCOUNT_ID>",
+      "time": "<TIME_META_SENT_THIS_NOTIFICATION>",
+      "changes": [
+        {
+          "field": "live_comments",
+          "value": {
+            "from": {
+              "id": "<INSTAGRAM_USER_SCOPED_ID>",
+              "username": "<INSTAGRAM_USER_USERNAME>"
+            },
+            "comment_id": "<COMMENT_ID>",
+            "parent_id": "<PARENT_COMMENT_ID>",
+            "text": "<TEXT_ID>",
+            "media": {
+              "id": "<MEDIA_ID>",
+              "ad_id": "<AD_ID>",
+              "ad_title": "<AD_TITLE_ID>",
+              "original_media_id": "<ORIGINAL_MEDIA_ID>",
+              "media_product_type": "<MEDIA_PRODUCT_ID>"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

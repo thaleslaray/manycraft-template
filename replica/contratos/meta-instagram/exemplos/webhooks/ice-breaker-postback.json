@@ -1,0 +1,45 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api/ice-breakers.md",
+    "secao": "Webhook Notifications",
+    "linha_do_bloco": 206,
+    "pagina_atualizada": "2026-06-30",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "messaging_postbacks",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<QUESTION_PAYLOAD>",
+      "<UNIX_TIMESTAMP>",
+      "<USER_SELECTED_ICEBREAKER_QUESTION>",
+      "<YOUR_APP_USERS_IG_ID>"
+    ],
+    "nota": "O exemplo da página de ice breakers não traz postback.mid; os exemplos de webhooks (IM/webhooks.md e IP/webhooks/examples.md) trazem.",
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<YOUR_APP_USERS_IG_ID>",
+      "time": "<UNIX_TIMESTAMP>",
+      "messaging": [
+        {
+          "sender": {
+            "id": "<IGSID>"
+          },
+          "recipient": {
+            "id": "<YOUR_APP_USERS_IG_ID>"
+          },
+          "timestamp": "<UNIX_TIMESTAMP>",
+          "postback": {
+            "title": "<USER_SELECTED_ICEBREAKER_QUESTION>",
+            "payload": "<QUESTION_PAYLOAD>"
+          }
+        }
+      ]
+    }
+  ]
+}

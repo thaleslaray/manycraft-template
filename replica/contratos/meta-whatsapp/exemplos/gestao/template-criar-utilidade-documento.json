@@ -1,0 +1,59 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/templates/components.md",
+    "secao": "Order confirmation",
+    "linha_do_bloco": 592,
+    "pagina_atualizada": "2026-06-24",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}/message_templates",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<HANDLE_UPLOAD_RETOMAVEL>"
+    ],
+    "nota": "cabeçalho de documento, botões de telefone e URL",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "name": "order_confirmation",
+  "language": "en_US",
+  "category": "UTILITY",
+  "components": [
+    {
+      "type": "HEADER",
+      "format": "DOCUMENT",
+      "example": {
+        "header_handle": [
+          "<HANDLE_UPLOAD_RETOMAVEL>"
+        ]
+      }
+    },
+    {
+      "type": "BODY",
+      "text": "Thank you for your order, {{1}}! Your order number is {{2}}. Tap the PDF linked above to view your receipt. If you have any questions, please use the buttons below to contact support. Thank you for being a customer!",
+      "example": {
+        "body_text": [
+          [
+            "Pablo",
+            "860198-230332"
+          ]
+        ]
+      }
+    },
+    {
+      "type": "BUTTONS",
+      "buttons": [
+        {
+          "type": "PHONE_NUMBER",
+          "text": "Call",
+          "phone_number": "<BUSINESS_DISPLAY_PHONE>"
+        },
+        {
+          "type": "URL",
+          "text": "Contact Support",
+          "url": "https://www.luckyshrub.com/support"
+        }
+      ]
+    }
+  ]
+}

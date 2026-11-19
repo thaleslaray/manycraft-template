@@ -1,0 +1,18 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api/persistent-menu.md",
+    "secao": "Sample Request",
+    "linha_do_bloco": 168,
+    "pagina_atualizada": "2026-06-30",
+    "metodo": "DELETE",
+    "rota": "/me/messenger_profile",
+    "login": "IL",
+    "placeholders_aplicados": [],
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "fields": [
+    "persistent_menu"
+  ]
+}

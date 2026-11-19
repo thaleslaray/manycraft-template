@@ -1,0 +1,42 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/message_template_status_update.md",
+    "secao": "Example",
+    "linha_do_bloco": 113,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "message_template_status_update",
+    "placeholders_aplicados": [
+      "<TEMPLATE_ID>",
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1751247548,
+      "changes": [
+        {
+          "value": {
+            "event": "REJECTED",
+            "message_template_id": "<TEMPLATE_ID>",
+            "message_template_name": "abandoned_cart",
+            "message_template_language": "en",
+            "reason": "INVALID_FORMAT",
+            "message_template_category": "MARKETING",
+            "rejection_info": {
+              "reason": "Your template has parameters placed next to each other (like {{1}}{{2}}) without text or punctuation between them.",
+              "recommendation": "Separate parameters with descriptive text and ensure each parameter is clearly contextualized."
+            }
+          },
+          "field": "message_template_status_update"
+        }
+      ]
+    }
+  ],
+  "object": "whatsapp_business_account"
+}

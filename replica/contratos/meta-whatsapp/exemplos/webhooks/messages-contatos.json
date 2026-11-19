@@ -1,0 +1,75 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/messages/contacts.md",
+    "secao": "Example",
+    "linha_do_bloco": 174,
+    "pagina_atualizada": "2026-06-17",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "messages",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<PHONE_NUMBER_ID>",
+      "<WABA_ID>",
+      "<WAMID>",
+      "<WA_ID>",
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "Sheena Nelson"
+                },
+                "wa_id": "<WA_ID>"
+              }
+            ],
+            "messages": [
+              {
+                "from": "<WA_USER_PHONE>",
+                "id": "<WAMID>",
+                "timestamp": "1744344496",
+                "type": "contacts",
+                "contacts": [
+                  {
+                    "name": {
+                      "first_name": "Barbara",
+                      "last_name": "Johnson",
+                      "formatted_name": "Barbara J. Johnson"
+                    },
+                    "org": {
+                      "company": "Social Tsunami"
+                    },
+                    "phones": [
+                      {
+                        "phone": "<WA_USER_PHONE>",
+                        "wa_id": "<WA_ID>",
+                        "type": "MOBILE"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

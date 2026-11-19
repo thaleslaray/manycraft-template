@@ -1,0 +1,36 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/phone_number_name_update.md",
+    "secao": "Example",
+    "linha_do_bloco": 57,
+    "pagina_atualizada": "2026-06-17",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "phone_number_name_update",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<WABA_ID>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "time": 1739321024,
+      "changes": [
+        {
+          "value": {
+            "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+            "decision": "APPROVED",
+            "requested_verified_name": "Lucky Shrub",
+            "rejection_reason": null
+          },
+          "field": "phone_number_name_update"
+        }
+      ]
+    }
+  ],
+  "object": "whatsapp_business_account"
+}

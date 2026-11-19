@@ -1,0 +1,28 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/instagram-platform/instagram-api-with-instagram-login/messaging-api.md",
+    "secao": "Sample Request",
+    "linha_do_bloco": 409,
+    "pagina_atualizada": "2026-09-28",
+    "metodo": "POST",
+    "rota": "/<IG_ID>/messages",
+    "login": "IL",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<MESSAGE_ID>",
+      "<TEXT>"
+    ],
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "recipient": {
+    "id": "<IGSID>"
+  },
+  "message": {
+    "text": "<TEXT>"
+  },
+  "reply_to": {
+    "mid": "<MESSAGE_ID>"
+  }
+}

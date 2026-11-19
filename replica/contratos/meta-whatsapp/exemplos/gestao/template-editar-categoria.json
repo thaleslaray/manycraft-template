@@ -1,0 +1,15 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/templates/template-management.md",
+    "secao": "Edit template category",
+    "linha_do_bloco": 306,
+    "pagina_atualizada": "2026-07-02",
+    "metodo": "POST",
+    "rota": "/{version}/{template_id}",
+    "nota": "só templates APPROVED/REJECTED/PAUSED; 10 edições em 30 dias ou 1 em 24 h",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "category": "MARKETING"
+}

@@ -1,0 +1,14 @@
+{
+  "_fonte": {
+    "tipo": "openapi",
+    "arquivo": "openapi/whatsapp-business-account_subscribed-apps-api.v25.yaml",
+    "exemplo_openapi": "custom_callback",
+    "metodo": "POST",
+    "rota": "/{version}/{waba_id}/subscribed_apps",
+    "nota": "Listas reconstruídas: o YAML do espelho traz arrays como mapas indexados (0:, 1:) -> DEFEITO DE CONTRATO.",
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "override_callback_uri": "https://your-webhook-endpoint.com/webhook\n",
+  "verify_token": "YOUR_VERIFY_TOKEN_PLACEHOLDER"
+}

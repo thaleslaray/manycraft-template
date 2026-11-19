@@ -1,0 +1,75 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/whatsapp/webhooks/reference/messages/order.md",
+    "secao": "Example",
+    "linha_do_bloco": 92,
+    "pagina_atualizada": "2026-05-21",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "campo_webhook": "messages",
+    "placeholders_aplicados": [
+      "<BUSINESS_DISPLAY_PHONE>",
+      "<CATALOG_ID>",
+      "<PHONE_NUMBER_ID>",
+      "<WABA_ID>",
+      "<WAMID>",
+      "<WA_ID>",
+      "<WA_USER_PHONE>"
+    ],
+    "coletado": "2026-10-25",
+    "espelho": "docs-meta-whatsapp"
+  },
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "<WABA_ID>",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "<BUSINESS_DISPLAY_PHONE>",
+              "phone_number_id": "<PHONE_NUMBER_ID>"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "Sheena Nelson"
+                },
+                "wa_id": "<WA_ID>"
+              }
+            ],
+            "messages": [
+              {
+                "from": "<WA_USER_PHONE>",
+                "id": "<WAMID>",
+                "timestamp": "1750096325",
+                "type": "order",
+                "order": {
+                  "catalog_id": "<CATALOG_ID>",
+                  "text": "Love these!",
+                  "product_items": [
+                    {
+                      "product_retailer_id": "di9ozbzfi4",
+                      "quantity": 2,
+                      "item_price": 30,
+                      "currency": "USD"
+                    },
+                    {
+                      "product_retailer_id": "nqryix03ez",
+                      "quantity": 1,
+                      "item_price": 25,
+                      "currency": "USD"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "_fonte": {
+    "tipo": "pagina",
+    "arquivo": "paginas/business-messaging/instagram-messaging/webhooks.md",
+    "secao": "Messaging seen",
+    "linha_do_bloco": 250,
+    "pagina_atualizada": "2026-09-16",
+    "metodo": "POST",
+    "rota": "<CALLBACK_URL>",
+    "login": "IL+FL",
+    "campo_webhook": "messaging_seen",
+    "placeholders_aplicados": [
+      "<IGSID>",
+      "<IG_ID>",
+      "<MESSAGE_ID>"
+    ],
+    "coletado": "2026-10-26",
+    "espelho": "docs-meta-instagram"
+  },
+  "object": "instagram",
+  "entry": [
+    {
+      "id": "<IG_ID>",
+      "time": 1569262486134,
+      "messaging": [
+        {
+          "sender": {
+            "id": "<IGSID>"
+          },
+          "recipient": {
+            "id": "<IG_ID>"
+          },
+          "timestamp": 1569262485349,
+          "read": {
+            "mid": "<MESSAGE_ID>"
+          }
+        }
+      ]
+    }
+  ]
+}
