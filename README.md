@@ -84,24 +84,15 @@ Para conferir que está tudo certo: `npm run typecheck` e `npm test` dentro de `
 
 ## Publicar na Cloudflare
 
-Faça nesta ordem: motor primeiro, painel depois (o painel conversa com o motor por uma ligação interna chamada `ENGINE`, que aponta para o Worker `manycraft-engine`).
+Este roteiro foi testado numa conta nova da Cloudflare: do zero ao painel no ar levou cerca de 6 minutos. O plano gratuito da Cloudflare aceita filas, fluxos e armazenamento, com limites; o armazenamento (R2) pede um cartão cadastrado.
 
-Entre na Cloudflare uma vez: `npx wrangler login`.
+Faça nesta ordem: filas, motor, migrações, painel e, só no fim, `BETTER_AUTH_URL`. O endereço do painel só existe depois do primeiro deploy dele. O painel conversa com o motor por uma ligação interna chamada `ENGINE`.
 
-**1. Recursos que o motor usa** (definidos em `engine/wrangler.jsonc`):
+Entre na Cloudflare uma vez com `npx wrangler login`.
 
-| Recurso | Nome no arquivo |
-|---|---|
-| Banco D1 | `manycraft` |
-| Arquivos R2 | `manycraft-media` e `manycraft-inbound-media` |
-| Filas | `manycraft-inbound` e `manycraft-inbound-dlq` (fila de mensagens que falharam) |
-| Workflow | `manycraft-flow` (criado no deploy) |
-| Durable Objects | `InboxHub` e `ChannelLimiter` (criados no deploy pela migração do arquivo) |
-| Limite de tentativas de login | `RL_AUTH` |
-| Envio de e-mail | ligação `EMAIL` |
-| Tarefas agendadas | três (uma por dia, uma a cada 5 minutos e uma por minuto) |
+**Atenção:** se você tem mais de uma conta na Cloudflare, confira em qual está antes de cada comando. Para fixar, rode `export CLOUDFLARE_ACCOUNT_ID=<id da conta>` no terminal.
 
-O arquivo não traz identificação de banco: o Wrangler deve criar o D1 e os buckets R2 sozinho no primeiro deploy (**confira**; se não criar, use `npx wrangler d1 create manycraft` e `npx wrangler r2 bucket create <nome>`). As filas você cria antes:
+**1. Crie as duas filas, antes de tudo.** O motor depende delas:
 
 ```sh
 cd engine
@@ -109,20 +100,22 @@ npx wrangler queues create manycraft-inbound
 npx wrangler queues create manycraft-inbound-dlq
 ```
 
-**2. Publique o motor e aplique as migrações do banco:**
+O banco D1 `manycraft` e os dois buckets R2 (`manycraft-media` e `manycraft-inbound-media`) o Wrangler cria sozinho no primeiro deploy do motor. Só as filas você cria à mão.
+
+**2. Publique o motor e aplique as migrações:**
 
 ```sh
 npx wrangler deploy
 npx wrangler d1 migrations apply DB --remote
 ```
 
-**3. Segredos do motor.** Cada um com `npx wrangler secret put NOME` dentro de `engine/`:
+O motor não tem endereço público (`workers_dev` está desligado). Só o painel o alcança.
 
-- `BETTER_AUTH_SECRET`: texto aleatório com 32 caracteres ou mais.
-- `CONNECTIONS_KEK_V1`: a chave que cifra os tokens dos canais no banco (`openssl rand -base64 32`). **Guarde uma cópia: sem ela, os canais conectados não abrem mais.**
+**3. Segredos do motor** (dentro de `engine/`, um por vez com `npx wrangler secret put NOME`):
+
+- `BETTER_AUTH_SECRET`: texto aleatório com 32 caracteres ou mais (`openssl rand -base64 32`).
+- `CONNECTIONS_KEK_V1`: chave que cifra os tokens dos canais (`openssl rand -base64 32`). **Guarde uma cópia.** Sem ela, os canais conectados não abrem mais.
 - `CONNECTIONS_KEK_ACTIVE`: `1`.
-- `BETTER_AUTH_URL`: o endereço público do painel (o do passo 4), com `https://`.
-- Opcionais: `EMAIL_FROM` e `EMAIL_DEFAULT_DOMAIN` (e-mail), `MEDIA_PUBLIC_URL` (endereço público dos arquivos de mídia), `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET` (entrar com Google), `SIGNUP_CLOSED=1` (fecha o cadastro para quem não tem convite).
 
 **4. Publique o painel:**
 
@@ -132,9 +125,42 @@ npm run build
 npx wrangler deploy
 ```
 
-A configuração do painel liga o endereço `workers.dev` da sua conta, e o Wrangler mostra o endereço no fim. Use esse endereço em `BETTER_AUTH_URL` (passo 3) e publique o motor de novo se mudar o valor. Se preferir um domínio próprio, **confira** como adicionar uma rota ao `app-vite/wrangler.jsonc`. O comando exato de deploy do painel (se o build gera outra configuração) também é para **conferir**.
+No fim, o Wrangler mostra o endereço, algo como `https://manycraft-painel.SEU-SUBDOMINIO.workers.dev`.
 
-**5. Primeiro acesso.** Em produção o login automático não existe: crie a conta pela tela de cadastro. O cadastro por e-mail e senha exige verificação por e-mail, então o envio de e-mail da Cloudflare (ou o login com Google) precisa estar configurado antes. **Confira** como habilitar o envio de e-mail na sua conta e o que acontece com o primeiro usuário e o primeiro espaço.
+**5. Só agora configure `BETTER_AUTH_URL`.** Dentro de `engine/`, rode `npx wrangler secret put BETTER_AUTH_URL` e cole o endereço do painel com `https://`, sem barra no fim. O endereço precisa ser igual ao que você abre no navegador.
+
+**6. Confira que está vivo.** Abra `https://SEU-PAINEL.workers.dev/api/auth/ok`. Deve aparecer `{"ok":true}`. Como o motor não tem endereço próprio, é assim que se confere que painel e motor estão funcionando juntos.
+
+Variáveis opcionais do motor (`wrangler secret put`): `SIGNUP_CLOSED=1` (cadastro só para convidados), `MEDIA_PUBLIC_URL` (endereço público dos arquivos de mídia), `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET` (entrar com Google).
+
+### Primeiro acesso e o envio de e-mail
+
+No sistema publicado, você cria a conta na tela de cadastro, e o primeiro login cria o seu espaço de trabalho sozinho.
+
+**O cadastro exige e-mail confirmado, e isso não dá para desligar.** O link de confirmação sai pelo serviço de e-mail da Cloudflare (ligação `EMAIL`). Para funcionar:
+
+1. Tenha um domínio seu na Cloudflare.
+2. Habilite o Email Service para esse domínio no painel da Cloudflare.
+3. Defina `EMAIL_FROM` com um endereço desse domínio: `npx wrangler secret put EMAIL_FROM`, por exemplo `no-reply@seudominio.com`.
+
+Os três passos acima **não foram testados por nós com envio real**; confira os requisitos na Cloudflare.
+
+**O que você vê sem isso:** o cadastro parece dar certo, mas o e-mail não sai. Ao entrar, aparece "e-mail não verificado", e reenviar a confirmação dá erro. Para ver o motivo, rode `npx wrangler tail manycraft-engine` e tente de novo:
+
+- `Envio de e-mail não configurado`: falta `EMAIL_FROM`.
+- `domain was not found`: o domínio de `EMAIL_FROM` não está na sua conta Cloudflare.
+
+Cada tentativa gasta a cota de 5 e-mails por hora por destinatário; depois disso o reenvio também dá erro.
+
+**Para você entrar sem o e-mail funcionando (testado por nós):** faça o cadastro na tela e depois marque a sua própria conta como confirmada, direto no seu banco, dentro de `engine/`:
+
+```sh
+npx wrangler d1 execute manycraft --remote --command "UPDATE user SET emailVerified=1 WHERE email='seu@email.com'"
+```
+
+Volte e entre com e-mail e senha (mínimo de 12 caracteres). Use só para a sua conta. Em seguida defina `SIGNUP_CLOSED=1`, para ninguém mais se cadastrar sem convite, e configure o e-mail de verdade antes de convidar a equipe.
+
+**Publicar uma automação** exige um gatilho, e o gatilho exige um canal conectado. O mais rápido de conectar é o Telegram, em Configurações, Canais.
 
 ## Conectar os canais
 
