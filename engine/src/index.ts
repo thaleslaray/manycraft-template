@@ -17,6 +17,7 @@ import { z, ZodError } from 'zod'
 import { repositoryFor, triggerPatchSchema } from './db'
 import type { Env } from './env'
 import { createAuth } from './auth'
+import { finishAuthRequest, type OtpDelivery } from './auth-otp'
 import { mayUseSessionCache, requestSession, sessionCookies } from './request-session'
 import { sessionRoutes } from './session'
 import { pixelPanel, pixelPublic } from './pixel'
@@ -169,7 +170,10 @@ app.on(['GET', 'POST'], '/api/auth/*', async c => {
     url.searchParams.set('disableCookieCache', 'true')
     return createAuth(c.env).handler(new Request(url, c.req.raw))
   }
-  return createAuth(c.env).handler(c.req.raw)
+  // Rotas fechadas e travas do pedido de código: hook `before` do Better Auth (authGate, por rota resolvida).
+  // Aqui só a falha do envio do código, que ele engole e responde 200.
+  const delivery: OtpDelivery = {}
+  return finishAuthRequest(c.env, await createAuth(c.env, delivery).handler(c.req.raw), delivery)
 })
 app.get('/api/dev/workspace', async c => {
   if (c.env.APP_ENV !== 'development') throw new HTTPException(404)
@@ -177,6 +181,22 @@ app.get('/api/dev/workspace', async c => {
     .bind(c.env.DEV_WORKSPACE_ID ?? 'demo-workspace').first<{ workspace_id: string; name: string }>()
   if (!workspace) throw new HTTPException(404, { message: 'Execute o seed de desenvolvimento.' })
   return c.json(workspace)
+})
+// Só desenvolvimento: o botão "Entrar (teste)" do painel abre sessão como dona do espaço de desenvolvimento
+// (`DEV_WORKSPACE_ID`, a Lia do seed), sem senha e sem e-mail: o código é criado e usado aqui mesmo pela API do
+// Better Auth (`createVerificationOTP` só existe no servidor), então a sessão nasce pelo mesmo caminho da entrada
+// por código. Fora do desenvolvimento responde 404 antes de qualquer outra coisa.
+app.post('/api/dev/sign-in', async c => {
+  if (c.env.APP_ENV !== 'development') throw new HTTPException(404)
+  // Só o próprio painel: outro site não abre sessão de teste no navegador de quem o visita.
+  if (c.req.header('origin') !== new URL(c.env.BETTER_AUTH_URL ?? c.req.url).origin) throw new HTTPException(403, { message: 'Origem não permitida.' })
+  const owner = await c.env.DB.prepare(`SELECT u.email FROM workspace_members m JOIN "user" u ON u.id=m.user_id
+    WHERE m.workspace_id=? AND m.role='owner' ORDER BY m.created_at,m.id LIMIT 1`)
+    .bind(c.env.DEV_WORKSPACE_ID ?? 'demo-workspace').first<{ email: string }>()
+  if (!owner) throw new HTTPException(404, { message: 'Execute o seed de desenvolvimento.' })
+  const auth = createAuth(c.env)
+  const otp = await auth.api.createVerificationOTP({ body: { email: owner.email, type: 'sign-in' } })
+  return auth.api.signInEmailOTP({ body: { email: owner.email, otp }, headers: c.req.raw.headers, asResponse: true })
 })
 /** An <img> (or <audio>) cannot send x-workspace; only the avatar and the inbox file routes may select the workspace by query. Session and membership are still verified. */
 const avatarPath = new RegExp(`^(?:/api/contacts/[^/]+/avatar|${ACCOUNT_PHOTO_PATH}/[a-f0-9-]{36}|/api/inbox/media/[a-f0-9-]{36})$`)
@@ -297,7 +317,7 @@ app.use('/api/*', async (c, next) => {
 })
 app.get('/api/activity-log', async c => {
   authorize(c.var.principal, 'team')
-  const rows = await c.env.DB.prepare(`SELECT a.id,a.method,a.path,a.status,a.created_at,coalesce(u.name,u.email) AS user_name,a.via,a.api_key_id,k.name AS api_key_name,k.last4 AS api_key_last4 FROM activity_log a
+  const rows = await c.env.DB.prepare(`SELECT a.id,a.method,a.path,a.status,a.created_at,coalesce(nullif(u.name,''),u.email) AS user_name,a.via,a.api_key_id,k.name AS api_key_name,k.last4 AS api_key_last4 FROM activity_log a
     LEFT JOIN "user" u ON u.id=a.user_id LEFT JOIN user_api_keys k ON k.id=a.api_key_id WHERE a.workspace_id=? ORDER BY a.id DESC LIMIT 200`).bind(c.var.principal.workspaceId).all()
   return c.json({ items: rows.results })
 })
@@ -607,6 +627,7 @@ export default {
       env.DB.prepare('DELETE FROM invites WHERE expires_at<=?').bind(now),
       env.DB.prepare('DELETE FROM request_limits WHERE reset_at<=?').bind(now),
       env.DB.prepare('DELETE FROM email_outbox WHERE created_at<?').bind(now - 86400_000),
+      env.DB.prepare('DELETE FROM login_code_daily WHERE day<?').bind(new Date(now - 30 * 86400_000).toISOString().slice(0, 10)),
       env.DB.prepare('DELETE FROM email_sending_events WHERE received_at<?').bind(now - 30 * 86400_000),
       env.DB.prepare('DELETE FROM hotmart_events WHERE received_at<?').bind(now - 60 * 86400_000),
     ])

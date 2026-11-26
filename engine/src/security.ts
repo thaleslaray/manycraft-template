@@ -16,6 +16,10 @@ async function countRequest(env: Env, key: string, windowMs: number) {
 export async function limit(env: Env, key: string, max = 5, windowMs = 60_000) {
   if ((await countRequest(env, key, windowMs)).count > max) throw new HTTPException(429, { message: 'Limite temporário atingido. Aguarde para tentar novamente.' })
 }
+/** Mesma janela fixa do `limit`, sem lançar: conta este pedido e diz se passou do máximo. */
+export async function overLimit(env: Env, key: string, max: number, windowMs: number) {
+  return (await countRequest(env, key, windowMs)).count > max
+}
 /** Mesma janela fixa do `limit`, mas o 429 leva `Retry-After` (segundos até a janela virar): para quem chama por API. */
 export async function limitWithRetry(env: Env, key: string, max: number, windowMs = 60_000) {
   const { count, retryAfter } = await countRequest(env, key, windowMs)

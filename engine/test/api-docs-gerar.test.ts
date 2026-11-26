@@ -92,3 +92,19 @@ it('título não corta frase em ponto ou dois-pontos dentro de parênteses nem d
   expect(doc.paths['/api/a'].get.summary).toBe('Lista as tags ativas.')
   expect(doc.paths['/api/b'].get.summary).toBe('Troca as credenciais da conexão.')
 })
+
+it('`resposta` vira o schema da resposta 200: aberto a campos não descritos, sem o peso de data e inteiro do zod', () => {
+  const resposta = z.object({ rows: z.array(z.object({ id: z.string(), criado: z.iso.datetime(), total: z.number().int().describe('Quantos.') })), next_cursor: z.string().nullable() })
+  const doc = gerarOpenApi({ areas: [{ area: 'x', nome: 'X', descricao: 'X.', entradas: [
+    { metodo: 'GET', caminho: '/api/x', resumo: 'R.', resposta },
+    { metodo: 'GET', caminho: '/api/y', resumo: 'R.' },
+  ] }], v1 }) as any
+  const schema = doc.paths['/api/x'].get.responses[200].content['application/json'].schema
+  expect(schema).toMatchObject({ type: 'object', required: ['rows', 'next_cursor'], properties: { next_cursor: { type: ['string', 'null'] } } })
+  expect(schema.additionalProperties).toBeUndefined()
+  const linha = schema.properties.rows.items
+  expect(linha.additionalProperties).toBeUndefined()
+  expect(linha.properties.criado).toEqual({ type: 'string', format: 'date-time' })
+  expect(linha.properties.total).toEqual({ type: 'integer', description: 'Quantos.' })
+  expect(doc.paths['/api/y'].get.responses[200].content['application/json'].schema).toEqual({})
+})

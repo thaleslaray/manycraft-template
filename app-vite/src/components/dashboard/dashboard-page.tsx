@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button"
 import { EmptyState } from "@/components/ui/empty-state"
 import { Skeleton } from "@/components/ui/skeleton"
 import { StatusBadge } from "@/components/ui/status-badge"
+import { primeiroNome } from "@/data/pessoa"
 
 const icons = {
   contacts: Users,
@@ -73,7 +74,7 @@ export function DashboardPage() {
   // As abas saem direto dos canais da resposta (a anterior vale enquanto a nova chega, para as abas não piscarem).
   const channels = (data ?? summary.stale)?.channels
   const tabs = React.useMemo(() => abasDeCanal(channels), [channels])
-  const firstName = useAsync(() => getWorkspace(), "inicio-workspace").data?.user_name?.trim().split(/\s+/)[0]
+  const firstName = primeiroNome(useAsync(() => getWorkspace(), "inicio-workspace").data?.user_name)
 
   async function onCreate() {
     setCreating(true)

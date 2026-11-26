@@ -61,7 +61,7 @@ test.describe("Configurações: equipe e convites", () => {
     }
   })
 
-  test("o link do convite abre o cadastro com o e-mail do convite já preenchido e travado", async ({ page, browser }) => {
+  test("o link do convite leva à entrada com o e-mail do convite já preenchido", async ({ page, browser }) => {
     sql(["DELETE FROM request_limits"])
     const tag = novoTag(), convidado = `e2e-cadastro-${tag}@example.test`
     try {
@@ -74,17 +74,18 @@ test.describe("Configurações: equipe e convites", () => {
       const aba = await anonimo.newPage()
       await aba.goto(link)
       await expect(aba.getByText(convidado)).toBeVisible()
-      await aba.getByRole("link", { name: "Criar minha conta" }).click()
+      // Entrada só por código: não há mais cadastro à parte; o primeiro código cria a conta (auth.spec.ts entra de fato).
+      await aba.getByRole("link", { name: "Entrar para continuar" }).click()
+      await expect(aba).toHaveURL(/\/login$/)
       await expect(aba.getByLabel("E-mail")).toHaveValue(convidado)
-      await expect(aba.getByLabel("E-mail")).toHaveAttribute("readonly", "")
-      await expect(aba.getByText("Este convite vale para este e-mail.")).toBeVisible()
+      await expect(aba.getByText("Este é o e-mail do seu convite.")).toBeVisible()
       await anonimo.close()
     } finally { sql([`DELETE FROM invites WHERE email='${q(convidado)}'`]) }
   })
 })
 
 test.describe("Configurações: avisos de validação em português", () => {
-  test("campo vazio mostra a mensagem do painel mesmo com o navegador em inglês (Criar grupo e Entrar)", async ({ browser }) => {
+  test("campo vazio mostra a mensagem do painel mesmo com o navegador em inglês (Criar grupo e Enviar código)", async ({ browser }) => {
     const ingles = await browser.newContext({ baseURL: PAINEL, locale: "en-US" })
     const aba = await ingles.newPage()
     try {
@@ -94,10 +95,10 @@ test.describe("Configurações: avisos de validação em português", () => {
       await aba.getByLabel("Novo grupo").fill("Vendas e2e")
       expect(await aba.getByLabel("Novo grupo").evaluate((el: HTMLInputElement) => el.validity.valid)).toBe(true)
       await aba.goto("/login")
-      await aba.getByRole("button", { name: "Entrar", exact: true }).click()
+      await aba.getByRole("button", { name: "Enviar código", exact: true }).click()
       expect(await aba.getByLabel("E-mail").evaluate((el: HTMLInputElement) => el.validationMessage)).toBe("Preencha este campo.")
       await aba.getByLabel("E-mail").fill("sem-arroba")
-      await aba.getByRole("button", { name: "Entrar", exact: true }).click()
+      await aba.getByRole("button", { name: "Enviar código", exact: true }).click()
       expect(await aba.getByLabel("E-mail").evaluate((el: HTMLInputElement) => el.validationMessage)).toMatch(/e-mail válido/)
     } finally { await ingles.close() }
   })

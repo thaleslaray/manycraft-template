@@ -18,7 +18,7 @@ export async function fixtureCookie(workspace = 'a'): Promise<string> {
 export async function seedAuth() {
   await env.DB.prepare('DELETE FROM workspaces').run()
   await env.DB.prepare('DELETE FROM "user"').run()
-  await env.DB.batch(['verification', 'rateLimit', 'email_outbox', 'request_limits', 'invites'].map(table => env.DB.prepare(`DELETE FROM "${table}"`)))
+  await env.DB.batch(['verification', 'rateLimit', 'email_outbox', 'request_limits', 'invites', 'login_code_daily'].map(table => env.DB.prepare(`DELETE FROM "${table}"`)))
   await seed()
   const ctx = await createAuth(env).$context
   for (const workspace of ['a', 'b']) {
@@ -56,4 +56,31 @@ export async function emailLink(email: string, kind: string): Promise<URL> {
   const url = row?.text.match(/https:\/\/[^\s]+/)?.[0]
   if (!url) throw new Error(`E-mail de ${kind} não encontrado no outbox de desenvolvimento.`)
   return new URL(url)
+}
+
+/** A senha está desligada por padrão (PASSWORD_LOGIN): só os testes do caminho por senha usam estes bindings. */
+export const withPassword = { ...env, PASSWORD_LOGIN: '1' } as Env
+
+/** Último código de login no outbox de desenvolvimento (o código vai no texto do e-mail). */
+export async function lastLoginCode(email: string): Promise<string | undefined> {
+  const row = await env.DB.prepare("SELECT text FROM email_outbox WHERE recipient=? AND kind='login_code' ORDER BY rowid DESC LIMIT 1").bind(email).first<{ text: string }>()
+  return row?.text.match(/\b(\d{6})\b/)?.[1]
+}
+
+export const requestLoginCode = (email: string, bindings: Env = env) =>
+  authRequest('email-otp/send-verification-otp', { email, type: 'sign-in' }, undefined, bindings)
+
+export const signInWithCode = (email: string, otp: string, bindings: Env = env) =>
+  authRequest('sign-in/email-otp', { email, otp }, undefined, bindings)
+
+/** Entra pelo caminho real do painel: pede o código, lê no outbox e troca pela sessão. Cria a conta se o cadastro permitir. */
+export async function codeLogin(email: string, bindings: Env = env) {
+  const sent = await requestLoginCode(email, bindings)
+  if (sent.status !== 200) throw new Error(`Pedido de código respondeu ${sent.status}.`)
+  const otp = await lastLoginCode(email)
+  if (!otp) throw new Error('Código de login não encontrado no outbox de desenvolvimento.')
+  const response = await signInWithCode(email, otp, bindings)
+  if (response.status !== 200) throw new Error(`Entrada por código respondeu ${response.status}.`)
+  const { user } = await response.clone().json() as { user: { id: string; email: string; name: string; emailVerified: boolean } }
+  return { response, user, cookie: responseCookie(response) }
 }

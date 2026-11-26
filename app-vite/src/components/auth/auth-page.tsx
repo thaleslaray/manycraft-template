@@ -1,39 +1,15 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from 'react'
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router'
-import { ArrowLeft, Check, Eye, EyeOff, KeyRound, Mail, ShieldCheck } from 'lucide-react'
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import { useNavigate } from 'react-router'
+import { ArrowLeft, Check, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { authErrorMessage, authRequest, authURL, resetWorkspaceContext } from '@/data/auth'
+import { authErrorMessage, authRequest, CODIGO_TAMANHO, entrarComCodigo, entrarComoTeste, limparCodigo, pedirCodigo, precisaDeCodigoNovo, resetWorkspaceContext } from '@/data/auth'
 import { pendingInviteKey, previewInvite } from '@/data/team'
+import { destinoDepoisDoLogin } from '@/data/conector'
+import { clearAsyncCache } from '@/hooks/use-async'
 
-type Mode = 'login' | 'signup' | 'verify' | 'forgot' | 'reset' | 'magic'
-const titles: Record<Mode, string> = {
-  login: 'Acesse seu espaço', signup: 'Crie sua conta', verify: 'Confira seu e-mail',
-  forgot: 'Recupere seu acesso', reset: 'Defina uma nova senha', magic: 'Entre com um link seguro',
-}
-const descriptions: Record<Mode, string> = {
-  login: 'Continue de onde parou nas suas conversas.', signup: 'Organize suas conversas e automações em um só lugar.',
-  verify: 'Abra o link de confirmação que enviamos para liberar sua conta.',
-  forgot: 'Informe seu e-mail para receber as instruções de recuperação.',
-  reset: 'Escolha uma senha com pelo menos 12 caracteres.', magic: 'Receba um link de acesso no e-mail, sem digitar sua senha.',
-}
-
-function PasswordField({ label, id, value, onChange, autoComplete }: {
-  label: string; id: string; value: string; onChange(value: string): void; autoComplete: string
-}) {
-  const [visible, setVisible] = useState(false)
-  return <div className="space-y-2">
-    <label className="text-sm font-medium" htmlFor={id}>{label}</label>
-    <div className="relative">
-      <Input id={id} name={id} type={visible ? 'text' : 'password'} required minLength={12} maxLength={128}
-        autoComplete={autoComplete} value={value} onChange={event => onChange(event.target.value)} className="h-12 pr-12 text-base" />
-      <button type="button" aria-label={visible ? `Ocultar ${label.toLowerCase()}` : `Mostrar ${label.toLowerCase()}`}
-        aria-pressed={visible} onClick={() => setVisible(!visible)} className="absolute inset-y-0 right-0 grid w-12 place-items-center rounded-md text-text-muted">
-        {visible ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
-      </button>
-    </div>
-  </div>
-}
+/** Espera para pedir outro código (o motor também limita pedidos por e-mail e por IP). */
+const ESPERA_REENVIO_S = 60
 
 function AuthFrame({ children }: { children: ReactNode }) {
   return <main className="flex min-h-dvh flex-col bg-surface text-text">
@@ -47,110 +23,169 @@ function AuthFrame({ children }: { children: ReactNode }) {
   </main>
 }
 
-export function AuthPage({ mode }: { mode: Mode }) {
+function ErrorBox({ id, children }: { id: string; children: ReactNode }) {
+  return <p id={id} role="alert" className="rounded-md border border-danger p-3 text-sm text-danger">{children}</p>
+}
+
+/** Entrada em duas etapas: e-mail, depois o código de 6 dígitos que chega nele. Quem tem convite e ainda não tem conta entra igual. */
+export function AuthPage() {
   const navigate = useNavigate()
-  const location = useLocation()
-  const [params] = useSearchParams()
-  const [email, setEmail] = useState<string>(location.state?.email ?? '')
-  const [name, setName] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmation, setConfirmation] = useState('')
+  const [etapa, setEtapa] = useState<'email' | 'codigo'>('email')
+  const [email, setEmail] = useState('')
+  const [codigo, setCodigo] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
-  // Convite aberto antes do cadastro: o e-mail do convite já vem preenchido (no cadastro, travado, para a conta casar com o convite).
+  // Código esgotado (tentativas) ou vencido: o campo trava e só um código novo entra.
+  const [codigoBloqueado, setCodigoBloqueado] = useState(false)
+  const [reenvioEm, setReenvioEm] = useState(0)
+  const [agora, setAgora] = useState(() => Date.now())
+  const emailRef = useRef<HTMLInputElement>(null)
+  const codigoRef = useRef<HTMLInputElement>(null)
+  const reenviarRef = useRef<HTMLButtonElement>(null)
+  const enviando = useRef(false)
+
+  // Convite aberto antes da entrada: o e-mail do convite já vem preenchido.
   const [inviteEmail, setInviteEmail] = useState('')
   useEffect(() => {
-    const pending = mode === 'signup' || mode === 'login' ? sessionStorage.getItem(pendingInviteKey) : null
+    const pending = sessionStorage.getItem(pendingInviteKey)
     if (!pending) return
     let live = true
     void previewInvite(pending).then(address => { if (live && address) { setInviteEmail(address); setEmail(current => current || address) } }).catch(() => {})
     return () => { live = false }
-  }, [mode])
-  const token = params.get('token')
-  const invalidLink = params.has('error') || (mode === 'reset' && !token)
-  const message = notice || (params.get('verified') === '1' ? 'E-mail confirmado. Agora você pode entrar.'
-    : params.get('reset') === '1' ? 'Senha atualizada. Entre com sua nova senha.' : '')
+  }, [])
 
-  async function submit(event: FormEvent<HTMLFormElement>) {
+  // Contagem do reenvio: um tique por segundo só enquanto falta tempo.
+  const faltam = Math.max(0, Math.ceil((reenvioEm - agora) / 1000))
+  useEffect(() => {
+    if (reenvioEm <= Date.now()) return
+    const timer = window.setInterval(() => { const now = Date.now(); setAgora(now); if (now >= reenvioEm) window.clearInterval(timer) }, 1000)
+    return () => window.clearInterval(timer)
+  }, [reenvioEm])
+
+  // Foco no campo certo a cada troca de etapa ou erro novo.
+  useEffect(() => {
+    if (etapa === 'email') emailRef.current?.focus()
+    else if (codigoBloqueado) reenviarRef.current?.focus()
+    else codigoRef.current?.focus()
+  }, [etapa, error, codigoBloqueado])
+
+  function comecarEspera() { const now = Date.now(); setAgora(now); setReenvioEm(now + ESPERA_REENVIO_S * 1000) }
+
+  async function enviarCodigo(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setError(''); setNotice('')
-    if (mode === 'reset' && password !== confirmation) { setError('As senhas precisam ser iguais.'); return }
-    setBusy(true)
+    setError(''); setNotice(''); setBusy(true)
     try {
       const address = email.trim()
-      if (mode === 'signup') {
-        await authRequest('sign-up/email', { name: name.trim(), email: address, password, callbackURL: authURL('/login?verified=1') })
-        navigate('/verify-email', { state: { email: address } })
-      } else if (mode === 'login') {
-        await authRequest('sign-in/email', { email: address, password })
-        resetWorkspaceContext()
-        navigate(sessionStorage.getItem(pendingInviteKey) ? '/invite' : '/', { replace: true })
-      } else if (mode === 'verify') {
-        await authRequest('send-verification-email', { email: address, callbackURL: authURL('/login?verified=1') })
-        setNotice('Se a conta precisar de confirmação, enviamos um novo link. Confira sua caixa de entrada.')
-      } else if (mode === 'forgot') {
-        await authRequest('request-password-reset', { email: address, redirectTo: authURL('/reset-password') })
-        setNotice('Se houver uma conta com esse e-mail, você receberá as instruções de recuperação.')
-      } else if (mode === 'reset') {
-        await authRequest('reset-password', { token, newPassword: password })
-        resetWorkspaceContext()
-        navigate('/login?reset=1', { replace: true })
-      } else {
-        await authRequest('sign-in/magic-link', { email: address, callbackURL: authURL(sessionStorage.getItem(pendingInviteKey) ? '/invite' : '/'), errorCallbackURL: authURL('/login') })
-        setNotice('Confira sua caixa de entrada. Enviamos um link de acesso para o seu e-mail.')
-      }
+      await pedirCodigo(address)
+      setEmail(address); setCodigo(''); setCodigoBloqueado(false); comecarEspera(); setEtapa('codigo')
     } catch (cause) { setError(authErrorMessage(cause)) }
     finally { setBusy(false) }
   }
 
-  // Temporário, só no servidor de desenvolvimento: entra com a conta de teste do seed (engine/scripts/seed.sql).
+  async function reenviar() {
+    setError(''); setNotice(''); setBusy(true)
+    try {
+      await pedirCodigo(email)
+      setCodigo(''); setCodigoBloqueado(false); comecarEspera()
+      setNotice('Enviamos um código novo. O anterior deixou de valer.')
+    } catch (cause) { setError(authErrorMessage(cause)) }
+    finally { setBusy(false) }
+  }
+
+  async function entrar(valor: string) {
+    if (enviando.current || valor.length !== CODIGO_TAMANHO) return
+    enviando.current = true
+    setError(''); setNotice(''); setBusy(true)
+    try {
+      await entrarComCodigo(email, valor)
+      resetWorkspaceContext(); clearAsyncCache()
+      navigate(destinoDepoisDoLogin(), { replace: true })
+    } catch (cause) {
+      setCodigo('')
+      if (precisaDeCodigoNovo(cause)) { setCodigoBloqueado(true); setReenvioEm(0) }
+      setError(authErrorMessage(cause))
+    } finally { enviando.current = false; setBusy(false) }
+  }
+
+  function trocarEmail() {
+    setEtapa('email'); setCodigo(''); setError(''); setNotice(''); setCodigoBloqueado(false)
+  }
+
+  // Só no servidor de desenvolvimento: entra como dona do espaço de desenvolvimento (a Lia do seed, engine/scripts/seed.sql)
+  // por uma rota do motor que só existe lá (POST /api/dev/sign-in; 404 fora do desenvolvimento). Sem senha e sem e-mail.
   async function enterAsTestUser() {
     setError(''); setBusy(true)
     try {
-      await authRequest('sign-in/email', { email: 'lia@example.test', password: 'demo-d606be70' })
-      resetWorkspaceContext()
-      navigate('/', { replace: true })
+      await entrarComoTeste()
+      resetWorkspaceContext(); clearAsyncCache()
+      navigate(destinoDepoisDoLogin(), { replace: true })
     } catch (cause) { setError(authErrorMessage(cause)) }
     finally { setBusy(false) }
   }
 
-  const Icon = mode === 'verify' || mode === 'magic' ? Mail : mode === 'forgot' || mode === 'reset' ? KeyRound : ShieldCheck
-  const submitLabel = { login: 'Entrar', signup: 'Criar conta', verify: 'Reenviar confirmação', forgot: 'Enviar recuperação', reset: 'Salvar nova senha', magic: 'Enviar link de acesso' }[mode]
-  return <AuthFrame>
-    <title>{titles[mode]} · ManyCraft</title>
+  if (etapa === 'email') return <AuthFrame>
+    <title>Acesse seu espaço · ManyCraft</title>
     <div className="mb-7 space-y-3">
-      {mode !== 'login' && mode !== 'signup' && <Icon className="mb-6 size-10 text-text-muted" aria-hidden="true" />}
-      <h1 id="auth-title" className="text-3xl font-bold tracking-tight">{titles[mode]}</h1>
-      <p className="text-sm leading-6 text-text-muted">{descriptions[mode]}</p>
+      <h1 id="auth-title" className="text-3xl font-bold tracking-tight">Acesse seu espaço</h1>
+      <p className="text-sm leading-6 text-text-muted">Digite seu e-mail. Enviamos um código de acesso para você entrar, sem senha.</p>
     </div>
-    {message && <p role="status" className="mb-5 flex gap-2 rounded-md bg-success-soft p-3 text-sm text-success"><Check className="mt-0.5 size-4 shrink-0" aria-hidden="true" />{message}</p>}
-    {(error || invalidLink) && <p role="alert" className="mb-5 rounded-md border border-danger p-3 text-sm text-danger">{error || 'Link inválido ou expirado. Solicite um novo link para continuar.'}</p>}
-    <form onSubmit={submit} className="space-y-5">
-      <fieldset disabled={busy || (mode === 'reset' && invalidLink)} className="space-y-5">
-        <legend className="sr-only">{titles[mode]}</legend>
-        {mode === 'signup' && <div className="space-y-2"><label className="text-sm font-medium" htmlFor="name">Seu nome</label>
-          <Input id="name" name="name" autoComplete="name" required maxLength={120} value={name} onChange={event => setName(event.target.value)} className="h-12 text-base" /></div>}
-        {mode !== 'reset' && <div className="space-y-2"><label className="text-sm font-medium" htmlFor="email">E-mail</label>
-          <Input id="email" name="email" type="email" autoComplete="email" required maxLength={254} value={email} onChange={event => setEmail(event.target.value)} readOnly={mode === 'signup' && !!inviteEmail} placeholder="voce@exemplo.com" className="h-12 text-base" />
-          {mode === 'signup' && inviteEmail && <p className="text-xs text-text-muted">Este convite vale para este e-mail.</p>}</div>}
-        {(mode === 'login' || mode === 'signup' || mode === 'reset') && <PasswordField label={mode === 'reset' ? 'Nova senha' : 'Senha'} id="password" value={password} onChange={setPassword} autoComplete={mode === 'login' ? 'current-password' : 'new-password'} />}
-        {mode === 'signup' && <p className="-mt-3 text-xs text-text-muted">Use pelo menos 12 caracteres para proteger sua conta.</p>}
-        {mode === 'reset' && <PasswordField label="Repita a nova senha" id="confirmation" value={confirmation} onChange={setConfirmation} autoComplete="new-password" />}
-        {mode === 'login' && <div className="text-right"><Link to="/forgot-password" className="text-sm font-medium underline-offset-4 hover:underline">Esqueci minha senha</Link></div>}
-        <Button type="submit" loading={busy} className="w-full" size="lg">{submitLabel}</Button>
+    <form onSubmit={enviarCodigo} className="space-y-5">
+      <fieldset disabled={busy} className="space-y-5">
+        <legend className="sr-only">Entrar com o e-mail</legend>
+        <div className="space-y-2">
+          <label className="text-sm font-medium" htmlFor="email">E-mail</label>
+          <Input ref={emailRef} id="email" name="email" type="email" autoComplete="email" required maxLength={254} value={email}
+            onChange={event => setEmail(event.target.value)} placeholder="voce@exemplo.com" className="h-12 text-base"
+            aria-invalid={error ? true : undefined} aria-describedby={error ? 'email-erro' : inviteEmail ? 'email-convite' : undefined} />
+          {inviteEmail && email.trim().toLowerCase() === inviteEmail.toLowerCase() && <p id="email-convite" className="text-xs text-text-muted">Este é o e-mail do seu convite.</p>}
+        </div>
+        {error && <ErrorBox id="email-erro">{error}</ErrorBox>}
+        <Button type="submit" loading={busy} className="w-full" size="lg">Enviar código</Button>
       </fieldset>
     </form>
-    {mode === 'login' && <>
-      {import.meta.env.DEV && <Button type="button" variant="secondary" size="lg" className="mt-4 w-full" disabled={busy} onClick={enterAsTestUser}>Entrar (teste)</Button>}
-      {error && <Link to="/verify-email" state={{ email }} className="mt-4 block text-center text-sm underline">Pedir novo link de confirmação</Link>}
-      <div className="my-6 flex items-center gap-4 text-xs text-text-muted"><span className="h-px flex-1 bg-border" />ou<span className="h-px flex-1 bg-border" /></div>
-      <SocialButtons onError={setError} />
-      <Button asChild variant="secondary" size="lg" className="w-full"><Link to="/magic-link"><Mail className="size-4" />Entrar por link no e-mail</Link></Button>
-      <p className="mt-8 text-center text-sm text-text-muted">Primeira vez aqui? <Link to="/signup" className="font-semibold text-text underline-offset-4 hover:underline">Criar conta</Link></p>
-    </>}
-    {mode !== 'login' && <Link to="/login" className="mt-7 flex items-center justify-center gap-2 text-sm font-medium hover:underline"><ArrowLeft className="size-4" aria-hidden="true" />Voltar para a entrada</Link>}
-    {mode === 'reset' && invalidLink && <Link to="/forgot-password" className="mt-4 block text-center text-sm underline">Pedir nova recuperação</Link>}
+    {import.meta.env.DEV && <Button type="button" variant="secondary" size="lg" className="mt-4 w-full" disabled={busy} onClick={enterAsTestUser}>Entrar (teste)</Button>}
+    <SocialButtons onError={setError} />
+  </AuthFrame>
+
+  return <AuthFrame>
+    <title>Digite o código · ManyCraft</title>
+    <div className="mb-7 space-y-3">
+      <Mail className="mb-6 size-10 text-text-muted" aria-hidden="true" />
+      <h1 id="auth-title" className="text-3xl font-bold tracking-tight">Digite o código</h1>
+      <p className="text-sm leading-6 text-text-muted">
+        Enviamos um código de 6 dígitos para <strong className="break-all font-semibold text-text">{email}</strong>. Se este e-mail puder entrar, o código chega em instantes. Ele vale por 10 minutos.
+      </p>
+    </div>
+    {notice && <p role="status" className="mb-5 flex gap-2 rounded-md bg-success-soft p-3 text-sm text-success"><Check className="mt-0.5 size-4 shrink-0" aria-hidden="true" />{notice}</p>}
+    <form onSubmit={event => { event.preventDefault(); void entrar(codigo) }} className="space-y-5">
+      <fieldset disabled={busy} className="space-y-5">
+        <legend className="sr-only">Entrar com o código</legend>
+        <div className="space-y-2">
+          <label className="text-sm font-medium" htmlFor="codigo">Código de acesso</label>
+          {/* Sem maxLength: colar "123 456" ou "123-456" precisa chegar inteiro para a limpeza tirar o separador. */}
+          <Input ref={codigoRef} id="codigo" name="codigo" type="text" inputMode="numeric" autoComplete="one-time-code" required
+            value={codigo} disabled={codigoBloqueado} placeholder="000000" data-testid="campo-codigo"
+            onChange={event => { const limpo = limparCodigo(event.target.value); setCodigo(limpo); if (limpo.length === CODIGO_TAMANHO) void entrar(limpo) }}
+            className="h-12 text-center font-mono text-2xl tracking-[0.5em]"
+            aria-invalid={error ? true : undefined} aria-describedby={error ? 'codigo-erro' : 'codigo-ajuda'} />
+          <p id="codigo-ajuda" className="text-xs text-text-muted">Confira também a caixa de spam. Pode colar o código inteiro.</p>
+        </div>
+        {error && <ErrorBox id="codigo-erro">{error}</ErrorBox>}
+        <Button type="submit" loading={busy} disabled={codigoBloqueado || codigo.length !== CODIGO_TAMANHO} className="w-full" size="lg">Entrar</Button>
+      </fieldset>
+    </form>
+    <div className="mt-5 flex flex-col items-center gap-3">
+      <Button ref={reenviarRef} type="button" variant={codigoBloqueado ? 'primary' : 'secondary'} size="lg" className="w-full"
+        disabled={busy || faltam > 0} onClick={() => void reenviar()}>
+        {codigoBloqueado ? 'Pedir código novo' : faltam > 0 ? `Reenviar código em ${faltam} s` : 'Reenviar código'}
+      </Button>
+      {/* A contagem do botão não é anunciada a cada segundo; o leitor de tela só ouve quando o reenvio libera. */}
+      <span role="status" className="sr-only">{!codigoBloqueado && reenvioEm > 0 && faltam === 0 ? 'Você já pode pedir outro código.' : ''}</span>
+      <button type="button" onClick={trocarEmail} disabled={busy} className="mt-2 flex items-center justify-center gap-2 text-sm font-medium hover:underline disabled:opacity-50">
+        <ArrowLeft className="size-4" aria-hidden="true" />Usar outro e-mail
+      </button>
+    </div>
   </AuthFrame>
 }
 
@@ -166,7 +201,9 @@ function SocialButtons({ onError }: { onError: (message: string) => void }) {
     } catch (e) { onError(authErrorMessage(e)) }
   }
   if (!providers.google) return null
+  // O divisor "ou" mora aqui: sem Google configurado ele ficava solto, sem nada embaixo.
   return <div className="mb-3 space-y-3">
+    <div className="my-6 flex items-center gap-4 text-xs text-text-muted"><span className="h-px flex-1 bg-border" />ou<span className="h-px flex-1 bg-border" /></div>
     {providers.google ? <Button variant="secondary" size="lg" className="w-full" onClick={() => void start('google')}>Entrar com Google</Button> : null}
   </div>
 }

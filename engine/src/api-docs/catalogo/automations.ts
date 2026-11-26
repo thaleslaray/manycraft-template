@@ -3,6 +3,49 @@ import { automationDraftDocSchema, rascunhoExemplo, rascunhoResumo } from '../ra
 import { automationAnswersQuerySchema, automationConvertSchema, automationCopyToSchema, automationCreateSchema, automationDraftSchema, automationImportSharedSchema, automationListQuerySchema, automationLockSchema, automationPatchSchema, automationShareSchema, automationStatsQuerySchema } from '../../automation-actions'
 import { automationTriggerCreateBodySchema, automationTriggerPatchBodySchema } from '../../automation-trigger-actions'
 import { metricContactsQuerySchema, triggerMetricsQuerySchema } from '../../trigger-metrics'
+import { dataIso } from '../respostas-comuns'
+import { z } from 'zod'
+
+const grafo = z.object({ nodes: z.array(z.object({})), edges: z.array(z.object({})) }).describe('Fluxo: passos (`nodes`) e ligações (`edges`), no formato do corpo de `PUT /api/automations/{id}/draft`.')
+const automacaoResposta = z.object({
+  id: z.string(),
+  workspace_id: z.string(),
+  folder_id: z.string().nullable().describe('Pasta (`GET /api/folders`); `null` = sem pasta.'),
+  name: z.string(),
+  status: z.enum(['draft', 'live', 'stopped']).describe('`draft` nunca publicada, `live` ligada, `stopped` pausada.'),
+  draft_graph: grafo,
+  published_version_id: z.string().nullable(),
+  has_unpublished_changes: z.boolean().describe('O rascunho mudou depois da última publicação.'),
+  locked: z.boolean().describe('Trancada por dono ou administrador: os demais papéis só leem.'),
+  locked_actions: z.string().nullable().describe('Com a trava: ações reservadas, em texto JSON; `null` = todas.'),
+  deleted_at: dataIso('Quando foi para a lixeira (ISO 8601, UTC).').nullable(),
+  created_at: dataIso(),
+  updated_at: dataIso(),
+})
+const automacaoDaListaResposta = automacaoResposta.extend({
+  trigger_count: z.number().int().describe('Gatilhos ativos ou em rascunho.'),
+  trigger_summary: z.string().describe('O primeiro gatilho em linguagem natural ("Sem gatilho" quando não há).'),
+  trigger_type: z.string().nullable().describe('Tipo do primeiro gatilho (`dm_keyword`, `ig_comment`, `ig_story_reply`, `ref_url`...).'),
+  trigger_channel: z.string().nullable().describe('Canal da conexão do primeiro gatilho.'),
+  runs: z.number().int().describe('Execuções nos últimos 30 dias.'),
+  ctr: z.number().nullable().describe('Cliques sobre envios nos últimos 30 dias, de 0 a 1; `null` sem envio.'),
+  delivered: z.number().int().describe('Contatos únicos com mensagem entregue nos últimos 30 dias.'),
+  read: z.number().int().describe('Contatos únicos com mensagem lida nos últimos 30 dias.'),
+  flow_preview: z.object({}).nullable().describe('Miniatura do mapa (passos e ligações com posição); `null` quando só há o gatilho.'),
+})
+const gatilhoResposta = z.object({
+  id: z.string(),
+  workspace_id: z.string(),
+  automation_id: z.string(),
+  channel_id: z.string().nullable().describe('Conexão do gatilho.'),
+  channel_type: z.string().nullable(),
+  name: z.string(),
+  type: z.string().describe('`dm_keyword`, `ig_comment`, `ig_live_comment`, `ig_story_reply`, `ig_story_mention`, `ref_url`, `ad`, `hotmart`, `api`...'),
+  config: z.object({}).describe('Configuração própria do tipo (palavras em `include`/`exclude`, publicação alvo em `target`/`post_id`, respostas públicas...).'),
+  active: z.boolean(),
+  created_at: dataIso(),
+  updated_at: dataIso(),
+})
 
 // Área automations: veja em ./index.ts como preencher.
 // O grafo do rascunho (PUT /draft): a rota aceita `graph` livre; o documento usa ../rascunho.ts (formato real, com exemplo testado).
@@ -11,9 +54,16 @@ export const area: AreaCatalogo = {
   nome: 'Automações',
   descricao: 'Criar, editar, publicar e medir as automações (fluxos).',
   entradas: [
-    { metodo: 'GET', caminho: '/api/automations', resumo: 'Lista as automações do espaço, com filtros de status (`draft`, `live`, `stopped`), pasta (`folder_id`, `null` = sem pasta) e busca por nome (`search`).', query: automationListQuerySchema },
+    { metodo: 'GET', caminho: '/api/automations', resumo: 'Lista as automações do espaço, com filtros de status (`draft`, `live`, `stopped`), pasta (`folder_id`, `null` = sem pasta) e busca por nome (`search`). Sem paginação: devolve todas as que não estão na lixeira, da alteração mais recente para a mais antiga, com números dos últimos 30 dias.', query: automationListQuerySchema, resposta: z.array(automacaoDaListaResposta) },
     { metodo: 'POST', caminho: '/api/automations', resumo: 'Cria uma automação vazia em rascunho, opcionalmente dentro de uma pasta.', corpo: automationCreateSchema, exemplo: { name: 'Boas-vindas', folder_id: null } },
-    { metodo: 'GET', caminho: '/api/automations/:id', resumo: 'Mostra a automação com o rascunho do fluxo e a versão publicada.' },
+    { metodo: 'GET', caminho: '/api/automations/:id', resumo: 'Mostra a automação com o rascunho do fluxo, os gatilhos e a versão publicada.', resposta: z.object({
+      automation: automacaoResposta,
+      triggers: z.array(gatilhoResposta).describe('Gatilhos ativos ou em rascunho (os desligados de vez ficam de fora). Para o detalhe de cada um, `GET /api/automations/{id}/triggers`.'),
+      published_version: z.object({
+        id: z.string(), automation_id: z.string(), version: z.number().int(), graph: grafo,
+        published_by: z.string().nullable(), created_at: dataIso(),
+      }).nullable().describe('Versão no ar; `null` quando nunca foi publicada.'),
+    }) },
     { metodo: 'PATCH', caminho: '/api/automations/:id', resumo: 'Renomeia, muda de pasta ou liga/pausa a automação (`live` / `stopped`); mande ao menos um campo.', corpo: automationPatchSchema, exemplo: { status: 'stopped' } },
     { metodo: 'DELETE', caminho: '/api/automations/:id', resumo: 'Exclui de vez uma automação que está na lixeira.' },
     { metodo: 'GET', caminho: '/api/automations/:id/answers', resumo: 'Respostas que os contatos deram às perguntas do fluxo, mais recentes primeiro (até 5.000); `node` filtra uma pergunta e `format=csv` baixa planilha.', query: automationAnswersQuerySchema },

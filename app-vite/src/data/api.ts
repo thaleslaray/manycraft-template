@@ -62,6 +62,20 @@ export async function getWorkspace(): Promise<DevWorkspace> {
   return workspaceRequest
 }
 
+/**
+ * A sessão venceu? Pergunta ao servidor sem usar o espaço guardado em memória. Só o 401 conta: rede fora do ar ou servidor
+ * indisponível não são sessão vencida. Com a sessão vencida, leva para o login, como qualquer chamada recusada.
+ */
+export async function signedOut(): Promise<boolean> {
+  if (isFakeMode()) return false
+  let status: number
+  try { status = (await fetch("/api/session/workspace", { cache: "no-store" })).status } catch { return false }
+  if (status !== 401) return false
+  workspaceRequest = undefined
+  if (typeof window !== 'undefined') window.location.replace('/login')
+  return true
+}
+
 /** GETs idênticos em voo: quem pede a mesma URL enquanto a primeira não respondeu compartilha a promessa. Nada fica depois de resolvido. */
 const inflightGets = new Map<string, Promise<unknown>>()
 

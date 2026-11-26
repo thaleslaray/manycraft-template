@@ -4,6 +4,34 @@ import { connectionUsernameSchema } from '../../channels/meta-account'
 import { connectionBusinessProfileSchema, connectionCreateSchema, connectionGroupsQuerySchema, connectionListQuerySchema, connectionPageQuerySchema, connectionPatchSchema, connectionRotateSchema } from '../../connections'
 import { connectionDisconnectionSchema } from '../../notices'
 import { threadControlSchema } from '../../channels/core/routing'
+import { z } from 'zod'
+
+const conexaoResposta = z.object({
+  id: z.string(),
+  kind: z.string().describe('Canal: `instagram`, `whatsapp`, `telegram`, `messenger`, `email`...'),
+  provider: z.string().describe('Provedor da conexão (ex.: a API oficial ou um provedor não oficial).'),
+  label: z.string().describe('Nome legível do provedor.'),
+  displayName: z.string().nullable(),
+  externalId: z.string().describe('Id da conta no provedor (número, página, bot...).'),
+  status: z.enum(['pending', 'connecting', 'connected', 'error', 'restricted', 'disconnected']).describe('`pending` esperando o primeiro evento, `connecting` pareando, `connected`, `error`, `restricted` (só responde dentro da janela), `disconnected` desligada pela equipe.'),
+  active: z.boolean().describe('Ligada pela equipe.'),
+  statusDetail: z.string().nullable().describe('Motivo do estado, quando há.'),
+  hasCredentials: z.boolean(),
+  pairing: z.string().nullable().describe('`qr` quando a conexão pareia por QR code.'),
+  createdAt: z.number().int().describe('Milissegundos Unix.'),
+  credentialsRotatedAt: z.number().int().nullable().describe('Milissegundos Unix.'),
+  settings: z.record(z.string(), z.unknown()).describe('Opções do provedor com o valor atual (nunca credencial).'),
+  profile: z.object({}).describe('O que a conexão suporta: blocos, janela de resposta, modelos, quem inicia a conversa...'),
+  health: z.record(z.string(), z.unknown()).describe('Avisos do provedor sobre a conta (qualidade, limites, restrições), cada um com a hora do aviso.'),
+  accountIdMissing: z.boolean(),
+  webhook: z.object({
+    mode: z.enum(['auto', 'manual']),
+    registered: z.boolean(),
+    url: z.string().nullable(),
+    subscribedAt: z.number().int().nullable().describe('Milissegundos Unix.'),
+    note: z.string().nullable(),
+  }),
+})
 
 // Área connections: veja em ./index.ts como preencher.
 export const area: AreaCatalogo = {
@@ -11,11 +39,11 @@ export const area: AreaCatalogo = {
   nome: 'Conexões',
   descricao: 'Os canais conectados ao espaço (Instagram, WhatsApp, Telegram, e-mail...).',
   entradas: [
-    { metodo: 'GET', caminho: '/api/connections', resumo: 'Lista as conexões (canais) do espaço, sem credenciais; filtre por tipo de canal com `kind`.', query: connectionListQuerySchema },
+    { metodo: 'GET', caminho: '/api/connections', resumo: 'Lista as conexões (canais) do espaço, sem credenciais; filtre por tipo de canal com `kind`. As arquivadas ficam de fora.', query: connectionListQuerySchema, resposta: z.array(conexaoResposta.extend({ contactTotal: z.number().int().describe('Contatos não excluídos ligados à conexão.') })) },
     { metodo: 'POST', caminho: '/api/connections', resumo: 'Cria uma conexão de canal com as credenciais coladas (token, ID do número...). WhatsApp oficial: o webhook é configurado só no número (endereço alternativo da Meta, `POST /{phone-number-id}` com `webhook_configuration`), nunca na URL do app; aceito, `step` vem `done` com `notice` e a conexão fica pendente até o primeiro evento; recusado ou sem o ID da conta do WhatsApp Business (WABA) confirmado, `step` é o passo manual (`manual_webhook`) com o motivo em `reason`.', corpo: connectionCreateSchema, exemplo: { kind: 'telegram', displayName: 'Bot da loja', credentials: { botToken: 'SEU_TOKEN_AQUI' } } },
     { metodo: 'GET', caminho: '/api/connections/capabilities', resumo: 'Perfil padrão de cada tipo de canal: quais blocos e recursos ele suporta.' },
     { metodo: 'GET', caminho: '/api/connections/catalog', resumo: 'Catálogo dos canais e provedores que dá para conectar, com os campos de credencial de cada um.' },
-    { metodo: 'GET', caminho: '/api/connections/:id', resumo: 'Mostra uma conexão: estado, permissões, webhook e opções (sem credenciais).' },
+    { metodo: 'GET', caminho: '/api/connections/:id', resumo: 'Mostra uma conexão: estado, permissões, webhook e opções (sem credenciais).', resposta: conexaoResposta },
     { metodo: 'PATCH', caminho: '/api/connections/:id', resumo: 'Altera o nome e as opções do provedor (digitando, marcar como lida...); credencial só muda por /rotate.', corpo: connectionPatchSchema, exemplo: { displayName: 'WhatsApp vendas' } },
     { metodo: 'DELETE', caminho: '/api/connections/:id', resumo: 'Arquiva a conexão; com `?delete_contacts=1`, exclui também os contatos que só existem por ela. WhatsApp oficial: tira o webhook do número só se ele aponta para este servidor (o de outro sistema fica).' },
     { metodo: 'GET', caminho: '/api/connections/:id/business-profile', resumo: 'Lê o perfil comercial da conta no provedor (sobre, descrição, endereço, sites).' },

@@ -2,21 +2,13 @@ import { test, expect as baseExpect, type Page } from '@playwright/test'
 import { mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { consulta, PAINEL, q, servidorNoAr, sql, pastaPrints } from './helpers'
+import { entrarPorCodigo } from './entrar'
 const expect = baseExpect.configure({ timeout: 30_000 }) // máquina compartilhada com outras sessões
 
-function emailLink(email: string, kind: string) {
-  const row = consulta<{ text: string }>(`SELECT text FROM email_outbox WHERE recipient='${q(email)}' AND kind='${q(kind)}' ORDER BY created_at DESC LIMIT 1`)[0]
-  const url = row?.text.match(/https?:\/\/[^\s]+/)?.[0]
-  if (!url) throw new Error('Link de teste não encontrado no outbox local.')
-  return url
-}
-
+// Entra pela API, por código (ver entrar.ts): esta jornada testa a equipe, não a tela de login.
 async function login(page: Page, email: string, name: string) {
-  const issued = await page.request.post(`${PAINEL}/api/auth/sign-in/magic-link`, {
-    headers: { origin: PAINEL }, data: { email, name, callbackURL: `${PAINEL}/` },
-  })
-  expect(issued.ok()).toBe(true)
-  await page.goto(emailLink(email, 'magic'))
+  await entrarPorCodigo(page, email, { nome: name })
+  await page.goto('/')
   await expect(page.getByRole('navigation', { name: 'Principal' })).toBeVisible()
 }
 
@@ -60,22 +52,13 @@ test('equipe: convida por link, aceita em outro contexto, atribui conversa, tran
     await expect(page.getByText(guest, { exact: true })).toBeVisible()
     await capture(page, 'equipe-convite', info.project.name)
 
-    // Sessão independente: o convite atravessa o login sem criar um espaço pessoal.
-    const issuedGuest = await agentPage.request.post(`${PAINEL}/api/auth/sign-up/email`, {
-      headers: { origin: PAINEL }, data: { email: guest, name: 'Ana Atendimento', password: 'Senha-de-estudo-segura-2026!', callbackURL: `${PAINEL}/invite` },
-    })
-    expect(issuedGuest.ok()).toBe(true)
+    // Sessão independente: o convite pede a entrada, a conta do convidado nasce no primeiro código e volta ao convite sem criar um espaço pessoal.
+    // A volta automática da tela de login para o convite é da tela (auth.spec.ts, a reescrever); aqui o convite é reaberto depois de entrar.
     await agentPage.goto(invite)
     await agentPage.getByRole('link', { name: 'Entrar para continuar' }).click()
     await expect(agentPage).toHaveURL(/\/login$/)
-    await agentPage.getByRole('link', { name: 'Entrar por link no e-mail' }).click()
-    await expect(agentPage).toHaveURL(/\/magic-link$/)
-    await expect(agentPage.getByRole('heading', { name: 'Entre com um link seguro', exact: true })).toBeVisible()
-    await agentPage.getByLabel('E-mail', { exact: true }).fill(guest)
-    await expect(agentPage.getByLabel('E-mail', { exact: true })).toHaveValue(guest)
-    await agentPage.getByRole('button', { name: 'Enviar link de acesso' }).click()
-    await expect(agentPage.getByRole('status')).toContainText('Confira sua caixa de entrada')
-    await agentPage.goto(emailLink(guest, 'magic'))
+    await entrarPorCodigo(agentPage, guest, { nome: 'Ana Atendimento' })
+    await agentPage.goto(invite)
     await expect(agentPage.getByRole('button', { name: 'Aceitar convite' })).toBeVisible()
     await capture(agentPage, 'aceitar-convite', info.project.name)
     await agentPage.getByRole('button', { name: 'Aceitar convite' }).click()

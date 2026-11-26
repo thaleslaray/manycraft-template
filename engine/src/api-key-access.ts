@@ -31,7 +31,7 @@ export const API_KEY_BLOCKED: readonly BlockedRoute[] = [
 export const API_OUTSIDE_PANEL_PREFIXES: readonly string[] = [
   '/api/webhooks/', '/api/hooks/', '/api/email-public/', '/api/broadcast-public/', '/api/flow-public/',
   '/api/automation-share/', '/api/public/v1/', '/api/pixel.js', '/api/pixel/event', '/api/site-widget/',
-  '/api/media/public/', '/api/session/', '/api/invite-preview', '/api/auth/', '/api/dev/workspace', '/api/docs',
+  '/api/media/public/', '/api/session/', '/api/invite-preview', '/api/auth/', '/api/dev/workspace', '/api/dev/sign-in', '/api/docs',
 ]
 
 export const PANEL_ONLY_MESSAGE = 'Esta ação só pode ser feita no painel.'

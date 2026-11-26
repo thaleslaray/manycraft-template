@@ -18,7 +18,7 @@
     "check:leaks": "node scripts/check-channel-leaks.mjs"
   },
   "dependencies": {
-    "better-auth": "1.7.12",
+    "better-auth": "1.7.28",
     "hono": "4.13.13",
     "postal-mime": "^4.1.4",
     "zod": "4.6.7"

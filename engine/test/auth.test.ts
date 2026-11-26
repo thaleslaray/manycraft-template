@@ -2,38 +2,39 @@ import { env } from 'cloudflare:workers'
 import { beforeEach, expect, it, vi } from 'vitest'
 import { app } from '../src/index'
 import { graph } from './fixtures'
-import { authenticatedRequest, authRequest, emailLink, fixtureCookie, origin, password, responseCookie, seedAuth } from './auth-helpers'
+import { authenticatedRequest, authRequest, codeLogin, emailLink, fixtureCookie, lastLoginCode, origin, password, requestLoginCode, responseCookie, seedAuth, signInWithCode, withPassword } from './auth-helpers'
 
 beforeEach(seedAuth)
 
+// Caminho por senha: só existe com PASSWORD_LOGIN=1 (os bindings `withPassword`); o padrão é a entrada por código.
 async function register(email = 'nova@example.test') {
-  const response = await authRequest('sign-up/email', { name: 'Pessoa de teste', email, password })
+  const response = await authRequest('sign-up/email', { name: 'Pessoa de teste', email, password }, undefined, withPassword)
   expect(response.status).toBe(200)
   return await response.json() as { user: { id: string; emailVerified: boolean } }
 }
 async function verifiedLogin(email = 'nova@example.test') {
   const user = await register(email)
   const link = await emailLink(email, 'verification')
-  const verification = await app.request(link.href, {}, env)
+  const verification = await app.request(link.href, {}, withPassword)
   expect(verification.status).toBeLessThan(400)
-  const login = await authRequest('sign-in/email', { email, password })
+  const login = await authRequest('sign-in/email', { email, password }, undefined, withPassword)
   expect(login.status).toBe(200)
   return { ...user, login, cookie: responseCookie(login) }
 }
 
-it('cadastro envia verificação no D1 e login só libera e-mail confirmado com cookie seguro', async () => {
+it('com PASSWORD_LOGIN=1: cadastro envia verificação no D1 e login só libera e-mail confirmado com cookie seguro', async () => {
   const email = 'verificar@example.test'
   const registered = await register(email)
   expect(registered.user.emailVerified).toBe(false)
-  const refused = await authRequest('sign-in/email', { email, password })
+  const refused = await authRequest('sign-in/email', { email, password }, undefined, withPassword)
   expect(refused.status).toBe(403)
   expect(refused.headers.get('set-cookie') ?? '').not.toContain('session_token=')
   const row = await env.DB.prepare('SELECT subject,html,text FROM email_outbox WHERE recipient=? AND kind=?').bind(email, 'verification').first<{ subject: string; html: string; text: string }>()
   expect(row?.subject).toBe('Confirme seu endereço de e-mail')
   expect(row?.html).toContain('Continuar')
-  const verification = await app.request((await emailLink(email, 'verification')).href, {}, env)
+  const verification = await app.request((await emailLink(email, 'verification')).href, {}, withPassword)
   expect(verification.status).toBeLessThan(400)
-  const login = await authRequest('sign-in/email', { email, password })
+  const login = await authRequest('sign-in/email', { email, password }, undefined, withPassword)
   expect(login.status).toBe(200)
   const setCookie = login.headers.get('set-cookie')!
   expect(setCookie).toMatch(/HttpOnly/i)
@@ -44,21 +45,21 @@ it('cadastro envia verificação no D1 e login só libera e-mail confirmado com 
   expect(await session.json()).toMatchObject({ user: { id: registered.user.id, email, emailVerified: true } })
 })
 
-it('reset de senha revoga todas as sessões e exige a nova credencial', async () => {
+it('com PASSWORD_LOGIN=1: reset de senha revoga todas as sessões e exige a nova credencial', async () => {
   const email = 'reset@example.test'
   const { cookie } = await verifiedLogin(email)
-  const second = await authRequest('sign-in/email', { email, password })
+  const second = await authRequest('sign-in/email', { email, password }, undefined, withPassword)
   expect(second.status).toBe(200)
-  expect((await authRequest('request-password-reset', { email, redirectTo: `${origin}/reset` })).status).toBe(200)
+  expect((await authRequest('request-password-reset', { email, redirectTo: `${origin}/reset` }, undefined, withPassword)).status).toBe(200)
   const token = (await emailLink(email, 'reset')).pathname.split('/').at(-1)!
   const nextPassword = 'Outra-senha-ficticia-segura-2026!'
-  expect((await authRequest('reset-password', { token, newPassword: nextPassword })).status).toBe(200)
+  expect((await authRequest('reset-password', { token, newPassword: nextPassword }, undefined, withPassword)).status).toBe(200)
   for (const oldCookie of [cookie, responseCookie(second)]) {
     expect(await (await authRequest('get-session', undefined, oldCookie)).json()).toBeNull()
   }
-  expect((await authRequest('sign-in/email', { email, password })).status).toBe(401)
-  expect((await authRequest('sign-in/email', { email, password: nextPassword })).status).toBe(200)
-  expect((await authRequest('reset-password', { token, newPassword: nextPassword })).status).toBe(400)
+  expect((await authRequest('sign-in/email', { email, password }, undefined, withPassword)).status).toBe(401)
+  expect((await authRequest('sign-in/email', { email, password: nextPassword }, undefined, withPassword)).status).toBe(200)
+  expect((await authRequest('reset-password', { token, newPassword: nextPassword }, undefined, withPassword)).status).toBe(400)
 })
 
 it('sair de todos os lugares invalida sessões independentes', async () => {
@@ -73,12 +74,12 @@ it('sair de todos os lugares invalida sessões independentes', async () => {
 })
 
 it('excluir conta revoga as chaves de API que ela criou em outro espaço e avisa o dono', async () => {
-  const { cookie, user } = await verifiedLogin('chave-excluir@example.test')
+  const { cookie, user } = await codeLogin('chave-excluir@example.test')
   await env.DB.prepare("INSERT INTO workspace_members(id,workspace_id,user_id,role) VALUES ('guest-admin','b',?,'administrator')").bind(user.id).run()
   const key = await (await authenticatedRequest('api-keys', 'b', { method: 'POST' }, cookie)).json() as { token: string }
   const call = () => app.request(`${origin}/api/public/v1/page/getInfo`, { headers: { authorization: `Bearer ${key.token}` } }, env)
   expect((await call()).status).toBe(200)
-  expect((await authRequest('delete-user', { password }, cookie)).status).toBe(200)
+  expect((await authRequest('delete-user', {}, cookie)).status).toBe(200)
   expect((await call()).status).toBe(401)
   const notices = await env.DB.prepare("SELECT message FROM workspace_notices WHERE workspace_id='b' AND message LIKE '%chave de API%'").all<{ message: string }>()
   expect(notices.results).toHaveLength(1)
@@ -86,7 +87,7 @@ it('excluir conta revoga as chaves de API que ela criou em outro espaço e avisa
 })
 
 it('excluir conta derruba a conexão ao vivo do inbox dessa pessoa e só dela', async () => {
-  const { cookie, user } = await verifiedLogin('ao-vivo-excluir@example.test')
+  const { cookie, user } = await codeLogin('ao-vivo-excluir@example.test')
   await env.DB.prepare("INSERT INTO workspace_members(id,workspace_id,user_id,role) VALUES ('guest-live','b',?,'viewer')").bind(user.id).run()
   const sockets: WebSocket[] = []
   const open = async (socketCookie: string) => {
@@ -102,7 +103,7 @@ it('excluir conta derruba a conexão ao vivo do inbox dessa pessoa e só dela', 
   try {
     const control = await open(await fixtureCookie('b'))
     const member = await open(cookie)
-    expect((await authRequest('delete-user', { password }, cookie)).status).toBe(200)
+    expect((await authRequest('delete-user', {}, cookie)).status).toBe(200)
     await new Promise(resolve => setTimeout(resolve, 500))
     expect(member.closed).toBe(4001)
     expect(control.closed).toBeNull()
@@ -110,14 +111,14 @@ it('excluir conta derruba a conexão ao vivo do inbox dessa pessoa e só dela', 
 })
 
 it('excluir conta apaga também os arquivos que contatos mandaram, no bucket privado', async () => {
-  const { cookie, user } = await verifiedLogin('excluir-privado@example.test')
+  const { cookie, user } = await codeLogin('excluir-privado@example.test')
   const created = await authenticatedRequest('workspaces', 'a', { method: 'POST', body: JSON.stringify({ name: 'Espaço com arquivos' }) }, cookie)
   const owned = await created.json() as { id: string }
   await env.DB.prepare('INSERT INTO media_objects(id,workspace_id,object_key,content_type,size,created_at,bucket) VALUES (?,?,?,?,?,?,?)').bind('priv-media', owned.id, 'priv-object', 'image/png', 8, Date.now(), 'inbound').run()
   await env.DB.prepare('INSERT INTO media_objects(id,workspace_id,object_key,content_type,size,created_at) VALUES (?,?,?,?,?,?)').bind('pub-media', owned.id, 'pub-object', 'image/png', 8, Date.now()).run()
   const publico = vi.fn().mockResolvedValue(undefined), privado = vi.fn().mockResolvedValue(undefined)
   const bindings = { ...env, MEDIA: { delete: publico } as unknown as R2Bucket, INBOUND_MEDIA: { delete: privado } as unknown as R2Bucket }
-  expect((await authRequest('delete-user', { password }, cookie, bindings)).status).toBe(200)
+  expect((await authRequest('delete-user', {}, cookie, bindings)).status).toBe(200)
   expect(privado).toHaveBeenCalledExactlyOnceWith('priv-object')
   expect(publico).toHaveBeenCalledExactlyOnceWith('pub-object')
   expect(await env.DB.prepare('SELECT COUNT(*) AS n FROM media_objects WHERE workspace_id=?').bind(owned.id).first('n')).toBe(0)
@@ -125,7 +126,7 @@ it('excluir conta apaga também os arquivos que contatos mandaram, no bucket pri
 })
 
 it('excluir conta remove workspace próprio, vínculos, sessões e credenciais por cascata', async () => {
-  const { cookie, user } = await verifiedLogin('excluir@example.test')
+  const { cookie, user } = await codeLogin('excluir@example.test')
   const created = await authenticatedRequest('workspaces', 'a', { method: 'POST', body: JSON.stringify({ name: 'Espaço descartável' }) }, cookie)
   expect(created.status).toBe(201)
   const owned = await created.json() as { id: string }
@@ -136,7 +137,7 @@ it('excluir conta remove workspace próprio, vínculos, sessões e credenciais p
   await env.DB.prepare('INSERT INTO verification(id,identifier,value,expiresAt,createdAt,updatedAt) VALUES (?,?,?,?,?,?)').bind('old-magic','magic-link:old-token',JSON.stringify({email:'excluir@example.test'}),new Date(Date.now()+3600000).toISOString(),new Date().toISOString(),new Date().toISOString()).run()
   const deleteObject = vi.fn().mockResolvedValue(undefined)
   const bindings = { ...env, MEDIA: { delete: deleteObject } as unknown as R2Bucket }
-  expect((await authRequest('delete-user', { password }, cookie, bindings)).status).toBe(200)
+  expect((await authRequest('delete-user', {}, cookie, bindings)).status).toBe(200)
   expect(deleteObject).toHaveBeenCalledExactlyOnceWith('owned-object')
   expect(await env.DB.prepare("SELECT COUNT(*) AS n FROM media_objects WHERE id='delete-media'").first('n')).toBe(0)
   expect(await env.DB.prepare("SELECT COUNT(*) AS n FROM contacts WHERE id='owned-person'").first('n')).toBe(0)
@@ -206,25 +207,13 @@ it('upload valida MIME, limite, bytes reais e grava R2 com domínio separado', a
   expect(await env.DB.prepare('SELECT workspace_id FROM media_objects WHERE id=?').bind(saved.id).first('workspace_id')).toBe('a')
 })
 
-it('magic link enviado pelo outbox cria sessão HTTP e só pode ser consumido uma vez', async () => {
+it('o link por e-mail foi removido: as rotas dele respondem 404 e nada é enviado', async () => {
   const email = 'magic@example.test'
-  expect((await authRequest('sign-in/magic-link', { email, name: 'Pessoa por link', callbackURL: `${origin}/painel` })).status).toBe(200)
-  const link = await emailLink(email, 'magic')
-  const token = link.searchParams.get('token')!
-  expect(token.length).toBeGreaterThanOrEqual(32)
-  const stored = await env.DB.prepare("SELECT identifier FROM verification WHERE identifier LIKE 'magic-link:%'").first<{ identifier: string }>()
-  expect(stored?.identifier).toBeDefined()
-  expect(stored?.identifier).not.toContain(token)
-  const verified = await app.request(link.href, {}, env)
-  expect(verified.status).toBe(302)
-  expect(verified.headers.get('location')).toBe(`${origin}/painel`)
-  const cookie = responseCookie(verified)
-  expect(await (await authRequest('get-session', undefined, cookie)).json()).toMatchObject({ user: { email, emailVerified: true } })
-  const replay = await app.request(link.href, {}, env)
-  expect(replay.status).toBe(302)
-  expect(new URL(replay.headers.get('location')!).searchParams.get('error')).toBe('INVALID_TOKEN')
-  expect(replay.headers.get('set-cookie') ?? '').not.toContain('session_token=')
-  expect(await env.DB.prepare("SELECT COUNT(*) AS n FROM session s JOIN user u ON s.userId=u.id WHERE u.email=?").bind(email).first('n')).toBe(1)
+  const pedido = await authRequest('sign-in/magic-link', { email, name: 'Pessoa por link', callbackURL: `${origin}/painel` })
+  expect(pedido.status).toBe(404)
+  expect((await app.request(`${origin}/api/auth/magic-link/verify?token=${'x'.repeat(32)}`, {}, env)).status).toBe(404)
+  expect(await env.DB.prepare('SELECT COUNT(*) AS n FROM email_outbox WHERE recipient=?').bind(email).first('n')).toBe(0)
+  expect(await env.DB.prepare("SELECT COUNT(*) AS n FROM verification WHERE identifier LIKE 'magic-link:%'").first('n')).toBe(0)
 })
 
 it('origem alheia não altera dados nem inicia auth e respostas/logs não expõem segredos', async () => {
@@ -238,11 +227,12 @@ it('origem alheia não altera dados nem inicia auth e respostas/logs não expõe
     expect(mutation.status).toBe(403)
     const persisted = await env.DB.prepare("SELECT draft_graph FROM automations WHERE id='auto-a'").first<string>('draft_graph')
     expect(JSON.parse(persisted!)).toEqual(graph)
-    const signup = await app.request(`${origin}/api/auth/sign-up/email`, {
+    const signup = await app.request(`${origin}/api/auth/email-otp/send-verification-otp`, {
       method: 'POST', headers: foreignHeaders,
-      body: JSON.stringify({ name: 'Pessoa bloqueada', email: 'csrf@example.test', password }),
+      body: JSON.stringify({ email: 'csrf@example.test', type: 'sign-in' }),
     }, env)
     expect(signup.status).toBe(403)
+    expect(await env.DB.prepare("SELECT COUNT(*) AS n FROM verification WHERE identifier='sign-in-otp-csrf@example.test'").first('n')).toBe(0)
     expect(await env.DB.prepare("SELECT COUNT(*) AS n FROM user WHERE email='csrf@example.test'").first('n')).toBe(0)
     expect(await env.DB.prepare("SELECT COUNT(*) AS n FROM email_outbox WHERE recipient='csrf@example.test'").first('n')).toBe(0)
     const output = [await mutation.text(), await signup.text(), JSON.stringify(spies.flatMap(spy => spy.mock.calls))].join('\n')
@@ -260,49 +250,67 @@ async function invite(email: string, expiresAt = Date.now() + 3600_000) {
 }
 const userCount = async (email: string) => await env.DB.prepare('SELECT COUNT(*) AS n FROM "user" WHERE email=?').bind(email).first<number>('n')
 
-it('cadastro fechado recusa e-mail sem convite com mensagem clara e não cria a conta', async () => {
+const outboxCount = async (email: string) => await env.DB.prepare('SELECT COUNT(*) AS n FROM email_outbox WHERE recipient=?').bind(email).first<number>('n')
+const otpRows = async (email: string) => await env.DB.prepare('SELECT COUNT(*) AS n FROM verification WHERE identifier=?').bind(`sign-in-otp-${email}`).first<number>('n')
+
+it('cadastro fechado: e-mail sem convite recebe o mesmo 200 de quem tem conta, sem e-mail, sem código gravado e sem conta', async () => {
   const email = 'semconvite@example.test'
-  const response = await authRequest('sign-up/email', { name: 'Intruso', email, password }, undefined, closed)
-  expect(response.status).toBeGreaterThanOrEqual(400)
-  expect(JSON.stringify(await response.json())).toContain('O cadastro está fechado. Peça um convite a quem administra o espaço.')
+  const pedido = await requestLoginCode(email, closed)
+  const existente = await requestLoginCode('a@example.test', closed)
+  expect(pedido.status).toBe(200)
+  expect(existente.status).toBe(200)
+  expect(await pedido.json()).toEqual(await existente.json())
+  expect(await outboxCount(email)).toBe(0)
+  expect(await otpRows(email)).toBe(0)
+  const entrada = await signInWithCode(email, '123456', closed)
+  expect(entrada.status).toBe(400)
+  expect(await entrada.json()).toMatchObject({ code: 'INVALID_OTP' })
   expect(await userCount(email)).toBe(0)
 })
 
-it('cadastro fechado recusa convite vencido', async () => {
+it('cadastro fechado: convite que some entre o código e a entrada recusa com a mensagem clara do cadastro fechado', async () => {
+  const email = 'convite-sumiu@example.test'
+  await invite(email)
+  expect((await requestLoginCode(email, closed)).status).toBe(200)
+  await env.DB.prepare('DELETE FROM invites WHERE email=?').bind(email).run()
+  const entrada = await signInWithCode(email, (await lastLoginCode(email))!, closed)
+  expect(entrada.status).toBe(400)
+  expect(JSON.stringify(await entrada.json())).toContain('O cadastro está fechado. Peça um convite a quem administra o espaço.')
+  expect(await userCount(email)).toBe(0)
+})
+
+it('cadastro fechado: convite vencido não recebe código', async () => {
   const email = 'vencido@example.test'
   await invite(email, Date.now() - 1000)
-  expect((await authRequest('sign-up/email', { name: 'Pessoa', email, password }, undefined, closed)).status).toBeGreaterThanOrEqual(400)
+  expect((await requestLoginCode(email, closed)).status).toBe(200)
+  expect(await outboxCount(email)).toBe(0)
+  expect(await otpRows(email)).toBe(0)
   expect(await userCount(email)).toBe(0)
 })
 
-it('cadastro fechado aceita e-mail com convite válido, sem diferenciar maiúsculas', async () => {
+it('cadastro fechado aceita e-mail com convite válido pelo código, sem diferenciar maiúsculas', async () => {
   await invite('convidada@example.test')
-  const response = await authRequest('sign-up/email', { name: 'Convidada', email: 'Convidada@Example.test', password }, undefined, closed)
-  expect(response.status).toBe(200)
+  expect((await requestLoginCode('Convidada@Example.test', closed)).status).toBe(200)
+  const entrada = await signInWithCode('Convidada@Example.test', (await lastLoginCode('convidada@example.test'))!, closed)
+  expect(entrada.status).toBe(200)
+  expect(await entrada.json()).toMatchObject({ user: { email: 'convidada@example.test', emailVerified: true } })
   expect(await userCount('convidada@example.test')).toBe(1)
 })
 
-it('sem SIGNUP_CLOSED o cadastro continua aberto', async () => {
-  expect((await authRequest('sign-up/email', { name: 'Aberta', email: 'aberta@example.test', password })).status).toBe(200)
-  expect((await authRequest('sign-up/email', { name: 'Zero', email: 'zero@example.test', password }, undefined, { ...env, SIGNUP_CLOSED: '0' } as typeof env)).status).toBe(200)
+it('sem SIGNUP_CLOSED o cadastro continua aberto: o primeiro código cria a conta', async () => {
+  expect((await codeLogin('aberta@example.test')).user.emailVerified).toBe(true)
+  expect((await codeLogin('zero@example.test', { ...env, SIGNUP_CLOSED: '0' } as typeof env)).user.email).toBe('zero@example.test')
+  expect(await userCount('aberta@example.test')).toBe(1)
 })
 
-it('cadastro fechado: link mágico para e-mail novo sem convite não cria usuário', async () => {
-  const email = 'magicnovo@example.test'
-  expect((await authRequest('sign-in/magic-link', { email, name: 'Nova', callbackURL: `${origin}/painel` }, undefined, closed)).status).toBe(200)
-  const link = await emailLink(email, 'magic')
-  const verified = await app.request(link.href, { redirect: 'manual' }, closed)
-  expect(verified.headers.get('set-cookie') ?? '').not.toContain('session_token=')
-  expect(await userCount(email)).toBe(0)
-})
-
-it('cadastro fechado: link mágico para e-mail com convite cria o usuário', async () => {
-  const email = 'magicconvite@example.test'
-  await invite(email)
-  expect((await authRequest('sign-in/magic-link', { email, name: 'Nova', callbackURL: `${origin}/painel` }, undefined, closed)).status).toBe(200)
-  const verified = await app.request((await emailLink(email, 'magic')).href, { redirect: 'manual' }, closed)
-  expect(verified.headers.get('set-cookie') ?? '').toContain('session_token=')
-  expect(await userCount(email)).toBe(1)
+it('com PASSWORD_LOGIN=1 o cadastro por senha também passa pelo cadastro fechado', async () => {
+  const closedWithPassword = { ...withPassword, SIGNUP_CLOSED: '1' } as typeof env
+  const refused = await authRequest('sign-up/email', { name: 'Intruso', email: 'intruso-senha@example.test', password }, undefined, closedWithPassword)
+  expect(refused.status).toBe(400)
+  expect(JSON.stringify(await refused.json())).toContain('O cadastro está fechado.')
+  await invite('convidada-senha@example.test')
+  expect((await authRequest('sign-up/email', { name: 'Convidada', email: 'Convidada-Senha@Example.test', password }, undefined, closedWithPassword)).status).toBe(200)
+  expect(await userCount('convidada-senha@example.test')).toBe(1)
 })
 
 it('cadastro fechado: POST /workspaces responde 403; aberto responde 201', async () => {

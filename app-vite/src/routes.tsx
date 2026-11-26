@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { ApiError, getWorkspace, type DevWorkspace } from "@/data/api"
 import { RoleContext, useCan } from "@/hooks/use-role"
 import { authRequest, type Session } from "@/data/auth"
+import { destinoDepoisDoLogin } from "@/data/conector"
 
 // Substitui app/[workspace]/layout.tsx (Suspense + generateStaticParams não existem aqui).
 function WorkspaceLayout() {
@@ -85,24 +86,23 @@ async function workspaceLoader({ request, params }: { request: Request; params: 
 const page = <K extends string>(load: () => Promise<Record<K, React.ComponentType>>, name: K) =>
   async () => ({ Component: (await load())[name] })
 const settingsPage = page(() => import("@/components/settings/settings-page"), "SettingsPage")
-const authPage = (mode: "login" | "signup" | "verify" | "forgot" | "reset" | "magic") => async () => {
-  const { AuthPage } = await import("@/components/auth/auth-page")
-  return { Component: () => <AuthPage key={mode} mode={mode} /> }
-}
+
+const antigasTelasDeEntrada = ["/signup", "/verify-email", "/forgot-password", "/reset-password", "/magic-link"]
 
 export const router = createBrowserRouter([
   { path: "/invite", lazy: page(() => import("@/components/auth/invite-page"), "InvitePage"), errorElement: <WorkspaceError /> },
   { path: "/", loader: workspaceLoader, errorElement: <WorkspaceError /> },
+  // Conectar um aplicativo (Claude) pelo login: a tela de consentimento confere o login por conta própria e guarda o pedido.
+  { path: "/conectar", lazy: page(() => import("@/components/auth/connect-page"), "ConnectPage"), errorElement: <WorkspaceError /> },
   { path: "/pedir-acesso/:workspaceId", lazy: async () => ({ Component: (await import("@/components/auth/request-access-page")).RequestAccessPage }) },
   { path: "/automacao-compartilhada/:token", lazy: async () => ({ Component: (await import("@/components/automations/shared-automation-page")).SharedAutomationPage }) },
-  { path: "/login", lazy: authPage("login"), loader: async () => {
+  { path: "/login", lazy: page(() => import("@/components/auth/auth-page"), "AuthPage"), loader: async () => {
     const session = await authRequest<Session>('get-session').catch(() => null)
-    return session?.user.emailVerified ? redirect('/') : null
+    return session?.user.emailVerified ? redirect(destinoDepoisDoLogin()) : null
   }, errorElement: <WorkspaceError /> },
-  ...([
-    ['signup', 'signup'], ['verify-email', 'verify'], ['forgot-password', 'forgot'],
-    ['reset-password', 'reset'], ['magic-link', 'magic'],
-  ] as const).map(([path, mode]) => ({ path: `/${path}`, lazy: authPage(mode), errorElement: <WorkspaceError /> })),
+  // Telas antigas de senha, confirmação por link e link mágico: a entrada agora é só por código. O destino de volta
+  // (convite, /conectar) fica guardado na sessão do navegador, então o /login leva a pessoa ao mesmo lugar.
+  ...antigasTelasDeEntrada.map(path => ({ path, loader: () => redirect("/login") })),
   // Galeria de primitivos é ferramenta de desenvolvimento (jornada pecas-comuns roda no `vite`): fora do build de produção, nem o chunk vai junto.
   ...(import.meta.env.DEV ? [{ path: "/design", lazy: async () => {
     const { DesignGallery } = await import("./routes/design-gallery")

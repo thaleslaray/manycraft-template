@@ -10,5 +10,6 @@ INSERT OR IGNORE INTO tags(id,workspace_id,name) VALUES ('demo-tag','demo-worksp
 INSERT OR IGNORE INTO contact_tags(workspace_id,contact_id,tag_id) VALUES ('demo-workspace','demo-contact-1','demo-tag');
 INSERT OR IGNORE INTO automations(id,workspace_id,name,draft_graph) VALUES ('demo-automation','demo-workspace','Boas-vindas à oficina','{"nodes":[{"id":"t","type":"trigger","position":{"x":0,"y":0},"config":{}},{"id":"m","type":"message","position":{"x":200,"y":0},"config":{"blocks":[{"kind":"text","text":"Olá! Vamos encontrar uma oficina para você?"}]}}],"edges":[{"from":"t","port":"next","to":"m"}]}');
 
--- Senha de teste da Lia (só no banco local): demo-d606be70. Entra em lia@example.test com o login automático desligado.
+-- Senha de teste da Lia (só no banco local): demo-d606be70. Só vale com PASSWORD_LOGIN=1 no engine/.dev.vars (a senha fica
+-- desligada no local); o botão "Entrar (teste)" do painel entra sem ela, por POST /api/dev/sign-in.
 INSERT OR REPLACE INTO account (id,"accountId","providerId","userId",password,"createdAt","updatedAt") VALUES ('demo-user-credential','demo-user','credential','demo-user','8fd5ebc8fa0853eb0d30a51c3cdeae1f:3cbd8ef5d6428f35c220d003fd6fb72df405d716d34b7418b943da65c79d8d6248f0f4662f3a851943b42c6b61ffa47d6c29f58608982a7fbded098fe4950df0',datetime('now'),datetime('now'));

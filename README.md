@@ -80,7 +80,7 @@ Nada aqui publica na Cloudflare nem exige login nela.
 
    O painel abre em http://localhost:5173 e o motor em http://localhost:8788. Ctrl+C encerra os dois.
 
-Para conferir que está tudo certo: `npm run typecheck` e `npm test` dentro de `engine/` e de `app-vite/`.
+Para conferir que está tudo certo: `npm run typecheck` e `npm test` dentro de `engine/` e de `app-vite/`. Se algum teste do motor falhar por tempo esgotado com a máquina ocupada, rode de novo.
 
 ## Publicar na Cloudflare
 
@@ -131,34 +131,33 @@ No fim, o Wrangler mostra o endereço, algo como `https://manycraft-painel.SEU-S
 
 **6. Confira que está vivo.** Abra `https://SEU-PAINEL.workers.dev/api/auth/ok`. Deve aparecer `{"ok":true}`. Como o motor não tem endereço próprio, é assim que se confere que painel e motor estão funcionando juntos.
 
-Variáveis opcionais do motor (`wrangler secret put`): `SIGNUP_CLOSED=1` (cadastro só para convidados), `MEDIA_PUBLIC_URL` (endereço público dos arquivos de mídia), `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET` (entrar com Google).
+Variáveis opcionais do motor (`wrangler secret put`): `SIGNUP_CLOSED=1` (cadastro só para convidados), `MEDIA_PUBLIC_URL` (endereço público dos arquivos de mídia), `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET` (entrar com Google), `OTP_DAILY_LIMIT` (teto diário de códigos de login).
 
-### Primeiro acesso e o envio de e-mail
+### Primeiro acesso: como entrar
 
-No sistema publicado, você cria a conta na tela de cadastro, e o primeiro login cria o seu espaço de trabalho sozinho.
+No sistema publicado não existe senha. Entra-se de dois jeitos, e você precisa configurar pelo menos um:
 
-**O cadastro exige e-mail confirmado, e isso não dá para desligar.** O link de confirmação sai pelo serviço de e-mail da Cloudflare (ligação `EMAIL`). Para funcionar:
+- **Código no e-mail.** Você digita o e-mail, recebe um código de 6 dígitos (vale 10 minutos) e digita o código. O primeiro código já cria a sua conta e o seu espaço de trabalho.
+- **Continuar com Google.** O botão aparece quando `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET` estão definidos.
+
+**Para o código no e-mail funcionar**, o envio sai pelo serviço de e-mail da Cloudflare (ligação `EMAIL`):
 
 1. Tenha um domínio seu na Cloudflare.
 2. Habilite o Email Service para esse domínio no painel da Cloudflare.
-3. Defina `EMAIL_FROM` com um endereço desse domínio: `npx wrangler secret put EMAIL_FROM`, por exemplo `no-reply@seudominio.com`.
+3. Defina `EMAIL_FROM` com um endereço desse domínio: dentro de `engine/`, `npx wrangler secret put EMAIL_FROM`, por exemplo `no-reply@seudominio.com`.
 
-Os três passos acima **não foram testados por nós com envio real**; confira os requisitos na Cloudflare.
+Os três passos acima **não foram testados por nós numa conta nova**; confira os requisitos na Cloudflare.
 
-**O que você vê sem isso:** o cadastro parece dar certo, mas o e-mail não sai. Ao entrar, aparece "e-mail não verificado", e reenviar a confirmação dá erro. Para ver o motivo, rode `npx wrangler tail manycraft-engine` e tente de novo:
+**Para o Google funcionar**, crie uma credencial OAuth do tipo aplicativo da Web no Google Cloud, com o endereço do seu painel como origem autorizada e `https://SEU-PAINEL/api/auth/callback/google` como endereço de redirecionamento, e grave os dois valores com `npx wrangler secret put` dentro de `engine/`. **Confira** o passo a passo na documentação atual do Google e do Better Auth; não testamos numa conta nova.
+
+**O que você vê sem nenhum dos dois:** ao pedir o código, a tela mostra um erro e ninguém consegue entrar. Para ver o motivo, rode `npx wrangler tail manycraft-engine` e tente de novo:
 
 - `Envio de e-mail não configurado`: falta `EMAIL_FROM`.
 - `domain was not found`: o domínio de `EMAIL_FROM` não está na sua conta Cloudflare.
 
-Cada tentativa gasta a cota de 5 e-mails por hora por destinatário; depois disso o reenvio também dá erro.
+Há limites de pedidos de código (por pessoa e 100 por dia no total; `OTP_DAILY_LIMIT` muda o total).
 
-**Para você entrar sem o e-mail funcionando (testado por nós):** faça o cadastro na tela e depois marque a sua própria conta como confirmada, direto no seu banco, dentro de `engine/`:
-
-```sh
-npx wrangler d1 execute manycraft --remote --command "UPDATE user SET emailVerified=1 WHERE email='seu@email.com'"
-```
-
-Volte e entre com e-mail e senha (mínimo de 12 caracteres). Use só para a sua conta. Em seguida defina `SIGNUP_CLOSED=1`, para ninguém mais se cadastrar sem convite, e configure o e-mail de verdade antes de convidar a equipe.
+Depois de entrar, defina `SIGNUP_CLOSED=1` para ninguém mais criar conta sem convite. No seu computador nada disso é preciso: o botão "Entrar (teste)" entra direto, e o código aparece no terminal do motor.
 
 **Publicar uma automação** exige um gatilho, e o gatilho exige um canal conectado. O mais rápido de conectar é o Telegram, em Configurações, Canais.
 
@@ -174,10 +173,29 @@ As conexões são feitas dentro do painel (Configurações, Conexões). Cada uma
 
 Passo a passo detalhado da Meta (criar o app, permissões, webhook) **não está neste repositório**: peça ao Claude Code para conferir a documentação atual da Meta, que muda com frequência.
 
+## Conector do Claude (opcional, avançado)
+
+A pasta `mcp/` é um terceiro Worker que deixa o Claude ler e operar o seu ManyCraft como conector. Você não precisa dele para usar o sistema. Ele exige mais do que o resto:
+
+- **Plano pago do Workers** (usa Dynamic Workers; confira o preço atual na Cloudflare).
+- **Domínio próprio na Cloudflare** para o conector e para o painel. Ele não funciona em endereço `workers.dev`.
+
+Os endereços `mcp.seu-dominio.example` e `painel.seu-dominio.example` que aparecem no código são marcadores. Troque pelos seus em quatro lugares:
+
+1. `mcp/wrangler.jsonc`: `MCP_URL` (endereço do conector) e `PAINEL_URL` (endereço do painel), e acrescente a rota do domínio do conector, por exemplo `"routes": [{ "pattern": "mcp.seudominio.com", "custom_domain": true }]`.
+2. `app-vite/public/_headers`: o endereço do conector na regra `connect-src`.
+3. No build do painel, a variável `VITE_MCP_URL` com o endereço do conector: `VITE_MCP_URL=https://mcp.seudominio.com npm run build`.
+4. O `BETTER_AUTH_URL` do motor precisa ser o mesmo endereço de `PAINEL_URL`.
+
+Depois, com o motor já publicado: `cd mcp && npm ci && npx wrangler deploy`. O armazenamento `OAUTH_KV` deve ser criado pelo Wrangler no primeiro deploy; **confira**, não testamos numa conta nova. No claude.ai, em Configurações, Conectores, adicione um conector personalizado com o endereço `https://mcp.seudominio.com/mcp` e clique em Conectar: abre uma tela do seu painel para você escolher o espaço e o que o Claude pode fazer. Para desligar o acesso, revogue a chave "Claude (conector)" em Configurações, API.
+
+Enquanto você não publicar o conector, o resto do sistema funciona normalmente.
+
 ## Estrutura
 
 - `engine/`: o motor (Cloudflare Worker): banco, fluxos, canais, API.
 - `app-vite/`: o painel (React + Vite) e o Worker que o serve.
+- `mcp/`: o conector do Claude (opcional, veja acima).
 - `shared/`: código usado pelos dois.
 - `replica/contratos/`: exemplos de mensagens da Meta usados como referência nos testes.
 - `scripts/`: verificações de qualidade (`npm run check` na raiz roda a bateria completa e é pesado).

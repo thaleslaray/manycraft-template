@@ -1,5 +1,6 @@
 import type { Role } from '../../../shared/permissions'
 import { apiRequest, forgetAfterWrite, isFakeMode } from './api'
+import { nomeOuEmail } from './pessoa'
 
 export type TeamRole = Role
 export type TeamMember = { id: string; name: string; email: string; role: TeamRole; inbox_seat: boolean; is_current: boolean; image?: string | null }
@@ -18,7 +19,7 @@ const demoInvites: TeamInvite[] = []
 export async function getTeam() {
   if (isFakeMode()) return structuredClone({ members: demoMembers, invites: demoInvites.filter(invite => invite.expires_at > Date.now()) })
   const [members, invites] = await Promise.all([apiRequest<TeamMember[]>('/team'), apiRequest<TeamInvite[]>('/team/invites')])
-  return { members, invites }
+  return { members: members.map(member => ({ ...member, name: nomeOuEmail(member.name, member.email) })), invites }
 }
 
 export async function inviteTeamMember(email: string, role: TeamInvite['role']): Promise<IssuedInvite> {

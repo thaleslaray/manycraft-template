@@ -1,0 +1,31 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "manycraft-mcp",
+  "main": "src/server.ts",
+  // Só o domínio próprio (sem workers.dev): a Cache API do documento só guarda em domínio próprio.
+  "workers_dev": false,
+  "upload_source_maps": true,
+  "compatibility_date": "2026-11-24",
+  // nodejs_compat: exigido pelo @cloudflare/codemode e pelo SDK de MCP (guia da Cloudflare).
+  // global_fetch_strictly_public: exigido pelo @cloudflare/workers-oauth-provider para aceitar clientes por documento de
+  // metadados (CIMD), que buscam um endereço dado pelo cliente; sem a flag o CIMD não é anunciado (proteção contra SSRF).
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  // Conectar por login (ficha 07). MCP_URL: endereço público do MCP, sem barra final (todo token fica preso a ele).
+  // PAINEL_URL: onde fica a tela de consentimento (/conectar). Valores de produção; o `npm run dev` troca pelos locais.
+  "vars": {
+    "MCP_URL": "https://mcp.seu-dominio.example",
+    "PAINEL_URL": "https://painel.seu-dominio.example"
+  },
+  // OAUTH_KV: clientes, grants e tokens da biblioteca (tokens só como resumo, props cifrados) e os pedidos em espera
+  // da tela do painel (10 min). O KV da conta chama-se manycraft-mcp-oauth (já existia um OAUTH_KV de outro
+  // projeto); o `wrangler dev` simula um KV local.
+  "kv_namespaces": [{ "binding": "OAUTH_KV" }],
+  // LOADER: o ambiente isolado onde roda o código do modelo (Dynamic Workers, só no plano pago).
+  "worker_loaders": [{ "binding": "LOADER" }],
+  // ENGINE: chamadas à API por vínculo interno, como o painel. No desenvolvimento local (npm run dev) o mesmo vínculo
+  // acha o motor local pelo registro de dev do wrangler, o mesmo do `npm run dev:local` do painel.
+  "services": [{ "binding": "ENGINE", "service": "manycraft-engine" }],
+  // Sem registro automático de invocação: o pedido traz a chave de perfil no cabeçalho authorization.
+  // As linhas de registro são só as do código (src/registro.ts).
+  "observability": { "enabled": true, "logs": { "enabled": true, "invocation_logs": false } }
+}

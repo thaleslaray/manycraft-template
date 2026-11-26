@@ -44,7 +44,10 @@ const respostasComuns = {
 const idOperacao = (e: EntradaCatalogo) =>
   (e.metodo.toLowerCase() + e.caminho.replace(/^\/api/, '').replace(/[/:]+([a-zA-Z0-9_-]+)/g, (_, s: string) => '_' + s)).replace(/-/g, '_')
 
-/** zod → JSON Schema 2020-12 (o dialeto do OpenAPI 3.1), do lado da entrada; `$defs` sobem para components.schemas. */
+/**
+ * zod → JSON Schema 2020-12 (o dialeto do OpenAPI 3.1); `$defs` sobem para components.schemas. Lado da entrada também para a resposta:
+ * assim `z.object` não ganha `additionalProperties: false` e a resposta descrita fica aberta aos campos que não foram listados.
+ */
 function esquema(schema: z.ZodType, prefixo: string, schemas: Json): Json {
   const js = z.toJSONSchema(schema, { io: 'input', unrepresentable: 'any', target: 'draft-2020-12' }) as Json
   delete js.$schema
@@ -61,6 +64,18 @@ function esquema(schema: z.ZodType, prefixo: string, schemas: Json): Json {
   // Referência à raiz (`#`) só aparece em schema recursivo na raiz: guarda a raiz também.
   if (JSON.stringify(raiz).includes(`#/components/schemas/${nome('raiz')}"`)) schemas[nome('raiz')] = raiz
   return raiz
+}
+
+/**
+ * Tira do schema da resposta o que só pesa no documento: a expressão regular que o zod põe junto de `format: date-time` e os limites
+ * de inteiro seguro (±2^53-1) que ele põe em todo `.int()`. O teste de contrato continua validando com o zod inteiro.
+ */
+function enxugar(v: unknown): any {
+  if (Array.isArray(v)) return v.map(enxugar)
+  if (!v || typeof v !== 'object') return v
+  const o = v as Json
+  return Object.fromEntries(Object.entries(o).filter(([k, x]) => !(k === 'pattern' && o.format === 'date-time')
+    && !((k === 'minimum' || k === 'maximum') && Math.abs(x as number) === Number.MAX_SAFE_INTEGER)).map(([k, x]) => [k, enxugar(x)]))
 }
 
 function operacao(e: EntradaCatalogo, tag: string, v1: boolean, schemas: Json): Json {
@@ -81,7 +96,7 @@ function operacao(e: EntradaCatalogo, tag: string, v1: boolean, schemas: Json): 
     responses: {
       200: e.respostaTipo
         ? { description: 'Sucesso.', content: { [e.respostaTipo]: { schema: { type: 'string', format: 'binary' } } } }
-        : { description: 'Sucesso.', content: { 'application/json': { schema: {} } } },
+        : { description: 'Sucesso.', content: { 'application/json': { schema: e.resposta ? enxugar(esquema(e.resposta, id + '_resposta', schemas)) : {} } } },
       ...respostasComuns,
     },
   }

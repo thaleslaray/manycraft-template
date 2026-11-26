@@ -13,7 +13,7 @@ export function revokeMemberKeys(db: D1Database, workspaceId: string | null, use
       .bind(now, userId, workspaceId, workspaceId),
     // O aviso lê as chaves que acabaram de ser revogadas: sem chave revogada, não há aviso.
     db.prepare(`INSERT INTO workspace_notices (workspace_id,kind,message)
-      SELECT DISTINCT workspace_id,'restriction','A chave de API criada por ' || coalesce((SELECT name FROM "user" WHERE id=?),'um membro') || ' foi desativada porque ' || ? || '. Gere outra em Configurações.'
+      SELECT DISTINCT workspace_id,'restriction','A chave de API criada por ' || coalesce((SELECT coalesce(nullif(name,''),email) FROM "user" WHERE id=?),'um membro') || ' foi desativada porque ' || ? || '. Gere outra em Configurações.'
       FROM api_keys WHERE created_by=? AND revoked_at=? AND (? IS NULL OR workspace_id=?)`).bind(userId, reason, userId, now, workspaceId, workspaceId),
   ]
 }

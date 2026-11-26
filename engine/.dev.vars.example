@@ -5,6 +5,10 @@ DEV_WORKSPACE_ID=
 APP_ENV=
 BETTER_AUTH_SECRET=
 BETTER_AUTH_URL=
+# Entrada por senha: "1" liga. Desligada por padrão, no local e em produção (entra-se por código no e-mail ou pelo Google).
+# PASSWORD_LOGIN=1
+# Teto de códigos de login por dia (padrão 100 fora do desenvolvimento; no local só vale se definido; 0 desliga).
+# OTP_DAILY_LIMIT=
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 EMAIL_FROM=

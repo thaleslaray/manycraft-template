@@ -3,7 +3,7 @@ import { runDurableObjectAlarm } from 'cloudflare:test'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { app } from '../src/index'
 import { ensureConversation, recordMessage } from '../src/inbox/service'
-import { authenticatedRequest, authRequest, emailLink, fixtureCookie, origin, seedAuth } from './auth-helpers'
+import { authenticatedRequest, authRequest, emailLink, fixtureCookie, origin, seedAuth, withPassword } from './auth-helpers'
 
 // Auditoria de segurança, grupo A (A2): a conexão ao vivo do inbox não sobrevive à saída do membro. Só dados fictícios.
 let ownerCookie = '', userBCookie = ''
@@ -107,12 +107,13 @@ describe('item 2 o hub revalida a sessão de cada socket em intervalos', () => {
     await revalidate()
     expect(member.closed).toBe(4001)
   })
-  it('reset-password: o socket cai na hora, e a revalidação também o derrubaria', async () => {
+  // Troca de senha só existe com PASSWORD_LOGIN=1 (padrão desligado).
+  it('com PASSWORD_LOGIN=1, reset-password: o socket cai na hora, e a revalidação também o derrubaria', async () => {
     await addMember('editor')
     const member = await connectAs(userBCookie)
-    expect((await authRequest('request-password-reset', { email: 'b@example.test', redirectTo: `${origin}/reset` })).status).toBe(200)
+    expect((await authRequest('request-password-reset', { email: 'b@example.test', redirectTo: `${origin}/reset` }, undefined, withPassword)).status).toBe(200)
     const token = (await emailLink('b@example.test', 'reset')).pathname.split('/').at(-1)!
-    expect((await authRequest('reset-password', { token, newPassword: 'Outra-senha-ficticia-segura-2026!' })).status).toBe(200)
+    expect((await authRequest('reset-password', { token, newPassword: 'Outra-senha-ficticia-segura-2026!' }, undefined, withPassword)).status).toBe(200)
     await sleep(100)
     expect(member.closed).toBe(4001)
   })

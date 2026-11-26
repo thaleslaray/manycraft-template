@@ -19,6 +19,10 @@ export type Env = KeyringEnv & {
   CHANNEL_LIMITER?: DurableObjectNamespace<import('./flow/limiter').ChannelLimiter>
   BETTER_AUTH_SECRET?: string
   BETTER_AUTH_URL?: string
+  /** "1" religa a entrada por senha (cadastro, login, troca e recuperação de senha). Padrão desligado: entra-se por código no e-mail. */
+  PASSWORD_LOGIN?: string
+  /** Teto de códigos de login enviados por dia, no total (padrão 100 fora do desenvolvimento; "0" desliga). */
+  OTP_DAILY_LIMIT?: string
   GOOGLE_CLIENT_ID?: string
   GOOGLE_CLIENT_SECRET?: string
   EMAIL?: SendEmail

@@ -3,6 +3,32 @@ import { inboxAssignSchema, inboxConversationListQuerySchema, inboxMessageListQu
 import { inboxConversationLabelSchema, inboxLabelSchema } from '../../inbox/labels'
 import { inboxAssignmentRulesSchema, inboxAssignmentSchema, inboxGroupSchema, inboxSavedReplySchema, inboxSettingsSchema } from '../../inbox/team'
 import { startSchema } from '../../channels/core/start-conversation'
+import { conversaResposta, dataIso } from '../respostas-comuns'
+import { z } from 'zod'
+
+const mensagemResposta = z.object({
+  id: z.string(),
+  conversation_id: z.string(),
+  direction: z.enum(['in', 'out']).describe('`in` do contato, `out` da conta (automação, equipe, nota ou evento).'),
+  sender: z.enum(['contact', 'automation', 'human', 'note', 'system']).describe('`note` é nota interna (o contato não vê); `system` é evento do histórico (veja `event`).'),
+  text: z.string(),
+  created_at: dataIso(),
+  status: z.string().describe('Situação do envio: `sent`, `delivered`, `read` ou `failed` (com o motivo em `error`).'),
+  error: z.string().optional(),
+  template: z.object({ id: z.string(), params: z.record(z.string(), z.string()) }).optional().describe('Modelo aprovado enviado nesta mensagem.'),
+  buttons: z.array(z.object({ id: z.string(), title: z.string() })).optional(),
+  event: z.object({ kind: z.string() }).optional().describe('Evento do histórico (`tag_added`, `tag_removed`, `field_changed`, `trigger`, `status_changed`, `automation_paused`...), com os dados próprios do tipo.'),
+  media: z.object({}).optional().describe('Anexo que o contato mandou; `url` (caminho nesta API) abre o arquivo guardado.'),
+  email_subject: z.string().optional(),
+  sequence: z.number().int().optional().describe('Ordem da mensagem na conversa.'),
+})
+const etiquetaResposta = z.object({
+  id: z.string(),
+  name: z.string(),
+  color: z.enum(['neutral', 'accent', 'success', 'warning', 'danger']),
+  condition: z.object({}).nullable().describe('Filtro de contato (formato de `POST /api/contacts/query`) que põe a etiqueta sozinha; `null` = só manual.'),
+  conversations: z.number().int().describe('Conversas com a etiqueta.'),
+})
 
 // Área inbox: veja em ./index.ts como preencher.
 export const area: AreaCatalogo = {
@@ -16,11 +42,11 @@ export const area: AreaCatalogo = {
     { metodo: 'PUT', caminho: '/api/inbox/assignment-rules', resumo: 'Substitui a lista inteira de regras de atribuição (até 50, aplicadas na ordem enviada).', corpo: inboxAssignmentRulesSchema, exemplo: [{ name: 'Clientes para o suporte', condition: { match: 'all', rules: [{ type: 'tag', tag_id: 'tag-cliente', operator: 'has' }] }, target_kind: 'member', target_id: 'membro-1' }] },
     { metodo: 'GET', caminho: '/api/inbox/context', resumo: 'Dados de apoio da caixa de entrada: quem é você, atendentes, contagem de abertas, suas e menções não lidas.' },
     { metodo: 'POST', caminho: '/api/inbox/contacts/:contactId/conversation', resumo: 'Abre (ou reaproveita) a conversa com o contato pela conexão por onde ele falou por último e devolve o id.' },
-    { metodo: 'GET', caminho: '/api/inbox/conversations', resumo: 'Lista as conversas por situação (abertas, fechadas ou todas), com paginação por cursor e filtro opcional de contato (JSON em `contact_filter`).', query: inboxConversationListQuerySchema },
+    { metodo: 'GET', caminho: '/api/inbox/conversations', resumo: 'Lista as conversas por situação (abertas, fechadas ou todas), com paginação por cursor e filtro opcional de contato (JSON em `contact_filter`). Até 50 por página, da atividade mais recente para a mais antiga; `next_cursor` vai em `cursor`.', query: inboxConversationListQuerySchema, resposta: z.object({ rows: z.array(conversaResposta), next_cursor: z.string().nullable().describe('Mande em `cursor` para a próxima página; `null` na última.') }) },
     { metodo: 'POST', caminho: '/api/inbox/conversations', resumo: 'Inicia conversa com um número que nunca escreveu, enviando um modelo aprovado depois de confirmar o consentimento.', corpo: startSchema, exemplo: { connection_id: 'ch-whatsapp', phone: '+5511912345678', name: 'Ana', consent: true, template: { id: 'boas-vindas', params: { '1': 'Ana' } } } },
     { metodo: 'POST', caminho: '/api/inbox/conversations/:id/assign', resumo: 'Atribui a conversa a um atendente com acesso à caixa de entrada (`null` tira a atribuição).', corpo: inboxAssignSchema, exemplo: { member_id: 'membro-1' } },
-    { metodo: 'POST', caminho: '/api/inbox/conversations/:id/labels', resumo: 'Põe ou tira uma etiqueta da conversa.', corpo: inboxConversationLabelSchema, exemplo: { label_id: 'etiqueta-vip', on: true } },
-    { metodo: 'GET', caminho: '/api/inbox/conversations/:id/messages', resumo: 'Lista as mensagens da conversa, das mais novas para trás (`before` pagina). O que a automação enviou vem em `text` como o contato viu: a galeria com o texto de abertura e uma linha por cartão, a lista com corpo, `[botão]` e linhas, o modelo como `[Modelo: nome]` seguido do texto com as variáveis preenchidas; botões de resposta de cartões e linhas de lista vêm em `buttons`. O evento de início (`event.kind: "trigger"`) traz em `trigger_kind` o tipo do gatilho, `manual` quando a equipe rodou a automação pelo inbox e `another_flow` quando outra automação a iniciou.', query: inboxMessageListQuerySchema },
+    { metodo: 'POST', caminho: '/api/inbox/conversations/:id/labels', resumo: 'Põe ou tira uma etiqueta da conversa.', corpo: inboxConversationLabelSchema, exemplo: { label_id: 'etiqueta-vip', on: true }, resposta: conversaResposta },
+    { metodo: 'GET', caminho: '/api/inbox/conversations/:id/messages', resumo: 'Lista as mensagens da conversa: as 50 mais recentes, em ordem de envio (a mais antiga primeiro); para as anteriores, mande o `next_before` em `before`. O que a automação enviou vem em `text` como o contato viu: a galeria com o texto de abertura e uma linha por cartão, a lista com corpo, `[botão]` e linhas, o modelo como `[Modelo: nome]` seguido do texto com as variáveis preenchidas; botões de resposta de cartões e linhas de lista vêm em `buttons`. O evento de início (`event.kind: "trigger"`) traz em `trigger_kind` o tipo do gatilho, `manual` quando a equipe rodou a automação pelo inbox e `another_flow` quando outra automação a iniciou.', query: inboxMessageListQuerySchema, resposta: z.object({ rows: z.array(mensagemResposta), next_before: z.string().nullable().describe('Mande em `before` para a página anterior; `null` quando não há mais.') }) },
     { metodo: 'POST', caminho: '/api/inbox/conversations/:id/messages', resumo: 'Responde na conversa com texto, anexo enviado antes (POST /api/media) ou modelo aprovado, ou grava uma nota interna com menções. Recusas 409 com motivo: janela de atendimento encerrada (responda com modelo aprovado), contato sem autorização para modelos, canal indisponível.', corpo: inboxMessageSchema, exemplo: { kind: 'reply', text: 'Oi! Já vou verificar seu pedido.' } },
     { metodo: 'POST', caminho: '/api/inbox/conversations/:id/read', resumo: 'Marca a conversa como lida.' },
     { metodo: 'POST', caminho: '/api/inbox/conversations/:id/reminder', resumo: 'Define um lembrete na conversa (até um ano à frente, com nota opcional); `at: null` tira o lembrete.', corpo: inboxReminderSchema, exemplo: { at: '2026-12-01T09:00:00-03:00', note: 'Retornar sobre o orçamento.' } },
@@ -35,8 +61,8 @@ export const area: AreaCatalogo = {
     { metodo: 'POST', caminho: '/api/inbox/groups', resumo: 'Cria um grupo de atendentes.', corpo: inboxGroupSchema, exemplo: { name: 'Vendas', member_ids: ['membro-1', 'membro-2'] } },
     { metodo: 'PUT', caminho: '/api/inbox/groups/:id', resumo: 'Renomeia o grupo e substitui os membros.', corpo: inboxGroupSchema, exemplo: { name: 'Vendas', member_ids: ['membro-1'] } },
     { metodo: 'DELETE', caminho: '/api/inbox/groups/:id', resumo: 'Exclui o grupo e as regras de atribuição que apontavam para ele.' },
-    { metodo: 'GET', caminho: '/api/inbox/labels', resumo: 'Lista as etiquetas de conversa, com a condição automática e quantas conversas têm cada uma.' },
-    { metodo: 'POST', caminho: '/api/inbox/labels', resumo: 'Cria uma etiqueta de conversa; com `condition`, ela é posta sozinha quando o contato atende ao filtro.', corpo: inboxLabelSchema, exemplo: { name: 'VIP', color: 'accent' } },
+    { metodo: 'GET', caminho: '/api/inbox/labels', resumo: 'Lista as etiquetas de conversa, com a condição automática e quantas conversas têm cada uma.', resposta: z.array(etiquetaResposta) },
+    { metodo: 'POST', caminho: '/api/inbox/labels', resumo: 'Cria uma etiqueta de conversa; com `condition`, ela é posta sozinha quando o contato atende ao filtro.', corpo: inboxLabelSchema, exemplo: { name: 'VIP', color: 'accent' }, resposta: z.object({ id: z.string().describe('Id da etiqueta criada.') }) },
     { metodo: 'PUT', caminho: '/api/inbox/labels/:id', resumo: 'Altera nome, cor ou condição da etiqueta.', corpo: inboxLabelSchema, exemplo: { name: 'VIP', color: 'success' } },
     { metodo: 'DELETE', caminho: '/api/inbox/labels/:id', resumo: 'Exclui a etiqueta e a tira das conversas.' },
     { metodo: 'GET', caminho: '/api/inbox/media/:id', resumo: 'Baixa um arquivo que o contato enviou (aceita Range); o tipo da resposta é o do próprio arquivo.', respostaTipo: 'application/octet-stream' },

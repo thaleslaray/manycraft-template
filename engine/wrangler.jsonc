@@ -30,6 +30,7 @@
   "env": {
     "dev": {
       "routes": [],
+      // Sem PASSWORD_LOGIN: o local entra por código, como a produção. O botão "Entrar (teste)" usa POST /api/dev/sign-in.
       "vars": { "APP_ENV": "development" },
       "workflows": [{ "name": "replica-flow-dev", "binding": "FLOW_RUN", "class_name": "FlowRun" }],
       "durable_objects": { "bindings": [{ "name": "INBOX_HUB", "class_name": "InboxHub" }, { "name": "CHANNEL_LIMITER", "class_name": "ChannelLimiter" }] },

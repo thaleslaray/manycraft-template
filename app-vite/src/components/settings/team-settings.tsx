@@ -92,7 +92,7 @@ export function TeamSettingsPanel({ tab = 'members' }: { tab?: 'members' | 'grou
                     <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 sm:grid-cols-[minmax(0,1fr)_19.5rem_4rem]">
                       <div role="cell" className="flex min-w-0 items-center gap-3">
                         <AvatarInitials name={member.name} src={member.image ?? undefined} className="size-7 text-2xs" />
-                        <div className="flex min-w-0 flex-wrap items-baseline gap-x-3"><p className="flex items-center gap-2 text-sm">{member.name}{member.is_current && <span className="text-xs text-text-muted">Você</span>}</p><p className="min-w-0 truncate text-xs text-text-muted" title={member.email}>{member.email}</p></div>
+                        <div className="flex min-w-0 flex-wrap items-baseline gap-x-3"><p className="flex items-center gap-2 text-sm">{member.name}{member.is_current && <span className="text-xs text-text-muted">Você</span>}</p>{member.name !== member.email && <p className="min-w-0 truncate text-xs text-text-muted" title={member.email}>{member.email}</p>}</div>
                       </div>
                       <div role="cell" className="text-sm text-text-muted">{member.role === 'owner' || member.inbox_seat ? <><span aria-hidden="true">✓</span><span className="sr-only">Com assento</span></> : <><span aria-hidden="true">—</span><span className="sr-only">Sem assento</span></>}</div>
                       <div role="cell" className="text-right">{editable ? <Button variant="link" size="sm" aria-expanded={open} aria-label={`Editar ${member.name}`} onClick={() => setEditing(open ? null : member.id)}>Editar</Button> : null}</div>

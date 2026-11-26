@@ -17,8 +17,8 @@ export async function humanPauseUntil(env: Pick<Env, 'DB'>, workspaceId: string)
   return Date.now() + (await inboxSettings(env, workspaceId)).pause_minutes * 60_000
 }
 export async function inboxMembers(env: Pick<Env, 'DB'>, workspaceId: string) {
-  return (await env.DB.prepare(`SELECT m.id,u.name,m.user_id FROM workspace_members m JOIN "user" u ON u.id=m.user_id
-    WHERE m.workspace_id=? AND (m.inbox_seat=1 OR m.role='owner') ORDER BY u.name,m.id`).bind(workspaceId)
+  return (await env.DB.prepare(`SELECT m.id,coalesce(nullif(u.name,''),u.email) AS name,m.user_id FROM workspace_members m JOIN "user" u ON u.id=m.user_id
+    WHERE m.workspace_id=? AND (m.inbox_seat=1 OR m.role='owner') ORDER BY name,m.id`).bind(workspaceId)
     .all<{ id: string; name: string; user_id: string }>()).results
 }
 export const inboxTeam = new Hono<{ Bindings: Env; Variables: AuthVariables }>()
@@ -30,8 +30,8 @@ inboxTeam.get('/context', async c => {
   const p = c.var.principal, ws = p.workspaceId
   const current = c.var.memberId
   const [membersRows, countsRow, mentionsRow] = await c.env.DB.batch<unknown>([
-    c.env.DB.prepare(`SELECT m.id,u.name,m.user_id FROM workspace_members m JOIN "user" u ON u.id=m.user_id
-      WHERE m.workspace_id=? AND (m.inbox_seat=1 OR m.role='owner') ORDER BY u.name,m.id`).bind(ws),
+    c.env.DB.prepare(`SELECT m.id,coalesce(nullif(u.name,''),u.email) AS name,m.user_id FROM workspace_members m JOIN "user" u ON u.id=m.user_id
+      WHERE m.workspace_id=? AND (m.inbox_seat=1 OR m.role='owner') ORDER BY name,m.id`).bind(ws),
     c.env.DB.prepare(`SELECT count(*) AS open,coalesce(sum(assignee_id=?),0) AS mine FROM conversations WHERE workspace_id=? AND status='open'`).bind(current, ws),
     c.env.DB.prepare('SELECT count(*) AS n FROM inbox_mentions WHERE workspace_id=? AND member_id=? AND read_at IS NULL').bind(ws, current),
   ])

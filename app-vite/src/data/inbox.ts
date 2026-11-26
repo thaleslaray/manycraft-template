@@ -1,6 +1,6 @@
 import type { ContactQueryFilter } from "../../../shared/contact-filter"
 import { getInboxContext, listInboxMentions } from "./inbox-team"
-import { apiRequest, getWorkspace, isFakeMode } from "./api"
+import { apiRequest, getWorkspace, isFakeMode, signedOut } from "./api"
 import type { Id, Iso } from "./types"
 
 export type InboxChannel = "instagram" | "whatsapp" | "messenger" | "telegram" | "email"
@@ -497,7 +497,11 @@ export function cachedInboxConversation(id: string) {
   return value ? out(value) : undefined
 }
 
-/** Uma conexão por montagem; a limpeza também cancela as tentativas de reconexão. */
+/**
+ * Uma conexão por montagem; a limpeza também cancela as tentativas de reconexão.
+ * O navegador não mostra o motivo da recusa de um WebSocket: quando ele fecha sem ter aberto, uma consulta à sessão separa
+ * queda de rede (segue tentando) de sessão vencida (para e vai para o login), em vez de tentar para sempre.
+ */
 export function subscribeInbox(
   onEvent: (event: InboxLiveEvent) => void,
   onState: (state: InboxConnectionState) => void,
@@ -521,7 +525,8 @@ export function subscribeInbox(
       url.protocol = url.protocol === "https:" ? "wss:" : "ws:"
       url.searchParams.set("workspace", workspace_id)
       socket = options.createSocket ? options.createSocket(url.toString()) : new WebSocket(url.toString())
-      socket.onopen = () => { if (!stopped) { attempt = 0; onState("connected") } }
+      let opened = false
+      socket.onopen = () => { opened = true; if (!stopped) { attempt = 0; onState("connected") } }
       socket.onmessage = event => {
         if (stopped) return
         try {
@@ -540,9 +545,15 @@ export function subscribeInbox(
           onEvent(data)
         } catch { /* Um evento inválido não interrompe o acompanhamento ao vivo. */ }
       }
-      socket.onclose = reconnect
+      socket.onclose = () => { reconnect(); if (!opened) void giveUpIfSignedOut() }
       socket.onerror = () => socket?.close()
-    } catch { reconnect() }
+    } catch { reconnect(); void giveUpIfSignedOut() }
+  }
+  async function giveUpIfSignedOut() {
+    if (stopped || !(await signedOut()) || stopped) return
+    stopped = true
+    if (timer !== undefined) { cancel(timer); timer = undefined }
+    onState("offline")
   }
   function reconnect() {
     if (stopped || timer !== undefined) return

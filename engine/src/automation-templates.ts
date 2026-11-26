@@ -33,7 +33,7 @@ automationTemplates.get('/automation-templates', async c => {
 /** Modelos instalados neste espaço, com quem instalou e a automação gerada (se ainda existir). */
 automationTemplates.get('/automation-templates/installed', async c => {
   authorize(c.var.principal, 'automation:read')
-  const rows = await c.env.DB.prepare(`SELECT i.id,i.template_id,i.template_version,i.automation_id,i.installed_at,coalesce(u.name,u.email) AS installed_by,
+  const rows = await c.env.DB.prepare(`SELECT i.id,i.template_id,i.template_version,i.automation_id,i.installed_at,coalesce(nullif(u.name,''),u.email) AS installed_by,
       a.name AS automation_name,(a.id IS NOT NULL AND a.deleted_at IS NULL) AS automation_exists
     FROM template_installs i LEFT JOIN "user" u ON u.id=i.user_id LEFT JOIN automations a ON a.workspace_id=i.workspace_id AND a.id=i.automation_id
     WHERE i.workspace_id=? ORDER BY i.installed_at DESC LIMIT 200`).bind(c.var.principal.workspaceId).all<{ template_id: string }>()

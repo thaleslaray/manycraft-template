@@ -238,7 +238,7 @@ export async function getInboxInsights(env: InsightsEnv, principal: Principal, f
         AVG(CASE WHEN v.closed_at>=r.first_in THEN (v.closed_at-r.first_in)/1000.0 END) AS close_time
       FROM replies r JOIN conversations v ON v.workspace_id=? AND v.id=r.conversation_id`).bind(ws, from, to, ws, ws)
       .first<{ conversations: number; answered: number | null; first_response: number | null; close_time: number | null }>(),
-    env.DB.prepare(`SELECT wm.id AS member_id,coalesce(u.name,u.email) AS name,
+    env.DB.prepare(`SELECT wm.id AS member_id,coalesce(nullif(u.name,''),u.email) AS name,
         (SELECT COUNT(*) FROM conversations v WHERE v.workspace_id=wm.workspace_id AND v.assignee_id=wm.id AND EXISTS (SELECT 1 FROM messages m WHERE m.workspace_id=v.workspace_id AND m.conversation_id=v.id AND m.created_at>=? AND m.created_at<?)) AS assigned,
         (SELECT COUNT(*) FROM conversations v WHERE v.workspace_id=wm.workspace_id AND v.assignee_id=wm.id AND v.closed_at>=? AND v.closed_at<?) AS closed
       FROM workspace_members wm JOIN "user" u ON u.id=wm.user_id WHERE wm.workspace_id=? AND (wm.inbox_seat=1 OR wm.role='owner') ORDER BY name`).bind(from, to, from, to, ws)

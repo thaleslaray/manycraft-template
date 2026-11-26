@@ -16,6 +16,12 @@ export type EntradaCatalogo = {
   corpoBinario?: true
   /** Exemplo de corpo (opcional). */
   exemplo?: unknown
+  /**
+   * Schema zod SÓ para o documento: o formato da resposta de sucesso (JSON). O handler não valida a saída com ele; quem garante que ele não
+   * mente é engine/test/api-docs-respostas.test.ts, que chama a rota e confere a resposta real. `z.object` fica aberto (campos não descritos
+   * podem vir); descreva os campos estáveis e úteis.
+   */
+  resposta?: z.ZodType
   /** Tipo de conteúdo da resposta de sucesso quando não é JSON (ex.: `image/jpeg`). */
   respostaTipo?: string
   /** Rota que só existe em desenvolvimento: fica no catálogo (o check exige) mas não entra no documento. */

@@ -1,5 +1,6 @@
 import type { AreaCatalogo } from '../tipos'
 import { agencyProfileSchema, teamAccessApproveSchema, teamInviteSchema, teamMemberPatchSchema } from '../../team'
+import { z } from 'zod'
 
 // Área team: veja em ./index.ts como preencher.
 export const area: AreaCatalogo = {
@@ -7,7 +8,13 @@ export const area: AreaCatalogo = {
   nome: 'Equipe',
   descricao: 'Membros do espaço, convites e permissões.',
   entradas: [
-    { metodo: 'GET', caminho: '/api/team', resumo: 'Lista os membros do espaço com papel, assento no inbox e e-mail.' },
+    { metodo: 'GET', caminho: '/api/team', resumo: 'Lista os membros do espaço com papel, assento no inbox e e-mail.', resposta: z.array(z.object({
+      id: z.string().describe('Id do membro (é o que `assignee_id` das conversas usa).'),
+      role: z.enum(['owner', 'administrator', 'editor', 'livechat_agent', 'viewer']),
+      inbox_seat: z.boolean().describe('Tem assento na caixa de entrada (pode receber conversas).'),
+      name: z.string(), email: z.string(), image: z.string().nullable(),
+      is_current: z.boolean().describe('É você.'),
+    })) },
     { metodo: 'PATCH', caminho: '/api/team/:id', resumo: 'Muda o papel ou o assento no inbox de um membro; rebaixar abaixo de administrador revoga as chaves de API dele.', corpo: teamMemberPatchSchema, exemplo: { role: 'editor', inbox_seat: true } },
     { metodo: 'DELETE', caminho: '/api/team/:id', resumo: 'Remove um membro do espaço e revoga as chaves de API dele (você não pode se remover).' },
     { metodo: 'GET', caminho: '/api/team/assignees', resumo: 'Lista os membros que podem receber conversas (com assento no inbox, mais o dono).' },

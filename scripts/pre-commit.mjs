@@ -40,4 +40,10 @@ if (painel.length || shared.length) {
   const testes = painel.filter(f => /\.test\.[cm]?[jt]s$/.test(f) && !f.startsWith("e2e/"))
   if (testes.length) roda("painel: testes dos arquivos", "app-vite", [process.execPath, "--test", ...testes])
 }
-if (!engine.length && !painel.length && !shared.length && !migracoes.length) console.log("pre-commit: nada de engine/, app-vite/ ou shared/ no commit, nada a checar")
+// MCP: typecheck e os testes todos (são poucos e levam menos de um segundo).
+const mcp = codigo(doPacote("mcp"))
+if (mcp.length) {
+  roda("mcp: typecheck", "mcp", ["npm", "run", "typecheck"])
+  roda("mcp: testes", "mcp", ["npm", "test"])
+}
+if (!engine.length && !painel.length && !shared.length && !migracoes.length && !mcp.length) console.log("pre-commit: nada de engine/, app-vite/, shared/ ou mcp/ no commit, nada a checar")

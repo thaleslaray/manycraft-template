@@ -153,6 +153,10 @@ const etapas = [ // das mais rápidas para as mais lentas; as sem `segue` param 
   { nome: "engine: typecheck", cwd: "engine", cmd: ["npm", "run", "typecheck"] },
   { nome: "painel: typecheck", cwd: "app-vite", cmd: ["npm", "run", "typecheck"] },
   { nome: "painel: lint (hooks do React)", cwd: "app-vite", cmd: ["npm", "run", "lint"] },
+  // MCP (mcp/): rápidos; os testes contra o documento real leem o .scratch/api-docs/openapi.json gravado pelo inventário
+  // acima. MCP_EXIGE_DOCUMENTO=1: aqui o arquivo sempre existe, então faltar é falha, não teste pulado.
+  { nome: "mcp: typecheck", cwd: "mcp", cmd: ["npm", "run", "typecheck"] },
+  { nome: "mcp: testes", cwd: "mcp", cmd: ["npm", "test"], env: { MCP_EXIGE_DOCUMENTO: "1" } },
   { nome: "engine: testes", cwd: "engine", segue: true, antes: () => rmSync(MOTOR_JSON, { force: true }),
     cmd: ["npm", "test", "--", "--reporter=default", "--reporter=json", `--outputFile.json=${MOTOR_JSON}`], repetir: (_par, _saida, prefixo) => repetirMotor(prefixo) },
   { nome: "painel: testes", cwd: "app-vite", segue: true, guardar: true, cmd: ["npm", "test"], repetir: (_par, saida, prefixo) => repetirPainel(saida, prefixo) },

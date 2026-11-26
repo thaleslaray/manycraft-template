@@ -159,7 +159,7 @@ async function attachedMedia(env: Env, workspaceId: string, body: { media: Human
 inbox.get('/conversations/:id/scheduled', async c => {
   const workspaceId = c.var.principal.workspaceId, id = identifier.parse(c.req.param('id'))
   // A conversa (404 se não existe) e as mensagens agendadas saem na mesma onda.
-  const [, rows] = await Promise.all([assertConversation(c.env, workspaceId, id), c.env.DB.prepare(`SELECT s.id,s.text,s.send_at,s.status,s.error,s.created_by,coalesce(u.name,u.email) AS created_by_name FROM inbox_scheduled_messages s LEFT JOIN "user" u ON u.id=s.created_by
+  const [, rows] = await Promise.all([assertConversation(c.env, workspaceId, id), c.env.DB.prepare(`SELECT s.id,s.text,s.send_at,s.status,s.error,s.created_by,coalesce(nullif(u.name,''),u.email) AS created_by_name FROM inbox_scheduled_messages s LEFT JOIN "user" u ON u.id=s.created_by
     WHERE s.workspace_id=? AND s.conversation_id=? AND s.status<>'cancelled' ORDER BY s.send_at DESC LIMIT 20`).bind(workspaceId, id)
     .all<{ id: string; text: string; send_at: number; status: string; error: string | null; created_by: string; created_by_name: string | null }>()])
   return c.json(rows.results.map(r => ({ ...r, send_at: new Date(r.send_at).toISOString(), mine: r.created_by === c.var.principal.userId })))

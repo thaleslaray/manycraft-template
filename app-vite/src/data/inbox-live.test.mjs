@@ -142,6 +142,33 @@ test('WebSocket adapta contexto, atualiza cache sem duplicatas e reconecta com b
   assert.ok(states.includes('reconnecting'))
 })
 
+test('WebSocket para de reconectar quando a sessão venceu', async () => {
+  transport(() => json({}), 'vencida')
+  const sockets = [], states = [], delays = []
+  let scheduled, cancelled = 0
+  const stop = inbox.subscribeInbox(() => {}, state => states.push(state), {
+    origin: 'https://painel.example',
+    createSocket: url => { const socket = { url, close() { this.closed = true } }; sockets.push(socket); return socket },
+    schedule: (callback, delay) => { scheduled = callback; delays.push(delay); return 7 },
+    cancel: id => { assert.equal(id, 7); cancelled++ },
+  })
+  await flush()
+  // Queda de rede com a sessão válida: a consulta responde 200 e a reconexão segue.
+  sockets[0].onclose(); await flush()
+  assert.deepEqual(delays, [1000])
+  assert.equal(cancelled, 0)
+  scheduled(); await flush()
+  assert.equal(sockets.length, 2)
+  // Sessão vencida: o servidor recusa o WebSocket antes de abrir e a consulta responde 401.
+  globalThis.fetch = async () => new Response(JSON.stringify({ error: 'Sessão expirada' }), { status: 401 })
+  sockets[1].onclose(); await flush()
+  assert.equal(cancelled, 1)
+  assert.equal(states.at(-1), 'offline')
+  scheduled(); await flush()
+  assert.equal(sockets.length, 2)
+  stop()
+})
+
 test('falha HTTP é visível e não substitui dados por demonstração', async () => {
   transport(() => new Response(JSON.stringify({ error: 'Sem acesso' }), { status: 403 }), 'error')
   await assert.rejects(inbox.listInbox('demo'), /Sem acesso/)

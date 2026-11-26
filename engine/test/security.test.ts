@@ -38,11 +38,14 @@ it('e-mail fica somente no D1 dev; produção usa binding e falha fechado se aus
   for (let i=0;i<3;i++) await sendEmail(env, 'fiction@example.test', 'verification', 'https://engine.test/verify')
   await expect(sendEmail(env, 'fiction@example.test', 'verification', 'https://engine.test/verify')).rejects.toMatchObject({status:429})
 })
-it('Cron apaga e-mails dev antigos, convites e contadores vencidos', async () => {
-  await sendEmail(env, 'fiction@example.test', 'magic', 'https://engine.test')
+it('Cron apaga e-mails dev antigos, convites, contadores vencidos e o teto de códigos de mais de 30 dias', async () => {
+  await sendEmail(env, 'fiction@example.test', 'invite', 'https://engine.test')
+  const today = new Date().toISOString().slice(0, 10)
+  await env.DB.prepare("INSERT INTO login_code_daily(day,total) VALUES ('2020-01-01',7),(?,3)").bind(today).run()
   await env.DB.prepare('UPDATE email_outbox SET created_at=0').run()
   await env.DB.prepare('UPDATE request_limits SET reset_at=0').run()
   await handler.scheduled({ scheduledTime: Date.now(), cron:'0 3 * * *', noRetry(){} }, env)
   expect((await env.DB.prepare('SELECT * FROM email_outbox').all()).results).toHaveLength(0)
   expect((await env.DB.prepare('SELECT * FROM request_limits').all()).results).toHaveLength(0)
+  expect((await env.DB.prepare('SELECT day FROM login_code_daily').all()).results).toEqual([{ day: today }])
 })

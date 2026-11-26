@@ -1,7 +1,7 @@
 import { test, expect } from "./fixtures"
 import { WORKSPACE, api, consulta, novoTag, novoGatilho, q, sql } from "./helpers"
 
-// Teste de usabilidade do editor (2026-11-03): gatilhos Hotmart e API, interruptor em rascunho, rótulos dos passos e variável inserida no cursor.
+// Teste de usabilidade do editor (2026-11-03): gatilho de API, interruptor em rascunho, rótulos dos passos e variável inserida no cursor.
 const passoDoGatilho = { position: { x: 40, y: 16 } }
 
 async function novaAutomacao(nome: string, passos: unknown[], edges: unknown[]): Promise<string> {
@@ -11,56 +11,6 @@ async function novaAutomacao(nome: string, passos: unknown[], edges: unknown[]):
 }
 const apagar = (id?: string) => { if (id) sql([`DELETE FROM automations WHERE workspace_id='${WORKSPACE}' AND id='${q(id)}'`]) }
 const estados = (id: string) => consulta<{ status: string }>(`SELECT status FROM triggers WHERE workspace_id='${WORKSPACE}' AND automation_id='${q(id)}'`)
-
-test("gatilho Hotmart criado aparece no nó, abre o próprio painel e nasce desligado em rascunho", async ({ page }, info) => {
-  test.skip(info.project.name === "mobile", "O editor é só leitura no celular.")
-  const nome = `e2e-hotmart-${novoTag()}`
-  let id: string | undefined
-  try {
-    id = await novaAutomacao(nome, [{ id: "m", type: "message", position: { x: 360, y: 0 }, config: { blocks: [{ kind: "text", text: "Obrigado pela compra" }] } }], [{ from: "trigger", port: "next", to: "m" }])
-    await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto(`/${WORKSPACE}/automations/${id}`)
-    await page.locator(".react-flow__node-trigger").click(passoDoGatilho)
-    await novoGatilho(page, "Eventos da Hotmart", /compra/i)
-    await expect(page.getByRole("combobox", { name: "Conexão" })).toHaveCount(0)
-    await page.getByRole("textbox", { name: "Nome do gatilho" }).fill("Compra aprovada")
-    await expect(page.getByRole("textbox", { name: /Nova palavra: IDs dos produtos/ })).toHaveAttribute("placeholder", "+ ID do produto")
-    await page.getByRole("textbox", { name: /Nova palavra: IDs dos produtos/ }).fill("123")
-    await page.getByRole("textbox", { name: /Nova palavra: IDs dos produtos/ }).press("Enter")
-    await page.getByRole("button", { name: "Criar gatilho", exact: true }).click()
-    const no = page.locator(".react-flow__node-trigger")
-    await expect(no).toContainText("Compra na Hotmart")
-    await expect(no).toContainText("123")
-    // O painel é o do próprio gatilho (não o de palavra-chave) e o interruptor espera a publicação.
-    await expect(page.getByRole("heading", { name: "Compra aprovada" })).toBeVisible()
-    await expect(page.getByTestId("trigger-type-channel")).toBeVisible()
-    await expect(page.getByRole("switch", { name: "Gatilho ativo" })).toBeDisabled()
-    await expect(page.getByText("Publique para ativar", { exact: true })).toBeVisible()
-    expect(estados(id)).toEqual([{ status: "initial" }])
-    await page.reload()
-    await expect(page.locator(".react-flow__node-trigger")).toContainText("Compra na Hotmart")
-  } finally { apagar(id) }
-})
-
-test("palavra digitada sem Enter conta: Criar gatilho habilita e o gatilho nasce com ela", async ({ page }, info) => {
-  test.skip(info.project.name === "mobile", "O editor é só leitura no celular.")
-  const nome = `e2e-sem-enter-${novoTag()}`
-  let id: string | undefined
-  try {
-    id = await novaAutomacao(nome, [{ id: "m", type: "message", position: { x: 360, y: 0 }, config: { blocks: [{ kind: "text", text: "Oi" }] } }], [{ from: "trigger", port: "next", to: "m" }])
-    await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto(`/${WORKSPACE}/automations/${id}`)
-    await page.locator(".react-flow__node-trigger").click(passoDoGatilho)
-    await novoGatilho(page, "Eventos da Hotmart", /compra/i)
-    await page.getByRole("textbox", { name: "Nome do gatilho" }).fill("Compra sem Enter")
-    await page.getByRole("textbox", { name: /Nova palavra: IDs dos produtos/ }).fill("teste123")
-    const criar = page.getByRole("button", { name: "Criar gatilho", exact: true })
-    await expect(criar).toBeEnabled()
-    await criar.click()
-    await expect(page.locator(".react-flow__node-trigger")).toContainText("teste123")
-    expect(estados(id)).toEqual([{ status: "initial" }])
-  } finally { apagar(id) }
-})
 
 test("entrada externa (API) não pede conexão e o botão diz o que falta", async ({ page }, info) => {
   test.skip(info.project.name === "mobile", "O editor é só leitura no celular.")

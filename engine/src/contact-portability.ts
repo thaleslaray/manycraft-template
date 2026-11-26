@@ -99,7 +99,7 @@ contactPortability.post('/contacts/bulk-pause', async c => {
 /** Pedidos do titular: registrar com data e autor (quem estava logado) e listar, inclusive de contato já excluído. */
 contactPortability.get('/contacts/:id/data-requests', async c => {
   authorize(c.var.principal, 'read')
-  const rows = await c.env.DB.prepare(`SELECT r.id,r.kind,r.note,r.requested_at,r.contact_label,coalesce(u.name,u.email,r.recorded_by) AS recorded_by FROM data_subject_requests r
+  const rows = await c.env.DB.prepare(`SELECT r.id,r.kind,r.note,r.requested_at,r.contact_label,coalesce(nullif(u.name,''),u.email,r.recorded_by) AS recorded_by FROM data_subject_requests r
     LEFT JOIN "user" u ON u.id=r.recorded_by WHERE r.workspace_id=? AND r.contact_id=? ORDER BY r.requested_at DESC,r.id`).bind(c.var.principal.workspaceId, id.parse(c.req.param('id')))
     .all<{ id: string; kind: string; note: string | null; requested_at: number; contact_label: string; recorded_by: string }>()
   return c.json(rows.results.map(r => ({ ...r, requested_at: new Date(r.requested_at).toISOString() })))
