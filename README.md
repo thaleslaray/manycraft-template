@@ -4,6 +4,14 @@ Um sistema de automação de conversas para Instagram, WhatsApp e Telegram, feit
 
 > **Aviso importante.** Este é um projeto de estudo, independente. Não tem vínculo, parceria nem aprovação da ManyChat, da Meta (Instagram, WhatsApp, Facebook), do Telegram nem da Cloudflare. Todos os nomes pertencem a seus donos. O importador de fluxos lê o formato de compartilhamento da ManyChat, que é um formato de terceiro, não documentado oficialmente, e pode parar de funcionar a qualquer momento. Os dados de demonstração (pessoas, lojas, telefones) são inventados.
 
+> **Precisa do plano pago da Cloudflare.** Para usar o ManyCraft de verdade, conte com o plano Workers Paid (US$ 5 por mês, valor conferido em 26/11/2026). No plano gratuito ele até publica, mas:
+>
+> - o envio de e-mail só chega a endereços verificados na sua própria conta, então convidar equipe e mandar e-mail para contatos não funciona;
+> - cada pedido tem só 10 milissegundos de processamento, e fluxos mais pesados podem ser cortados (não medimos esse limite);
+> - o conector do Claude (pasta `mcp/`) não roda.
+>
+> O gratuito serve para estudar e mexer sozinho. Para atender cliente, use o pago.
+
 ## Como pedir ao Claude Code para instalar
 
 Abra esta pasta no Claude Code e diga algo como:
@@ -35,7 +43,7 @@ Canais que existem no código: Instagram (login unificado da Meta), WhatsApp ofi
 ## O que você precisa
 
 - **Node.js 22.18 ou mais novo** e npm (versão pedida em `app-vite/README.md`).
-- **Conta na Cloudflare** (para publicar; para rodar no seu computador não precisa de login). O sistema usa D1 (banco), R2 (arquivos), Queues (fila), Workflows, Durable Objects, tarefas agendadas e envio de e-mail. Se o plano gratuito basta, **confira** nos limites atuais da Cloudflare; para uso real conte com o plano pago do Workers.
+- **Conta na Cloudflare** (para publicar; para rodar no seu computador não precisa de login). O sistema usa D1 (banco), R2 (arquivos), Queues (fila), Workflows, Durable Objects, tarefas agendadas e envio de e-mail. Para uso real, é preciso o plano pago do Workers (veja o aviso no começo).
 - **Para Instagram e WhatsApp oficial:** um app na Meta (developers.facebook.com), conta de Instagram profissional e/ou número de WhatsApp Business, e os tokens que a Meta gera.
 - **Para Telegram:** um bot criado no @BotFather.
 - **Para WhatsApp não oficial:** uma conta UAZAPI ou Z-API sua. Esse tipo de conexão não é oficial do WhatsApp e pode levar ao bloqueio do número.
@@ -84,7 +92,7 @@ Para conferir que está tudo certo: `npm run typecheck` e `npm test` dentro de `
 
 ## Publicar na Cloudflare
 
-Este roteiro foi testado numa conta nova da Cloudflare: do zero ao painel no ar levou cerca de 6 minutos. O plano gratuito da Cloudflare aceita filas, fluxos e armazenamento, com limites; o armazenamento (R2) pede um cartão cadastrado.
+Este roteiro foi testado numa conta nova da Cloudflare: do zero ao painel no ar levou cerca de 6 minutos. No plano gratuito a publicação funciona, com os limites do aviso no começo; o armazenamento (R2) pede um cartão cadastrado.
 
 Faça nesta ordem: filas, motor, migrações, painel e, só no fim, `BETTER_AUTH_URL`. O endereço do painel só existe depois do primeiro deploy dele. O painel conversa com o motor por uma ligação interna chamada `ENGINE`.
 
@@ -144,9 +152,10 @@ No sistema publicado não existe senha. Entra-se de dois jeitos, e você precisa
 
 1. Tenha um domínio seu na Cloudflare.
 2. Habilite o Email Service para esse domínio no painel da Cloudflare.
-3. Defina `EMAIL_FROM` com um endereço desse domínio: dentro de `engine/`, `npx wrangler secret put EMAIL_FROM`, por exemplo `no-reply@seudominio.com`.
+3. No plano gratuito, cadastre também o seu próprio e-mail como endereço de destino verificado na Cloudflare; sem isso o código não chega (**confira**, não testamos no gratuito).
+4. Defina `EMAIL_FROM` com um endereço desse domínio: dentro de `engine/`, `npx wrangler secret put EMAIL_FROM`, por exemplo `no-reply@seudominio.com`.
 
-Os três passos acima **não foram testados por nós numa conta nova**; confira os requisitos na Cloudflare.
+Testamos o envio numa conta com o plano pago: o código chegou em segundos. Numa conta gratuita não testamos.
 
 **Para o Google funcionar**, crie uma credencial OAuth do tipo aplicativo da Web no Google Cloud, com o endereço do seu painel como origem autorizada e `https://SEU-PAINEL/api/auth/callback/google` como endereço de redirecionamento, e grave os dois valores com `npx wrangler secret put` dentro de `engine/`. **Confira** o passo a passo na documentação atual do Google e do Better Auth; não testamos numa conta nova.
 
