@@ -28,7 +28,8 @@ Os comandos abaixo são o que ele vai executar. Quando um passo diz "confira", �
 - Contatos, etiquetas, campos personalizados, segmentos e sequências.
 - Transmissões (envio em massa) e e-mail.
 - Importa fluxos copiados da ManyChat (formato de terceiro, veja o aviso acima).
-- API pública com chave, documentada em `/api/docs` do motor.
+- API com chave para quase tudo o que o painel faz, com documentação navegável (veja "API").
+- Conector para o Claude operar o sistema por conversa (opcional, veja "Conector do Claude").
 
 Canais que existem no código: Instagram (login unificado da Meta), WhatsApp oficial (Cloud API da Meta), WhatsApp não oficial (UAZAPI e Z-API, por QR code), Telegram e e-mail. O canal Messenger está congelado (código existe, mas fora de uso).
 
@@ -145,17 +146,17 @@ Variáveis opcionais do motor (`wrangler secret put`): `SIGNUP_CLOSED=1` (cadast
 
 No sistema publicado não existe senha. Entra-se de dois jeitos, e você precisa configurar pelo menos um:
 
-- **Código no e-mail.** Você digita o e-mail, recebe um código de 6 dígitos (vale 10 minutos) e digita o código. O primeiro código já cria a sua conta e o seu espaço de trabalho.
+- **Código no e-mail.** Você digita o e-mail, recebe um código de 6 dígitos (vale 10 minutos) e digita o código. O primeiro código cria a sua conta, e o painel cria o seu espaço de trabalho ("Meu espaço") na primeira vez que abre.
 - **Continuar com Google.** O botão aparece quando `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET` estão definidos.
 
 **Para o código no e-mail funcionar**, o envio sai pelo serviço de e-mail da Cloudflare (ligação `EMAIL`):
 
 1. Tenha um domínio seu na Cloudflare.
-2. Habilite o Email Service para esse domínio no painel da Cloudflare.
+2. Ligue o envio de e-mail para esse domínio. Dentro de `engine/`, rode `npx wrangler email sending enable seudominio.com`. O comando cria sozinho os registros de DNS e, quando testamos, ainda estava em versão beta; se falhar, faça pelo painel da Cloudflare, em Email Service. Pode ser um subdomínio, como `app.seudominio.com`: assim você não mexe no e-mail do domínio principal.
 3. No plano gratuito, cadastre também o seu próprio e-mail como endereço de destino verificado na Cloudflare; sem isso o código não chega (**confira**, não testamos no gratuito).
 4. Defina `EMAIL_FROM` com um endereço desse domínio: dentro de `engine/`, `npx wrangler secret put EMAIL_FROM`, por exemplo `no-reply@seudominio.com`.
 
-Testamos o envio numa conta com o plano pago: o código chegou em segundos. Numa conta gratuita não testamos.
+Testamos em 26/11/2026, numa conta com o plano pago e com um subdomínio novo: o código chegou em segundos, na caixa de entrada. Numa conta gratuita não testamos.
 
 **Para o Google funcionar**, crie uma credencial OAuth do tipo aplicativo da Web no Google Cloud, com o endereço do seu painel como origem autorizada e `https://SEU-PAINEL/api/auth/callback/google` como endereço de redirecionamento, e grave os dois valores com `npx wrangler secret put` dentro de `engine/`. **Confira** o passo a passo na documentação atual do Google e do Better Auth; não testamos numa conta nova.
 
@@ -182,9 +183,23 @@ As conexões são feitas dentro do painel (Configurações, Conexões). Cada uma
 
 Passo a passo detalhado da Meta (criar o app, permissões, webhook) **não está neste repositório**: peça ao Claude Code para conferir a documentação atual da Meta, que muda com frequência.
 
+## API
+
+Quase tudo o que o painel faz também pode ser feito por API: contatos, tags, campos, automações, caixa de entrada, transmissões, sequências, conexões e relatórios. São mais de 200 caminhos.
+
+- **Documentação:** abra `https://SEU-PAINEL/api/docs`. O documento no formato OpenAPI fica em `/api/docs/openapi.json`. As duas páginas abrem sem login.
+- **Chave de perfil:** crie em Configurações, API. Ela aparece uma vez só e vale com as mesmas permissões que você tem no painel; pode ser "só ler" ou "ler e escrever".
+- **Como chamar:** mande o cabeçalho `authorization` com `Bearer perfil:SUA_CHAVE` e o cabeçalho `x-workspace` com o id do espaço (o trecho logo depois do domínio no endereço do painel).
+- **O que a chave não faz:** criar ou revogar chaves, criar ou trocar de espaço, aceitar convite, transferir a posse e sair do espaço. Isso só no painel.
+- **Formato ManyChat:** existe uma segunda API, em `/api/public/v1`, com chave do espaço, que imita as rotas da ManyChat. Está congelada: funciona, mas não recebe novidades.
+
 ## Conector do Claude (opcional, avançado)
 
-A pasta `mcp/` é um terceiro Worker que deixa o Claude ler e operar o seu ManyCraft como conector. Você não precisa dele para usar o sistema. Ele exige mais do que o resto:
+A pasta `mcp/` é um terceiro Worker: um servidor MCP que deixa o Claude ler e operar o seu ManyCraft por conversa ("liste os contatos com a tag VIP", "crie uma transmissão"). Você não precisa dele para usar o sistema.
+
+Como funciona: ele entrega ao Claude duas ferramentas. `search` procura a rota certa na documentação da API e `execute` faz os pedidos. Tudo passa pela mesma API da seção acima, com a permissão que você escolher ao conectar. Ações sem volta (apagar, enviar mensagem ou transmissão, mexer em conexão) vêm bloqueadas, e só são liberadas se você marcar essa opção ao conectar. Cada execução faz no máximo 50 pedidos e dura no máximo 30 segundos.
+
+Ele exige mais do que o resto:
 
 - **Plano pago do Workers** (usa Dynamic Workers; confira o preço atual na Cloudflare).
 - **Domínio próprio na Cloudflare** para o conector e para o painel. Ele não funciona em endereço `workers.dev`.
@@ -196,7 +211,7 @@ Os endereços `mcp.seu-dominio.example` e `painel.seu-dominio.example` que apare
 3. No build do painel, a variável `VITE_MCP_URL` com o endereço do conector: `VITE_MCP_URL=https://mcp.seudominio.com npm run build`.
 4. O `BETTER_AUTH_URL` do motor precisa ser o mesmo endereço de `PAINEL_URL`.
 
-Depois, com o motor já publicado: `cd mcp && npm ci && npx wrangler deploy`. O armazenamento `OAUTH_KV` deve ser criado pelo Wrangler no primeiro deploy; **confira**, não testamos numa conta nova. No claude.ai, em Configurações, Conectores, adicione um conector personalizado com o endereço `https://mcp.seudominio.com/mcp` e clique em Conectar: abre uma tela do seu painel para você escolher o espaço e o que o Claude pode fazer. Para desligar o acesso, revogue a chave "Claude (conector)" em Configurações, API.
+Depois, com o motor já publicado: `cd mcp && npm ci && npx wrangler deploy`. O armazenamento `OAUTH_KV` deve ser criado pelo Wrangler no primeiro deploy; **confira**, não testamos numa conta nova. No claude.ai, em Configurações, Conectores, adicione um conector personalizado com o endereço `https://mcp.seudominio.com/mcp` e clique em Conectar: abre uma tela do seu painel para você escolher o espaço e o que o Claude pode fazer. Para desligar o acesso, revogue a chave "Claude (conector)" em Configurações, API. O mesmo conector vale no navegador, no celular e no Claude Code. Para scripts, dá para chamar o conector direto com a chave de perfil nos cabeçalhos, sem o login.
 
 Enquanto você não publicar o conector, o resto do sistema funciona normalmente.
 
@@ -208,6 +223,10 @@ Enquanto você não publicar o conector, o resto do sistema funciona normalmente
 - `shared/`: código usado pelos dois.
 - `replica/contratos/`: exemplos de mensagens da Meta usados como referência nos testes.
 - `scripts/`: verificações de qualidade (`npm run check` na raiz roda a bateria completa e é pesado).
+
+## Histórico de versões
+
+O que mudou em cada versão está no arquivo `CHANGELOG.md`.
 
 ## Licença
 
