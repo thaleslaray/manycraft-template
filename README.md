@@ -202,4 +202,4 @@ Enquanto você não publicar o conector, o resto do sistema funciona normalmente
 
 ## Licença
 
-Este repositório ainda não define uma licença. Sem ela, o código não pode ser reutilizado livremente. Quem publicar o repositório deve escolher uma.
+Leia o arquivo `LICENSE`. Em resumo: você pode usar e modificar o ManyCraft no seu negócio e para os seus clientes, cobrar pelo seu serviço e entregar o sistema instalado ao cliente. Não pode vender, revender nem redistribuir o código, nem incluí-lo em curso, kit ou qualquer outro produto, nem publicá-lo em lugar aberto.
