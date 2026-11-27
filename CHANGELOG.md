@@ -4,6 +4,12 @@ O que mudou em cada versão do ManyCraft, da mais nova para a mais antiga.
 
 Como atualizar: se você não mexeu no código, baixe a versão nova por cima. Se personalizou, compare antes, porque pode haver conflito.
 
+## 0.1.6 (27/11/2026)
+
+Só documentação.
+
+- README: o roteiro de publicação do conector do Claude foi refeito depois de um teste do zero. Agora mostra como pôr o painel em domínio próprio, a ordem dos passos, a publicação do painel depois do build e como conferir.
+
 ## 0.1.5 (26/11/2026)
 
 Só documentação.

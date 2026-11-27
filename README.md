@@ -204,14 +204,47 @@ Ele exige mais do que o resto:
 - **Plano pago do Workers** (usa Dynamic Workers; confira o preço atual na Cloudflare).
 - **Domínio próprio na Cloudflare** para o conector e para o painel. Ele não funciona em endereço `workers.dev`.
 
-Os endereços `mcp.seu-dominio.example` e `painel.seu-dominio.example` que aparecem no código são marcadores. Troque pelos seus em quatro lugares:
+Os endereços `mcp.seu-dominio.example` e `painel.seu-dominio.example` que aparecem no código são marcadores. Nos exemplos abaixo, troque `mcp.seudominio.com` e `painel.seudominio.com` pelos seus. Faça nesta ordem, com o motor já publicado:
 
-1. `mcp/wrangler.jsonc`: `MCP_URL` (endereço do conector) e `PAINEL_URL` (endereço do painel), e acrescente a rota do domínio do conector, por exemplo `"routes": [{ "pattern": "mcp.seudominio.com", "custom_domain": true }]`.
-2. `app-vite/public/_headers`: o endereço do conector na regra `connect-src`.
-3. No build do painel, a variável `VITE_MCP_URL` com o endereço do conector: `VITE_MCP_URL=https://mcp.seudominio.com npm run build`.
-4. O `BETTER_AUTH_URL` do motor precisa ser o mesmo endereço de `PAINEL_URL`.
+**1. Ponha o painel em domínio próprio.** Em `app-vite/wrangler.jsonc`, acrescente a linha:
 
-Depois, com o motor já publicado: `cd mcp && npm ci && npx wrangler deploy`. O armazenamento `OAUTH_KV` deve ser criado pelo Wrangler no primeiro deploy; **confira**, não testamos numa conta nova. No claude.ai, em Configurações, Conectores, adicione um conector personalizado com o endereço `https://mcp.seudominio.com/mcp` e clique em Conectar: abre uma tela do seu painel para você escolher o espaço e o que o Claude pode fazer. Para desligar o acesso, revogue a chave "Claude (conector)" em Configurações, API. O mesmo conector vale no navegador, no celular e no Claude Code. Para scripts, dá para chamar o conector direto com a chave de perfil nos cabeçalhos, sem o login.
+```jsonc
+"routes": [{ "pattern": "painel.seudominio.com", "custom_domain": true }],
+```
+
+**2. Aponte os endereços do conector.** Em `mcp/wrangler.jsonc`, troque `MCP_URL` por `https://mcp.seudominio.com` e `PAINEL_URL` por `https://painel.seudominio.com`, e acrescente a linha:
+
+```jsonc
+"routes": [{ "pattern": "mcp.seudominio.com", "custom_domain": true }],
+```
+
+**3. Libere o conector no painel.** Em `app-vite/public/_headers`, troque `https://mcp.seu-dominio.example` pelo endereço do seu conector (fica na regra `connect-src`).
+
+**4. Publique o conector:**
+
+```sh
+cd mcp
+npm ci
+npx wrangler deploy
+```
+
+O Wrangler cria sozinho o armazenamento (`OAUTH_KV`) e o domínio do conector.
+
+**5. Refaça e publique o painel**, com o endereço do conector no build:
+
+```sh
+cd ../app-vite
+VITE_MCP_URL=https://mcp.seudominio.com npm run build
+npx wrangler deploy
+```
+
+**6. Atualize o `BETTER_AUTH_URL` do motor** para o domínio novo do painel: dentro de `engine/`, `npx wrangler secret put BETTER_AUTH_URL` com `https://painel.seudominio.com`. Ele precisa ser igual ao `PAINEL_URL` do passo 2. Quem estava logado no endereço antigo precisa entrar de novo.
+
+**7. Confira.** `https://painel.seudominio.com/api/auth/ok` deve mostrar `{"ok":true}`, e `https://mcp.seudominio.com/.well-known/oauth-authorization-server` deve devolver um texto em JSON com os endereços do conector.
+
+**8. Conecte o Claude.** No claude.ai, em Configurações, Conectores, adicione um conector personalizado com o endereço `https://mcp.seudominio.com/mcp` e clique em Conectar: abre uma tela do seu painel para você escolher o espaço e o que o Claude pode fazer. Para desligar o acesso, revogue a chave "Claude (conector)" em Configurações, API. O mesmo conector vale no navegador, no celular e no Claude Code. Para scripts, dá para chamar o conector direto com a chave de perfil nos cabeçalhos, sem o login.
+
+Testamos os passos 1 a 7 em 27/11/2026, numa conta com o plano pago, e também o caminho de conexão e as travas, por chamadas diretas ao conector. A tela de conexão no navegador e o cadastro dentro do claude.ai não foram testados por nós nessa publicação.
 
 Enquanto você não publicar o conector, o resto do sistema funciona normalmente.
 
