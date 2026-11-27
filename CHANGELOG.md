@@ -4,6 +4,10 @@ O que mudou em cada versão do ManyCraft, da mais nova para a mais antiga.
 
 Como atualizar: se você não mexeu no código, baixe a versão nova por cima. Se personalizou, compare antes, porque pode haver conflito.
 
+## 0.1.7 (27/11/2026)
+
+- Testes do motor: a espera por ações em segundo plano passou de 1 para até 10 segundos. Em máquina lenta ou ocupada, alguns testes falhavam com o código certo. Nada muda no sistema em uso.
+
 ## 0.1.6 (27/11/2026)
 
 Só documentação.

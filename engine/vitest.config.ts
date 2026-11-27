@@ -13,6 +13,9 @@ export default defineConfig({
     maxWorkers: 4,
     ...(process.env.VITEST_MAX_WORKERS ? { maxWorkers: Number(process.env.VITEST_MAX_WORKERS) } : {}),
     ...(process.env.VITEST_TEST_TIMEOUT ? { testTimeout: Number(process.env.VITEST_TEST_TIMEOUT), hookTimeout: Number(process.env.VITEST_TEST_TIMEOUT) } : {}),
+    // expect.poll espera um efeito que roda em segundo plano (fila, workflow). O padrão do Vitest é 1 s, pouco para
+    // máquina carregada: o teste falhava com o código certo. A espera termina assim que o valor aparece.
+    expect: { poll: { timeout: 10_000 } },
     setupFiles: ['./test/setup.ts'],
     include: ['./test/**/*.test.ts'],
   },
